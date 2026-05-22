@@ -6259,6 +6259,41 @@ html, body {
     font-size: 9.5px !important;
   }
 }
+
+/* =====================================================
+   ACTIVITÉS RÉCENTES — MONTANTS ENTRANTS / SORTANTS
+===================================================== */
+
+/* Montant entrant : vert */
+.history-amount.amount-in {
+  color: #00c853 !important;
+  background: rgba(0, 200, 83, 0.14) !important;
+  border: 1px solid rgba(0, 200, 83, 0.32) !important;
+  padding: 6px 10px;
+  border-radius: 999px;
+  display: inline-block;
+  font-weight: 950 !important;
+}
+
+/* Montant sortant : rouge */
+.history-amount.amount-out {
+  color: #ff1744 !important;
+  background: rgba(255, 23, 68, 0.14) !important;
+  border: 1px solid rgba(255, 23, 68, 0.32) !important;
+  padding: 6px 10px;
+  border-radius: 999px;
+  display: inline-block;
+  font-weight: 950 !important;
+}
+
+/* Petit effet plus visible sur téléphone */
+@media (max-width: 420px) {
+  .history-amount.amount-in,
+  .history-amount.amount-out {
+    font-size: 14px !important;
+    padding: 7px 11px !important;
+  }
+}
 </style>
 </head>
 
@@ -10566,6 +10601,20 @@ function listenHistory(){
           ? tx.amountOriginal
           : tx.amountConverted || tx.amount || 0;
 
+        /* 🔥 Couleur du montant selon le sens de l'argent */
+        let amountClass = "amount-in";
+        let amountSign = "+";
+
+        if(isSent || tx.type === "withdraw"){
+          amountClass = "amount-out";
+          amountSign = "-";
+        }
+
+        if(tx.type === "deposit" || tx.type === "received"){
+          amountClass = "amount-in";
+          amountSign = "+";
+        }
+
         historyList.innerHTML += `
           <div class="history-item">
 
@@ -10573,8 +10622,8 @@ function listenHistory(){
 
             <div class="history-phone">📱 ${phone || ""}</div>
 
-            <div class="history-amount">
-              💰 ${formatMoney(amount, cur)}
+            <div class="history-amount ${amountClass}">
+              ${amountSign} ${formatMoney(amount, cur)}
             </div>
 
             <div class="history-date">🕒 ${tx.date || ""}</div>
