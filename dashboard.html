@@ -6092,6 +6092,173 @@ html, body {
     font-size: 12.5px !important;
   }
 }
+
+/* =====================================================
+   CORRECTION MOBILE — CONTENU PRINCIPAL PLUS GRAND
+   Carte solde + boutons plus visibles sur téléphone
+===================================================== */
+
+@media (max-width: 520px) {
+
+  /* Conteneur principal plus large et plus visible */
+  .dashboard-box {
+    width: 96% !important;
+    max-width: 460px !important;
+    padding: 18px !important;
+    margin-top: 16px !important;
+    border-radius: 28px !important;
+  }
+
+  /* Carte solde plus grande */
+  .balance-card,
+  .main-card {
+    padding: 22px !important;
+    border-radius: 30px !important;
+    min-height: 165px !important;
+    gap: 16px !important;
+  }
+
+  /* Texte bienvenue */
+  .welcome-line h2,
+  .main-card h2 {
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Petit texte "Solde disponible" */
+  .balance-label,
+  .main-card p {
+    font-size: 14px !important;
+    font-weight: 850 !important;
+  }
+
+  /* Montant du solde plus visible */
+  .balance-card #solde,
+  .main-card h1 {
+    font-size: 31px !important;
+    line-height: 1.12 !important;
+    margin-top: 10px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Icône portefeuille plus grande */
+  .balance-card .wallet-icon,
+  .wallet-icon {
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    border-radius: 24px !important;
+    font-size: 32px !important;
+  }
+
+  /* Bouton afficher/masquer plus visible */
+  #toggleBalance,
+  .balance-toggle {
+    min-width: 118px !important;
+    padding: 9px 14px !important;
+    font-size: 12.5px !important;
+    border-radius: 999px !important;
+    margin-top: 14px !important;
+  }
+
+  /* Espace entre les boutons */
+  .actions-grid {
+    gap: 14px !important;
+    margin-top: 16px !important;
+  }
+
+  /* Boutons principaux plus grands */
+  .action-box {
+    min-height: 118px !important;
+    padding: 16px 10px !important;
+    border-radius: 26px !important;
+  }
+
+  /* Icônes des boutons plus grandes */
+  .action-icon {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 19px !important;
+    font-size: 27px !important;
+  }
+
+  /* Si certains boutons utilisent directement l'emoji sans .action-icon */
+  .action-box {
+    font-size: 28px !important;
+  }
+
+  /* Texte des boutons plus lisible */
+  .action-box span {
+    font-size: 14.5px !important;
+    line-height: 1.25 !important;
+    margin-top: 7px !important;
+    font-weight: 950 !important;
+  }
+
+  /* Petit texte sous les boutons */
+  .action-box small {
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Badge notification mieux placé */
+  .notif-btn .mini-badge,
+  .mini-badge {
+    top: 11px !important;
+    right: 11px !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+/* Pour les téléphones très petits, on garde grand mais sans casser l'écran */
+@media (max-width: 360px) {
+
+  .dashboard-box {
+    width: 96% !important;
+    padding: 15px !important;
+  }
+
+  .balance-card,
+  .main-card {
+    padding: 18px !important;
+    min-height: 150px !important;
+  }
+
+  .balance-card #solde,
+  .main-card h1 {
+    font-size: 27px !important;
+  }
+
+  .balance-card .wallet-icon,
+  .wallet-icon {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    font-size: 28px !important;
+  }
+
+  .action-box {
+    min-height: 104px !important;
+    padding: 14px 8px !important;
+    border-radius: 23px !important;
+  }
+
+  .action-icon {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 24px !important;
+  }
+
+  .action-box span {
+    font-size: 13px !important;
+  }
+
+  .action-box small {
+    font-size: 9.5px !important;
+  }
+}
 </style>
 </head>
 
