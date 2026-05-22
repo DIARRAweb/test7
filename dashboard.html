@@ -5498,6 +5498,420 @@ html, body {
     font-size: 12.5px !important;
   }
 }
+
+/* =====================================================
+   BOÎTE DE MESSAGE + MON QR — TAILLE DASHBOARD
+   Objectif : même largeur que le contenu principal
+===================================================== */
+
+/* Modale générale : même largeur que dashboard */
+.modal {
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 14px !important;
+}
+
+.modal-content {
+  width: min(92%, 420px) !important;
+  max-width: 420px !important;
+  max-height: 88vh !important;
+  margin: auto !important;
+  padding: 14px !important;
+  border-radius: 24px !important;
+
+  background:
+    radial-gradient(circle at top right, rgba(255,154,0,0.16), transparent 35%),
+    linear-gradient(145deg, rgba(20,20,20,0.96), rgba(40,40,40,0.92)) !important;
+
+  color: white !important;
+  overflow-y: auto !important;
+}
+
+/* Titre commun */
+.message-modal-title,
+.qr-modal-title {
+  margin: 0 0 12px !important;
+  padding: 11px 12px !important;
+  border-radius: 18px !important;
+  text-align: center !important;
+
+  background: linear-gradient(135deg, #ff9a00, #ff6a00, #ff3d00) !important;
+  color: white !important;
+
+  font-size: 18px !important;
+  font-weight: 950 !important;
+  line-height: 1.2 !important;
+  box-shadow: 0 10px 24px rgba(255,106,0,0.25);
+}
+
+/* Petite description */
+.message-modal-subtitle,
+.qr-modal-subtitle {
+  margin: 0 0 12px !important;
+  padding: 10px 11px !important;
+  border-radius: 15px !important;
+
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  color: rgba(255,255,255,0.78) !important;
+
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  line-height: 1.4 !important;
+  text-align: center !important;
+}
+
+/* =====================================================
+   BOÎTE DE MESSAGE
+===================================================== */
+
+#notifBox {
+  width: 100% !important;
+}
+
+.notif-wrapper {
+  width: 100% !important;
+}
+
+.notif-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+/* Carte notification compacte */
+.notif-card {
+  position: relative !important;
+  margin: 0 0 10px !important;
+  padding: 12px 12px 12px 14px !important;
+  border-radius: 18px !important;
+
+  background:
+    linear-gradient(145deg, #ffffff, #fff3e6) !important;
+
+  color: #222 !important;
+  border: 1px solid rgba(255,154,0,0.18) !important;
+
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.95) !important;
+
+  overflow: hidden !important;
+}
+
+/* Barre orange à gauche */
+.notif-card::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 18% !important;
+  width: 4px !important;
+  height: 64% !important;
+  border-radius: 0 999px 999px 0 !important;
+  background: linear-gradient(180deg, #ff9a00, #ff3d00) !important;
+}
+
+/* Titre notification */
+.notif-title {
+  margin: 0 0 7px !important;
+  color: #222 !important;
+  font-size: 14px !important;
+  font-weight: 950 !important;
+  line-height: 1.25 !important;
+}
+
+/* Ligne notification */
+.notif-line {
+  margin: 4px 0 !important;
+  color: #333 !important;
+  font-size: 12.5px !important;
+  font-weight: 750 !important;
+  line-height: 1.35 !important;
+}
+
+/* Montant */
+.notif-amount {
+  display: inline-block !important;
+  padding: 4px 8px !important;
+  border-radius: 999px !important;
+
+  background: rgba(0,155,99,0.10) !important;
+  color: #008f5a !important;
+
+  font-size: 12.5px !important;
+  font-weight: 950 !important;
+}
+
+/* Date */
+.notif-date {
+  margin-top: 6px !important;
+  color: #777 !important;
+  font-size: 10.5px !important;
+  font-weight: 750 !important;
+}
+
+/* Raison */
+.notif-reason {
+  margin-top: 8px !important;
+  padding: 9px 10px !important;
+  border-radius: 13px !important;
+
+  background: #f7f7f7 !important;
+  color: #222 !important;
+
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  word-break: break-word !important;
+}
+
+/* Boutons notification */
+.claim-btn,
+.delete-btn {
+  min-height: 38px !important;
+  margin-top: 9px !important;
+  padding: 10px 12px !important;
+  border-radius: 13px !important;
+
+  font-size: 12.5px !important;
+  font-weight: 950 !important;
+}
+
+.claim-btn {
+  background: linear-gradient(135deg, #ff9a00, #ff3d00) !important;
+  color: white !important;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #d90429, #8b0000) !important;
+  color: white !important;
+}
+
+/* Message vide */
+.empty-notif {
+  padding: 18px 14px !important;
+  border-radius: 18px !important;
+  text-align: center !important;
+
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px dashed rgba(255,255,255,0.18) !important;
+  color: rgba(255,255,255,0.75) !important;
+
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+/* =====================================================
+   MON QR
+===================================================== */
+
+.qr-wrapper {
+  width: 100% !important;
+}
+
+/* Carte principale QR */
+.qr-card {
+  padding: 14px !important;
+  border-radius: 22px !important;
+
+  background:
+    radial-gradient(circle at top right, rgba(255,154,0,0.20), transparent 35%),
+    linear-gradient(145deg, #111827, #1f2937) !important;
+
+  color: white !important;
+  box-shadow:
+    0 18px 42px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.12) !important;
+
+  overflow: hidden !important;
+}
+
+/* Petite carte orange */
+.qr-bank-card {
+  position: relative !important;
+  overflow: hidden !important;
+
+  padding: 15px !important;
+  border-radius: 18px !important;
+
+  background: linear-gradient(135deg, #ff9a00, #ff6a00, #ff3d00) !important;
+  box-shadow: 0 12px 28px rgba(255,106,0,0.28) !important;
+}
+
+/* Ligne COBRA */
+.qr-brand {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  opacity: 0.95 !important;
+}
+
+/* Numéro */
+.qr-phone {
+  margin-top: 18px !important;
+  font-size: 17px !important;
+  letter-spacing: 1.5px !important;
+  font-weight: 950 !important;
+  word-break: break-word !important;
+}
+
+/* Nom + valid */
+.qr-user-row {
+  margin-top: 16px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+
+  font-size: 12px !important;
+  font-weight: 850 !important;
+  opacity: 0.95 !important;
+}
+
+/* Zone QR */
+.qr-code-zone {
+  margin-top: 16px !important;
+  padding: 14px !important;
+  border-radius: 20px !important;
+
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+
+  text-align: center !important;
+}
+
+/* Canvas QR */
+#qrCanvas {
+  width: 180px !important;
+  height: 180px !important;
+  max-width: 100% !important;
+
+  background: white !important;
+  padding: 10px !important;
+  border-radius: 16px !important;
+
+  box-shadow: 0 12px 28px rgba(0,0,0,0.25) !important;
+}
+
+/* Texte sous QR */
+.qr-scan-text {
+  margin: 10px 0 0 !important;
+  color: rgba(255,255,255,0.86) !important;
+  font-size: 12.5px !important;
+  font-weight: 850 !important;
+}
+
+/* Bouton copier numéro */
+.qr-copy-btn {
+  min-height: 42px !important;
+  margin-top: 12px !important;
+  padding: 11px 12px !important;
+  border-radius: 14px !important;
+
+  background: linear-gradient(135deg, #ff9a00, #ff6a00, #ff3d00) !important;
+  color: white !important;
+
+  font-size: 13px !important;
+  font-weight: 950 !important;
+}
+
+/* =====================================================
+   MOBILE — même taille que contenu principal
+===================================================== */
+
+@media (max-width: 520px) {
+  .modal {
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px !important;
+  }
+
+  .modal-content {
+    width: 94% !important;
+    max-width: 420px !important;
+    max-height: 88vh !important;
+    border-radius: 22px !important;
+    padding: 12px !important;
+  }
+
+  .message-modal-title,
+  .qr-modal-title {
+    font-size: 17px !important;
+    padding: 10px 11px !important;
+    border-radius: 16px !important;
+  }
+
+  .message-modal-subtitle,
+  .qr-modal-subtitle {
+    font-size: 11.5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .notif-card {
+    padding: 11px 11px 11px 13px !important;
+    border-radius: 16px !important;
+  }
+
+  .notif-title {
+    font-size: 13px !important;
+  }
+
+  .notif-line {
+    font-size: 11.8px !important;
+  }
+
+  .notif-amount {
+    font-size: 11.8px !important;
+  }
+
+  .notif-reason {
+    font-size: 11.5px !important;
+  }
+
+  .claim-btn,
+  .delete-btn {
+    min-height: 36px !important;
+    font-size: 12px !important;
+  }
+
+  .qr-card {
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .qr-bank-card {
+    padding: 13px !important;
+    border-radius: 16px !important;
+  }
+
+  .qr-phone {
+    font-size: 15px !important;
+    letter-spacing: 1px !important;
+  }
+
+  #qrCanvas {
+    width: 165px !important;
+    height: 165px !important;
+  }
+}
+
+@media (max-width: 340px) {
+  #qrCanvas {
+    width: 145px !important;
+    height: 145px !important;
+  }
+
+  .qr-phone {
+    font-size: 13.5px !important;
+  }
+
+  .qr-user-row {
+    font-size: 11px !important;
+  }
+}
 </style>
 </head>
 
@@ -5703,7 +6117,19 @@ html, body {
   </div>
 </div>
 
-  <div id="notifBox" style="display:none;"></div>
+  <div id="notifBox" style="display:none;">
+  <div class="notif-wrapper">
+
+    <h2 class="message-modal-title">🔔 Boîte de message</h2>
+
+    <p class="message-modal-subtitle">
+      Retrouve ici tes notifications, transferts reçus, remboursements et réclamations.
+    </p>
+
+    <div id="notifList" class="notif-list"></div>
+
+  </div>
+</div>
 
 <div id="passwordBox" style="display:none;">
 <div class="form-card">
@@ -9080,18 +9506,26 @@ function getNotificationCurrency(n){
 }
 
 async function loadNotifications(){
+
   const snap = await get(ref(db,"notifications/" + currentUser.phone));
-  notifBox.innerHTML = "";
+
+  const notifList = document.getElementById("notifList");
+  if(!notifList) return;
+
+  notifList.innerHTML = "";
+
   let count = 0;
 
   if(snap.exists()){
+
     Object.entries(snap.val()).reverse().forEach(([id,n])=>{
+
       if(!n.seen) count++;
 
       const title = getNotificationTitle(n.title);
       const notifCur = getNotificationCurrency(n);
 
-      notifBox.innerHTML += `
+      notifList.innerHTML += `
         <div class="notif-card">
 
           <div class="notif-title">${title}</div>
@@ -9107,7 +9541,7 @@ async function loadNotifications(){
           ${n.reason ? `<div class="notif-reason">${n.reason}</div>` : ""}
 
           ${n.claimable && n.txId ? `
-            <button onclick="sendClaim('${n.txId}')" class="claim-btn">
+            <button onclick="sendClaim('${id}')" class="claim-btn">
               ${tr("claim")}
             </button>
           ` : ""}
@@ -9118,20 +9552,32 @@ async function loadNotifications(){
 
         </div>
       `;
+
     });
+
+  } else {
+
+    notifList.innerHTML = `
+      <div class="empty-notif">
+        📭 Aucun message pour le moment.<br>
+        Tes notifications apparaîtront ici.
+      </div>
+    `;
+
   }
 
   /* POINT ROUGE SUR L'ICÔNE MESSAGE */
-    if(messageDot){
-      messageDot.style.display = count > 0 ? "block" : "none";
-    }
+  if(messageDot){
+    messageDot.style.display = count > 0 ? "block" : "none";
+  }
 
-    /* BADGE NUMÉRIQUE SUR BOÎTE DE MESSAGE 🔔 */
-      const miniBadge = document.getElementById("notifMiniBadge");
-      if(miniBadge){
-        miniBadge.innerText = count;
-        miniBadge.style.display = count > 0 ? "block" : "none";
-}
+  /* BADGE NUMÉRIQUE SUR BOÎTE DE MESSAGE 🔔 */
+  const miniBadge = document.getElementById("notifMiniBadge");
+  if(miniBadge){
+    miniBadge.innerText = count;
+    miniBadge.style.display = count > 0 ? "block" : "none";
+  }
+
 }
 
 function listenNotifications(){
@@ -9770,90 +10216,87 @@ closeModal();
 
 window.showQR = function(){
 
-const modal = document.getElementById("modal");
-const modalBody = document.getElementById("modalBody");
+  const modal = document.getElementById("modal");
+  const modalBody = document.getElementById("modalBody");
 
-modalBody.innerHTML = `
-<div style="
-background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-padding:20px;
-border-radius:25px;
-color:white;
-box-shadow:0 25px 60px rgba(0,0,0,0.6);
-animation: fadeUp 0.5s ease;
-">
+  modalBody.innerHTML = `
+    <div class="qr-wrapper">
 
-<!-- 💳 CARTE -->
-<div style="
-background: linear-gradient(135deg,#ff9a00,#ff3d00);
-border-radius:18px;
-padding:20px;
-position:relative;
-overflow:hidden;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-">
+      <h2 class="qr-modal-title">📱 Mon QR</h2>
 
-<div style="font-size:14px;opacity:0.8;">💎 COBRA</div>
+      <p class="qr-modal-subtitle">
+        Présente ce QR à une personne pour recevoir un paiement rapidement.
+      </p>
 
-<div style="
-margin-top:25px;
-font-size:20px;
-letter-spacing:3px;
-font-weight:bold;
-">
-${currentUser.phone}
-</div>
+      <div class="qr-card">
 
-<div style="
-margin-top:20px;
-display:flex;
-justify-content:space-between;
-font-size:13px;
-">
-<span>${currentUser.name}</span>
-<span>${tr("valid")}</span>
-</div>
+        <div class="qr-bank-card">
 
-<!-- ✨ effet shine -->
-<div style="
-position:absolute;
-top:0;
-left:-100%;
-width:100%;
-height:100%;
-background: linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
-animation: shine 3s infinite;
-"></div>
+          <div class="qr-brand">
+            <span>💎 COBRA</span>
+            <span>${tr("valid")}</span>
+          </div>
 
-</div>
+          <div class="qr-phone">
+            ${currentUser.phone}
+          </div>
 
-<!-- QR -->
-<div style="text-align:center;margin-top:25px;">
-<canvas id="qrCanvas" style="
-background:white;
-padding:12px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-"></canvas>
+          <div class="qr-user-row">
+            <span>${currentUser.name || "Utilisateur"}</span>
+            <span>Compte actif</span>
+          </div>
 
-<p style="margin-top:10px;font-weight:bold;">
-${tr("scanToPay")}
-</p>
-</div>
+        </div>
 
-</div>
-`;
+        <div class="qr-code-zone">
 
-modal.classList.remove("hidden");
+          <canvas id="qrCanvas"></canvas>
 
-/* 🔥 QR */
-setTimeout(()=>{
-QRCode.toCanvas(
-document.getElementById("qrCanvas"),
-currentUser.phone,
-{ width:200 }
-);
-},100);
+          <p class="qr-scan-text">
+            ${tr("scanToPay")}
+          </p>
+
+          <button class="qr-copy-btn" onclick="copyMyPhone()">
+            📋 Copier mon numéro
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+
+  setTimeout(()=>{
+
+    QRCode.toCanvas(
+      document.getElementById("qrCanvas"),
+      currentUser.phone,
+      {
+        width: 180,
+        margin: 1
+      }
+    );
+
+  },100);
+
+};
+
+window.copyMyPhone = async function(){
+
+  try{
+
+    await navigator.clipboard.writeText(currentUser.phone);
+
+    showToast("✅ Numéro copié : " + currentUser.phone);
+
+  }catch(e){
+
+    alert("Numéro : " + currentUser.phone);
+
+  }
 
 };
 
