@@ -5912,6 +5912,186 @@ html, body {
     font-size: 11px !important;
   }
 }
+
+/* =====================================================
+   PROFIL AGRANDI — VERSION PRÉCISE POUR TON CODE
+   1er clic : menu normal
+   2e clic : profil agrandi
+   3e clic : réduit
+===================================================== */
+
+/* Le petit profil devient actif */
+.profile-container.profile-active .profile-pic {
+  transform: scale(1.08) !important;
+  border-color: #ff9a00 !important;
+  box-shadow:
+    0 0 0 4px rgba(255,154,0,0.22),
+    0 12px 28px rgba(0,0,0,0.38),
+    0 0 22px rgba(255,154,0,0.35) !important;
+}
+
+/* Mode agrandi du menu */
+#userMenu.profile-expanded {
+  width: min(92vw, 360px) !important;
+  max-width: 360px !important;
+  padding: 18px !important;
+  border-radius: 30px !important;
+  z-index: 99999 !important;
+
+  background:
+    radial-gradient(circle at top right, rgba(255,154,0,0.24), transparent 38%),
+    linear-gradient(145deg, rgba(18,18,18,0.97), rgba(50,50,50,0.92)) !important;
+
+  box-shadow:
+    0 30px 85px rgba(0,0,0,0.58),
+    0 0 38px rgba(255,106,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.16) !important;
+
+  transform: translateY(0) scale(1.03) !important;
+}
+
+/* Carte profil interne en mode agrandi */
+#userMenu.profile-expanded .menu-profile {
+  padding: 18px 14px 16px !important;
+  margin-bottom: 14px !important;
+  border-radius: 26px !important;
+
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06)) !important;
+
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    0 14px 34px rgba(0,0,0,0.22) !important;
+}
+
+/* Photo plus grande */
+#userMenu.profile-expanded .menu-profile img {
+  width: 132px !important;
+  height: 132px !important;
+  border-radius: 50% !important;
+  border: 4px solid #ff9a00 !important;
+
+  box-shadow:
+    0 0 0 8px rgba(255,154,0,0.12),
+    0 18px 42px rgba(0,0,0,0.42),
+    0 0 30px rgba(255,154,0,0.38) !important;
+
+  animation: profileBigPulse 2.2s ease-in-out infinite;
+}
+
+/* Animation douce */
+@keyframes profileBigPulse {
+  0% {
+    box-shadow:
+      0 0 0 6px rgba(255,154,0,0.10),
+      0 18px 42px rgba(0,0,0,0.42),
+      0 0 22px rgba(255,154,0,0.25);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 10px rgba(255,154,0,0.18),
+      0 22px 50px rgba(0,0,0,0.48),
+      0 0 38px rgba(255,154,0,0.42);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 6px rgba(255,154,0,0.10),
+      0 18px 42px rgba(0,0,0,0.42),
+      0 0 22px rgba(255,154,0,0.25);
+  }
+}
+
+/* Nom plus visible */
+#userMenu.profile-expanded .menu-profile p {
+  margin-top: 12px !important;
+  font-size: 20px !important;
+  font-weight: 950 !important;
+  color: white !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+}
+
+/* Numéro plus lisible */
+#userMenu.profile-expanded .menu-phone {
+  margin-top: 7px !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+
+  background: rgba(255,255,255,0.10) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+
+  color: rgba(255,255,255,0.82) !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+}
+
+/* Statut sécurisé */
+#userMenu.profile-expanded .menu-status {
+  margin-top: 8px !important;
+  padding: 6px 11px !important;
+  border-radius: 999px !important;
+
+  background: rgba(0,255,136,0.12) !important;
+  border: 1px solid rgba(0,255,136,0.22) !important;
+
+  color: #9dffd0 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+/* Boutons en mode agrandi */
+#userMenu.profile-expanded button {
+  min-height: 47px !important;
+  border-radius: 17px !important;
+  font-size: 13.5px !important;
+  font-weight: 900 !important;
+}
+
+/* Mobile : ne prend jamais tout l'écran */
+@media (max-width: 520px) {
+  #userMenu.profile-expanded {
+    position: fixed !important;
+    top: auto !important;
+    right: 12px !important;
+    left: 12px !important;
+    bottom: 16px !important;
+
+    width: auto !important;
+    max-width: none !important;
+    max-height: 82vh !important;
+    overflow-y: auto !important;
+
+    padding: 16px !important;
+    border-radius: 30px !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  #userMenu.profile-expanded .menu-profile {
+    padding: 15px 12px !important;
+    border-radius: 24px !important;
+  }
+
+  #userMenu.profile-expanded .menu-profile img {
+    width: 112px !important;
+    height: 112px !important;
+  }
+
+  #userMenu.profile-expanded .menu-profile p {
+    font-size: 17px !important;
+  }
+
+  #userMenu.profile-expanded .menu-phone {
+    font-size: 12px !important;
+  }
+
+  #userMenu.profile-expanded button {
+    min-height: 44px !important;
+    font-size: 12.5px !important;
+  }
+}
 </style>
 </head>
 
@@ -9824,19 +10004,58 @@ window.saveLanguage = async function(){
 const userMenu = document.getElementById("userMenu");
 
 window.toggleMenu = (e) => {
-  if(e){
-    e.stopPropagation();
-  }
+  e.stopPropagation();
 
   const modal = document.getElementById("modal");
+  const profileContainer = document.querySelector(".profile-container");
 
   /* bloque si modal ouvert */
-  if(modal && !modal.classList.contains("hidden")){
+  if(modal && !modal.classList.contains("hidden")) return;
+
+  const menuIsOpen = !userMenu.classList.contains("hidden");
+  const menuIsExpanded = userMenu.classList.contains("profile-expanded");
+
+  /*
+    1er clic :
+    menu fermé => ouvrir normalement
+  */
+  if(!menuIsOpen){
+    userMenu.classList.remove("hidden");
+    userMenu.classList.remove("profile-expanded");
+
+    if(profileContainer){
+      profileContainer.classList.add("profile-active");
+    }
+
     return;
   }
 
-  if(userMenu){
-    userMenu.classList.toggle("hidden");
+  /*
+    2e clic :
+    menu ouvert => agrandir
+  */
+  if(menuIsOpen && !menuIsExpanded){
+    userMenu.classList.add("profile-expanded");
+
+    if(profileContainer){
+      profileContainer.classList.add("profile-active");
+    }
+
+    return;
+  }
+
+  /*
+    3e clic :
+    menu agrandi => réduire
+  */
+  if(menuIsOpen && menuIsExpanded){
+    userMenu.classList.remove("profile-expanded");
+
+    if(profileContainer){
+      profileContainer.classList.add("profile-active");
+    }
+
+    return;
   }
 };
 
@@ -9880,12 +10099,16 @@ input.click();
 };
 
 document.addEventListener("click", (e) => {
-const menu = document.getElementById("userMenu");
-const profile = document.querySelector(".profile-container");
+  const menu = document.getElementById("userMenu");
+  const profile = document.querySelector(".profile-container");
 
-if (!menu.contains(e.target) && !profile.contains(e.target)) {
-menu.classList.add("hidden");
-}
+  if(!menu || !profile) return;
+
+  if(!menu.contains(e.target) && !profile.contains(e.target)){
+    menu.classList.add("hidden");
+    menu.classList.remove("profile-expanded");
+    profile.classList.remove("profile-active");
+  }
 });
 
 document.getElementById("closeBtn").addEventListener("click", closeModal);
