@@ -1,0 +1,7847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>COBRA - Dashboard</title>
+
+<style>
+body { margin: 0; font-family: "Segoe UI", sans-serif; color: #111; }
+.dashboard-box {
+max-width: 420px;
+width: 92%;
+margin: 20px auto;
+padding: 20px;
+border-radius: 22px;
+
+/* 🔥 GLASS EFFECT */
+background: rgba(255,255,255,0.12);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+
+/* 🔥 effet premium */
+border: 1px solid rgba(255,255,255,0.2);
+box-shadow:
+0 10px 40px rgba(0,0,0,0.4),
+inset 0 0 20px rgba(255,255,255,0.1);
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+.user-card { background: rgba(255,255,255,0.15);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.2);
+color: white; padding: 12px; margin-top: 10px; border-radius: 14px; font-size: 14px; }
+button { width: 100%; padding: 12px; margin-top: 12px; border-radius: 14px; border: none; font-weight: bold; cursor: pointer; background: linear-gradient(45deg,#ff9a00,#ff6a00); color: white; }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+select option {
+  color: #111;
+  background: white;
+}
+
+#conversionBox{
+  margin-top:10px;
+  font-size:14px;
+  display:none;
+}
+
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 12px 18px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo span {
+  background: linear-gradient(45deg,#ff9a00,#ff3d00);
+
+  background-clip: text;              /* standard */
+  -webkit-background-clip: text;      /* Chrome/Safari */
+
+  color: transparent;                 /* standard */
+  -webkit-text-fill-color: transparent; /* Chrome */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: white;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ff88;
+}
+
+.status-text {
+  opacity: 0.8;
+}
+
+.main-header:hover {
+  background: rgba(0,0,0,0.6);
+  transition: 0.3s;
+}
+
+#userAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.6);
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#userAvatar:hover {
+  transform: scale(1.08);
+}
+
+/* =========================
+🔥 HEADER PREMIUM DASHBOARD
+========================= */
+.header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:16px 22px;
+background:rgba(0,0,0,0.58);
+backdrop-filter:blur(14px);
+-webkit-backdrop-filter:blur(14px);
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 8px 25px rgba(0,0,0,0.35);
+color:white;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:10px;
+color:white;
+font-weight:bold;
+font-size:22px;
+}
+
+.logo-icon{
+width:42px;
+height:42px;
+border-radius:14px;
+background:linear-gradient(45deg,#ff9a00,#ff3d00);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+box-shadow:0 8px 20px rgba(255,106,0,0.45);
+}
+
+.logo-title{
+font-weight:900;
+letter-spacing:0.4px;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:12px;
+margin-right:34px;
+position:relative;
+}
+
+/* Icône message au lieu de 1,2,3 */
+.message-icon{
+position:relative;
+width:42px;
+height:42px;
+border-radius:14px;
+background:rgba(255,255,255,0.13);
+border:1px solid rgba(255,255,255,0.18);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+cursor:pointer;
+transition:0.25s;
+box-shadow:0 8px 18px rgba(0,0,0,0.22);
+}
+
+.message-icon:hover{
+transform:translateY(-2px) scale(1.04);
+background:rgba(255,255,255,0.22);
+}
+
+/* Petit point rouge discret quand il y a un message */
+.message-dot{
+position:absolute;
+top:7px;
+right:7px;
+width:9px;
+height:9px;
+border-radius:50%;
+background:#ff2d2d;
+box-shadow:0 0 10px rgba(255,0,0,0.8);
+display:none;
+}
+
+.profile-container{
+position:relative;
+width:44px;
+height:44px;
+cursor:pointer;
+}
+
+.profile-pic{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+border:2px solid rgba(255,255,255,0.85);
+box-shadow:0 8px 20px rgba(0,0,0,0.35);
+transition:0.25s;
+}
+
+.profile-pic:hover{
+transform:scale(1.08);
+}
+
+/* On cache complètement les anciens éléments */
+.status-dot,
+.verified,
+.notif-badge{
+display:none !important;
+}
+
+/* MENU PROFIL PREMIUM */
+.user-menu{
+position:fixed;
+top:82px;
+right:18px;
+width:260px;
+background:rgba(0,0,0,0.72);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.14);
+border-radius:22px;
+box-shadow:0 18px 45px rgba(0,0,0,0.45);
+padding:16px;
+display:flex;
+flex-direction:column;
+gap:10px;
+z-index:2000;
+transition:0.3s;
+}
+
+.user-menu.hidden{
+opacity:0;
+transform:translateY(-10px);
+pointer-events:none;
+}
+
+.user-menu:not(.hidden){
+opacity:1;
+transform:translateY(0);
+}
+
+.menu-profile{
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-bottom:12px;
+padding-bottom:12px;
+border-bottom:1px solid rgba(255,255,255,0.12);
+}
+
+.menu-profile img{
+width:92px;
+height:92px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #ff9a00;
+box-shadow:0 0 18px rgba(255,154,0,0.45);
+margin-bottom:8px;
+}
+
+.menu-profile p{
+color:white;
+font-weight:900;
+font-size:16px;
+margin:4px 0 0;
+text-align:center;
+}
+
+.menu-phone{
+color:rgba(255,255,255,0.75);
+font-size:13px;
+font-weight:700;
+margin-top:4px;
+}
+
+.menu-status{
+color:#ffb36b;
+font-size:12px;
+margin-top:5px;
+opacity:0.95;
+font-weight:700;
+}
+
+.user-menu button{
+background:rgba(255,255,255,0.09);
+color:white;
+border:1px solid rgba(255,255,255,0.08);
+padding:11px 12px;
+border-radius:13px;
+cursor:pointer;
+text-align:left;
+transition:0.22s;
+font-weight:700;
+}
+
+.user-menu button:hover{
+background:rgba(255,154,0,0.22);
+transform:translateX(3px);
+}
+
+/* Espace sous header */
+body{
+margin:0;
+padding-top:82px;
+}
+
+/* Responsive */
+@media(max-width:520px){
+.header{
+padding:13px 15px;
+}
+
+.logo-box{
+font-size:17px;
+}
+
+.logo-icon{
+width:36px;
+height:36px;
+font-size:19px;
+border-radius:12px;
+}
+
+.header-right{
+gap:9px;
+margin-right:22px;
+}
+
+.message-icon{
+width:38px;
+height:38px;
+border-radius:12px;
+font-size:18px;
+}
+
+.profile-container{
+width:40px;
+height:40px;
+}
+
+.user-menu{
+top:74px;
+right:12px;
+width:245px;
+}
+}
+
+
+/* ===== STYLE 3 ===== */
+
+.main-card {
+background: linear-gradient(270deg,#ff512f,#ff9966,#ff3d00,#ff6a00);
+background-size: 600% 600%;
+animation: gradientMove 8s ease infinite;
+
+color: white;
+padding: 25px;
+border-radius: 25px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 20px;
+box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+position: relative;
+overflow: hidden;
+}
+
+/* ✨ animation */
+@keyframes gradientMove {
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.main-card h1 {
+font-size: 28px;
+margin-top: 10px;
+}
+
+.wallet-icon {
+background: rgba(255,255,255,0.15);
+padding: 20px;
+border-radius: 20px;
+font-size: 30px;
+}
+
+.main-card::after {
+content: "";
+position: absolute;
+right: -40px;
+top: -40px;
+width: 150px;
+height: 150px;
+background: rgba(255,255,255,0.1);
+border-radius: 50%;
+}
+
+.actions-grid {
+display: grid;
+grid-template-columns: repeat(2,1fr);
+gap: 12px;
+}
+
+.action-box {
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.2);
+color: white;
+padding: 15px;
+border-radius: 15px;
+text-align: center;
+font-size: 20px;
+cursor: pointer;
+transition: 0.2s;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.action-box span {
+color: white;
+}
+
+.action-box span {
+display: block;
+font-size: 16px;
+margin-top: 6px;
+font-weight: 700;
+color: #222;
+letter-spacing: 0.5px;
+}
+
+/* 🔥 Icônes plus grandes */
+.action-box {
+font-size: 26px;
+font-weight: 600;
+}
+
+.action-box:hover {
+transform: scale(1.05);
+background: #fff3e0;
+}
+
+.notif-btn {
+position: relative;
+}
+
+.mini-badge {
+position: absolute;
+top: 8px;
+right: 12px;
+background: red;
+color: white;
+font-size: 10px;
+padding: 3px 6px;
+border-radius: 50%;
+display: none;
+}
+
+.modal {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.6);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 9999;
+}
+
+.modal-content {
+background: rgba(255,255,255,0.12);
+backdrop-filter: blur(20px);
+border: 1px solid rgba(255,255,255,0.2);
+color: white;
+width: 90%;
+max-width: 400px;
+border-radius: 20px;
+padding: 20px;
+position: relative;
+
+max-height: 80vh;
+overflow-y: auto;
+}
+
+.close {
+position: absolute;
+top: 10px;
+right: 15px;
+cursor: pointer;
+font-size: 18px;
+}
+
+.hidden {
+display: none;
+}
+
+.history-box {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+}
+
+.history-item {
+  background: rgba(255,255,255,0.96);
+  color: #222;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  font-size: 14px;
+  border-left: 5px solid #ff6a00;
+
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+
+  animation: slideFade 0.4s ease;
+  transition:0.3s;
+}
+
+.history-title{
+  font-weight: 900;
+  font-size: 16px;
+  color: #222;
+}
+
+.history-phone{
+  color:#333;
+  font-weight: 600;
+}
+
+.history-amount{
+  color:#009b63;
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.history-date{
+  color:#666;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.history-reason{
+  background:#f5f5f5;
+  color:#222;
+  padding:10px;
+  border-radius:12px;
+  font-weight:600;
+  word-break: break-word;
+}
+/* ✨ animation entrée */
+@keyframes slideFade{
+from{
+opacity:0;
+transform:translateY(15px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* hover effet premium */
+.history-item:hover{
+transform: scale(1.02);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.arrow-up {
+color: red;
+animation: blink 1s infinite;
+}
+
+.arrow-down {
+color: green;
+animation: blink 1s infinite;
+}
+
+@keyframes blink {
+0%{opacity:1;}
+50%{opacity:0.3;}
+100%{opacity:1;}
+}
+
+/* ===== FICHE ENVOI STYLE 3 ===== */
+
+.form-card{
+background: linear-gradient(135deg,#ff512f,#ff9966);
+padding:20px;
+border-radius:20px;
+color:white;
+animation: fadeUp 0.4s ease;
+}
+
+#passwordBox .form-card{
+background: linear-gradient(135deg,#ffffff,#f5f5f5);
+color:#333;
+}
+
+.form-title{
+text-align:center;
+margin-bottom:15px;
+font-size:22px;
+}
+
+.input-group{
+margin-bottom:12px;
+}
+
+.input-group label{
+font-size:13px;
+opacity:0.8;
+}
+
+.input-group input,
+.input-group textarea{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+margin-top:5px;
+outline:none;
+}
+
+/* 🔥 CONVERSION VITRÉE */
+.glass-box{
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(10px);
+padding:12px;
+border-radius:12px;
+font-size:14px;
+margin-bottom:12px;
+}
+
+/* 🚀 BOUTON */
+.send-btn{
+background: linear-gradient(45deg,#ff9a00,#ff3d00);
+border:none;
+padding:14px;
+border-radius:15px;
+font-weight:bold;
+width:100%;
+color:white;
+transition:0.3s;
+}
+
+.send-btn:hover{
+transform: scale(1.05);
+box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
+
+.contacts-box{
+background: white;
+border-radius: 15px;
+max-height: 250px;
+overflow-y: auto;
+margin-top: 8px;
+box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.contact-item{
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 12px;
+border-bottom: 1px solid #eee;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.contact-item:hover{
+background: #f9f9f9;
+transform: scale(1.02);
+}
+
+.contact-avatar{
+width: 45px;
+height: 45px;
+border-radius: 50%;
+overflow: hidden;
+background: #eee;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.contact-avatar img{
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.contact-info{
+display: flex;
+flex-direction: column;
+}
+
+.contact-name{
+font-weight: 700;
+font-size: 15px;
+color: #222;
+}
+
+.contact-phone{
+font-size: 12px;
+color: gray;
+}
+.form-card {
+font-weight: 600;
+}
+
+.form-card label {
+font-weight: 700;
+font-size: 14px;
+}
+
+.form-card input,
+.form-card textarea {
+font-size: 15px;
+font-weight: 600;
+}
+
+.form-title {
+font-weight: 800;
+letter-spacing: 0.5px;
+}
+
+.receiver-name {
+font-size: 13px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+#selectedContact{
+margin-top:10px;
+background: rgba(255,255,255,0.2);
+padding:10px;
+border-radius:12px;
+display:flex;
+align-items:center;
+gap:10px;
+color:white;
+}
+
+.notif-card{
+  background: rgba(255,255,255,0.96);
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  color: #222;
+  border-left: 5px solid #ff6a00;
+}
+
+.notif-title{
+  font-weight: 900;
+  color:#222;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.notif-line{
+  color:#333;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 5px 0;
+}
+
+.notif-amount{
+  color:#009b63;
+  font-weight:900;
+  font-size: 16px;
+}
+
+.notif-date{
+  font-size:12px;
+  color:#666;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.notif-reason{
+  margin-top: 10px;
+  background: #f5f5f5;
+  color: #222;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.claim-btn{
+  background: linear-gradient(45deg,#ff3d00,#ff0000) !important;
+  color:white !important;
+  margin-top: 12px;
+}
+
+.delete-btn{
+  background: linear-gradient(45deg,#d90429,#9d0208) !important;
+  color:white !important;
+  margin-top: 10px;
+}
+
+@keyframes shine {
+0%{ left:-100%; }
+100%{ left:100%; }
+}
+
+@keyframes slideUp{
+from{transform:translate(-50%,50px);opacity:0;}
+to{transform:translate(-50%,0);opacity:1;}
+}
+
+.new-tx{
+animation: flash 0.6s ease;
+}
+
+@keyframes flash{
+0%{background:#e8f5e9;}
+100%{background:white;}
+}
+
+/* 🔥 BACKGROUND DYNAMIQUE */
+.hero-wall {
+position: fixed;
+inset: 0;
+z-index: -2;
+overflow: hidden;
+}
+
+.hero-wall video,
+.hero-wall img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+/* 🔥 OVERLAY (moins sombre que avant) */
+.hero-overlay {
+position: fixed;
+inset: 0;
+background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+z-index: -1;
+}
+
+/* 🔊 bouton audio */
+.audio-btn {
+position: fixed;
+bottom: 15px;
+right: 15px;
+z-index: 10;
+background: rgba(0,0,0,0.35);
+backdrop-filter: blur(6px);
+border: none;
+border-radius: 50%;
+width: 42px;
+height: 42px;
+color: white;
+font-size: 16px;
+cursor: pointer;
+opacity: 0.6;
+}
+
+.audio-btn:hover {
+opacity: 1;
+transform: scale(1.1);
+}
+
+/* ✅ Correction visibilité champs mot de passe */
+#passwordBox .input-group label{
+  color: #333;
+  font-weight: 800;
+}
+
+#passwordBox input{
+  background: #ffffff !important;
+  color: #111 !important;
+  border: 2px solid #ff9a00 !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+#passwordBox input::placeholder{
+  color: #777 !important;
+}
+
+#passwordBox .send-btn{
+  background: linear-gradient(45deg,#ff9a00,#ff3d00) !important;
+  color: white !important;
+}
+
+/* =====================================================
+   ETAPE 1 — STABILISATION MOBILE DASHBOARD
+   Objectif : réduire la taille sur smartphone
+===================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Conteneur principal plus stable */
+.dashboard-box {
+  width: min(92%, 420px);
+  margin: 18px auto;
+  padding: 16px;
+}
+
+/* Carte solde plus équilibrée */
+.main-card {
+  min-height: auto;
+  padding: 20px;
+  border-radius: 24px;
+  gap: 12px;
+}
+
+.main-card h2 {
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+.main-card p {
+  font-size: 13px;
+  margin: 0;
+}
+
+.main-card h1 {
+  font-size: 27px;
+  margin: 8px 0 0;
+}
+
+.wallet-icon {
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+/* Bouton masquer/afficher plus propre */
+#toggleBalance {
+  width: auto !important;
+  min-width: 95px;
+  padding: 7px 11px !important;
+  font-size: 12px !important;
+  border-radius: 12px !important;
+  margin-top: 10px !important;
+}
+
+/* Grille des actions plus propre */
+.actions-grid {
+  gap: 11px;
+}
+
+/* Boutons actions plus élégants */
+.action-box {
+  min-height: 96px;
+  padding: 14px 8px;
+  border-radius: 20px;
+  font-size: 25px;
+}
+
+.action-box span {
+  font-size: 13px;
+  line-height: 1.25;
+  margin-top: 7px;
+  color: white !important;
+}
+
+/* Historique aligné avec le dashboard */
+.history-box {
+  width: min(92%, 420px);
+  margin: 18px auto 25px !important;
+}
+
+/* Très important pour les petits téléphones */
+@media (max-width: 420px) {
+  body {
+    padding-top: 76px;
+  }
+
+  .dashboard-box {
+    width: 94%;
+    padding: 14px;
+    margin-top: 14px;
+    border-radius: 22px;
+  }
+
+  .main-card {
+    padding: 17px;
+    border-radius: 22px;
+  }
+
+  .main-card h2 {
+    font-size: 16px;
+  }
+
+  .main-card p {
+    font-size: 12px;
+  }
+
+  .main-card h1 {
+    font-size: 23px;
+  }
+
+  .wallet-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border-radius: 17px;
+  }
+
+  .actions-grid {
+    gap: 9px;
+  }
+
+  .action-box {
+    min-height: 82px;
+    padding: 11px 6px;
+    border-radius: 18px;
+    font-size: 22px;
+  }
+
+  .action-box span {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  .history-box {
+    width: 94%;
+    padding: 13px;
+    border-radius: 20px;
+  }
+}
+
+/* Téléphones très petits */
+@media (max-width: 340px) {
+  .main-card {
+    padding: 14px;
+  }
+
+  .main-card h1 {
+    font-size: 20px;
+  }
+
+  .wallet-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 21px;
+  }
+
+  .action-box {
+    min-height: 76px;
+    font-size: 20px;
+  }
+
+  .action-box span {
+    font-size: 11px;
+  }
+}
+
+/* =====================================================
+   ETAPE 2 — DESIGN PREMIUM DES BOUTONS ET OPTIONS
+   Objectif : rendre les boutons plus beaux et uniformes
+===================================================== */
+
+/* Tous les boutons importants */
+button,
+.send-btn,
+.user-menu button {
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.2px;
+}
+
+/* Effet lumière qui traverse les boutons */
+button::before,
+.send-btn::before,
+.user-menu button::before,
+.action-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent,
+    rgba(255,255,255,0.35),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: 0.55s;
+  pointer-events: none;
+}
+
+button:hover::before,
+.send-btn:hover::before,
+.user-menu button:hover::before,
+.action-box:hover::before {
+  left: 130%;
+}
+
+/* Boutons principaux des formulaires */
+.send-btn {
+  min-height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ff9a00, #ff4b00, #ff2500) !important;
+  box-shadow:
+    0 12px 28px rgba(255, 82, 0, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  font-size: 15px;
+  font-weight: 950;
+  text-transform: none;
+}
+
+.send-btn:hover {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 16px 34px rgba(255, 82, 0, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.send-btn:active {
+  transform: scale(0.98);
+}
+
+/* Boutons du menu profil */
+.user-menu button {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.12),
+    rgba(255,255,255,0.06)
+  );
+  border: 1px solid rgba(255,255,255,0.13);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.user-menu button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255,154,0,0.32),
+    rgba(255,61,0,0.22)
+  );
+  border-color: rgba(255,180,80,0.35);
+  transform: translateX(4px) scale(1.01);
+}
+
+.user-menu button:active {
+  transform: scale(0.98);
+}
+
+/* Boutons du dashboard */
+.action-box {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+  border: 1px solid rgba(255,255,255,0.24);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+/* Petite lumière de fond dans chaque option */
+.action-box::after {
+  content: "";
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  top: -35px;
+  right: -35px;
+  border-radius: 50%;
+  background: rgba(255,154,0,0.22);
+  filter: blur(2px);
+  z-index: -1;
+  transition: 0.3s;
+}
+
+/* Effet hover dashboard */
+.action-box:hover {
+  transform: translateY(-5px) scale(1.025);
+  background:
+    linear-gradient(145deg, rgba(255,154,0,0.32), rgba(255,61,0,0.18));
+  border-color: rgba(255,190,100,0.42);
+  box-shadow:
+    0 18px 38px rgba(0,0,0,0.34),
+    0 0 22px rgba(255,106,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+.action-box:hover::after {
+  transform: scale(1.35);
+  background: rgba(255,255,255,0.2);
+}
+
+.action-box:active {
+  transform: scale(0.97);
+}
+
+/* Icônes des boutons plus propres */
+.action-box {
+  text-shadow: 0 5px 12px rgba(0,0,0,0.25);
+}
+
+.action-box span {
+  text-shadow: none;
+  font-weight: 950;
+  letter-spacing: 0.2px;
+}
+
+/* Badge notification plus premium */
+.mini-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff1e1e, #b80000);
+  box-shadow: 0 0 14px rgba(255,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* Bouton masquer/afficher solde */
+#toggleBalance {
+  background: rgba(255,255,255,0.92) !important;
+  color: #222 !important;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  font-weight: 900 !important;
+  transition: 0.25s ease;
+}
+
+#toggleBalance:hover {
+  transform: translateY(-2px);
+  background: white !important;
+}
+
+/* Bouton fermeture modal */
+.close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease;
+}
+
+.close:hover {
+  background: rgba(255,80,40,0.85);
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* Boutons réclamation et suppression */
+.claim-btn,
+.delete-btn {
+  border-radius: 15px !important;
+  font-weight: 950 !important;
+  min-height: 44px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+}
+
+.claim-btn:hover,
+.delete-btn:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Amélioration des champs pour aller avec les boutons */
+.form-card input,
+.form-card textarea,
+.form-card select {
+  transition: 0.25s ease;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+  border-color: rgba(255,255,255,0.75) !important;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,0.13),
+    0 10px 24px rgba(0,0,0,0.16);
+  transform: translateY(-1px);
+}
+
+/* Mobile : garder joli mais pas trop gros */
+@media (max-width: 420px) {
+  .send-btn {
+    min-height: 45px;
+    font-size: 14px;
+    border-radius: 15px;
+  }
+
+  .user-menu button {
+    min-height: 41px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+
+  .action-box:hover {
+    transform: translateY(-3px) scale(1.015);
+  }
+
+  .close {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* =====================================================
+   ETAPE 3 — MENU PROFIL DYNAMIQUE ET ANIMÉ
+   Objectif : ouverture/fermeture douce du menu profil
+===================================================== */
+
+/* Menu profil : état fermé par défaut */
+.user-menu {
+  transform-origin: top right;
+  opacity: 0;
+  transform: translateY(-14px) scale(0.94);
+  filter: blur(3px);
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    filter 0.28s ease,
+    visibility 0.28s ease;
+}
+
+/* Menu profil : état ouvert */
+.user-menu.show,
+.user-menu:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Petit triangle premium en haut du menu */
+.user-menu::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 22px;
+  width: 16px;
+  height: 16px;
+  background: rgba(8, 8, 7, 0.88);
+  border-left: 1px solid rgba(255,255,255,0.16);
+  border-top: 1px solid rgba(255,255,255,0.16);
+  transform: rotate(45deg);
+  backdrop-filter: blur(12px);
+}
+
+/* Profil dans le menu : animation douce */
+.menu-profile {
+  animation: profileSoftIn 0.35s ease both;
+}
+
+@keyframes profileSoftIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Les boutons du menu entrent un par un */
+.user-menu button {
+  opacity: 0;
+  transform: translateX(10px);
+  animation: menuBtnIn 0.32s ease forwards;
+}
+
+.user-menu.show button,
+.user-menu:not(.hidden) button {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.user-menu.show button:nth-of-type(1),
+.user-menu:not(.hidden) button:nth-of-type(1) {
+  animation-delay: 0.04s;
+}
+
+.user-menu.show button:nth-of-type(2),
+.user-menu:not(.hidden) button:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+
+.user-menu.show button:nth-of-type(3),
+.user-menu:not(.hidden) button:nth-of-type(3) {
+  animation-delay: 0.12s;
+}
+
+.user-menu.show button:nth-of-type(4),
+.user-menu:not(.hidden) button:nth-of-type(4) {
+  animation-delay: 0.16s;
+}
+
+.user-menu.show button:nth-of-type(5),
+.user-menu:not(.hidden) button:nth-of-type(5) {
+  animation-delay: 0.20s;
+}
+
+.user-menu.show button:nth-of-type(6),
+.user-menu:not(.hidden) button:nth-of-type(6) {
+  animation-delay: 0.24s;
+}
+
+@keyframes menuBtnIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Photo de profil plus vivante */
+.profile-container:hover .profile-pic {
+  transform: scale(1.08) rotate(2deg);
+  box-shadow:
+    0 0 0 3px rgba(255,154,0,0.35),
+    0 12px 28px rgba(0,0,0,0.32);
+}
+
+/* Menu profil sur petit téléphone */
+@media (max-width: 420px) {
+  .user-menu {
+    top: 72px !important;
+    right: 10px !important;
+    width: min(260px, calc(100vw - 20px)) !important;
+    border-radius: 22px !important;
+    padding: 14px !important;
+  }
+
+  .user-menu::before {
+    right: 20px;
+  }
+
+  .menu-profile img {
+    width: 78px !important;
+    height: 78px !important;
+  }
+
+  .menu-profile p {
+    font-size: 14px !important;
+  }
+}
+
+/* Très petit écran */
+@media (max-width: 340px) {
+  .user-menu {
+    width: calc(100vw - 16px) !important;
+    right: 8px !important;
+  }
+}
+
+/* =====================================================
+   ETAPE 4 — FORMULAIRES DE TRANSFERT PLUS PROFESSIONNELS
+   Objectif : améliorer transfert instantané et programmé
+===================================================== */
+
+/* Carte générale des formulaires */
+.form-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08)) !important;
+  border: 1px solid rgba(255,255,255,0.22) !important;
+  box-shadow:
+    0 22px 55px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.18) !important;
+}
+
+/* Lumière décorative dans les formulaires */
+.form-card::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: rgba(255,154,0,0.24);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.form-card::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: rgba(255,60,0,0.18);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* Le contenu reste au-dessus des lumières */
+.form-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Titre du formulaire */
+.form-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 18px !important;
+  font-size: 22px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.2px;
+  text-shadow: 0 4px 14px rgba(0,0,0,0.28);
+}
+
+/* Groupe de champ */
+.input-group {
+  margin-bottom: 14px !important;
+}
+
+/* Label des champs */
+.input-group label {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px !important;
+  color: rgba(255,255,255,0.94) !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.15px;
+}
+
+/* Champs */
+.form-card input,
+.form-card textarea,
+.form-card select {
+  min-height: 46px;
+  border-radius: 16px !important;
+  background: rgba(255,255,255,0.95) !important;
+  color: #111 !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.13),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+/* Placeholder */
+.form-card input::placeholder,
+.form-card textarea::placeholder {
+  color: rgba(0,0,0,0.45) !important;
+  font-weight: 600;
+}
+
+/* Zone texte */
+.form-card textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+/* Petit texte d'aide sous certains champs */
+.field-help {
+  display: block;
+  margin-top: 5px;
+  color: rgba(255,255,255,0.78);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Bloc résumé avant validation */
+.transfer-summary,
+.schedule-summary {
+  margin: 12px 0 14px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.13);
+  color: white;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.45;
+  display: none;
+}
+
+/* Quand on veut afficher le résumé */
+.transfer-summary.show,
+.schedule-summary.show {
+  display: block;
+  animation: summaryIn 0.25s ease both;
+}
+
+@keyframes summaryIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Montant converti */
+#conversionBox,
+#scheduledConversionBox {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.16);
+  color: white;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+/* Champs date et heure plus propres */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  cursor: pointer;
+}
+
+/* Bouton de validation dans formulaire */
+.form-card .send-btn {
+  margin-top: 8px;
+  min-height: 49px;
+  border-radius: 17px !important;
+}
+
+/* Séparateur doux */
+.form-soft-line {
+  height: 1px;
+  margin: 14px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.28),
+    transparent
+  );
+}
+
+/* Mobile : formulaire plus compact */
+@media (max-width: 420px) {
+  .form-card {
+    border-radius: 23px !important;
+    padding: 17px !important;
+  }
+
+  .form-title {
+    font-size: 20px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .input-group {
+    margin-bottom: 12px !important;
+  }
+
+  .form-card input,
+  .form-card textarea,
+  .form-card select {
+    min-height: 44px;
+    font-size: 14px !important;
+    border-radius: 15px !important;
+  }
+
+  .field-help {
+    font-size: 10.5px;
+  }
+
+  .transfer-summary,
+  .schedule-summary {
+    font-size: 12px;
+    padding: 11px;
+    border-radius: 16px;
+  }
+}
+
+/* =====================================================
+   ETAPE 2 — STRUCTURE VISUELLE STYLE 5
+   Objectif : carte solde + options dashboard modernes
+===================================================== */
+
+/* Carte solde style 5 */
+.balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 24px !important;
+  border-radius: 30px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08)) !important;
+  border: 1px solid rgba(255,255,255,0.28) !important;
+  box-shadow:
+    0 22px 55px rgba(0,0,0,0.34),
+    inset 0 1px 0 rgba(255,255,255,0.25) !important;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.balance-left {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.welcome-line h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 950;
+  color: white;
+  line-height: 1.2;
+}
+
+.balance-label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.82);
+}
+
+.balance-card #solde {
+  margin: 9px 0 0;
+  font-size: 32px;
+  font-weight: 950;
+  color: white;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  word-break: break-word;
+}
+
+.balance-toggle {
+  width: auto !important;
+  min-width: 112px;
+  margin-top: 14px !important;
+  padding: 8px 13px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.92) !important;
+  color: #222 !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+.balance-toggle:hover {
+  background: white !important;
+  transform: translateY(-2px);
+}
+
+.balance-card .wallet-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    0 12px 28px rgba(0,0,0,0.22);
+}
+
+/* Options dashboard style 5 */
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px !important;
+}
+
+.action-box {
+  min-height: 118px;
+  padding: 16px 10px !important;
+  border-radius: 26px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.20), rgba(255,255,255,0.08)) !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.20) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.action-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  background: rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.20),
+    0 10px 22px rgba(0,0,0,0.18);
+}
+
+.action-box span {
+  margin-top: 4px !important;
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: 950 !important;
+  line-height: 1.2;
+}
+
+.action-box small {
+  display: block;
+  color: rgba(255,255,255,0.68);
+  font-size: 10.5px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.action-box:hover {
+  transform: translateY(-5px) scale(1.025);
+  border-color: rgba(255,255,255,0.42) !important;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.36),
+    0 0 25px rgba(255,154,0,0.20),
+    inset 0 1px 0 rgba(255,255,255,0.28) !important;
+}
+
+.action-box:active {
+  transform: scale(0.97);
+}
+
+/* Couleurs légères par option */
+.action-transfer .action-icon {
+  background: linear-gradient(145deg, rgba(0,220,130,0.35), rgba(255,255,255,0.12));
+}
+
+.action-schedule .action-icon {
+  background: linear-gradient(145deg, rgba(255,154,0,0.38), rgba(255,255,255,0.12));
+}
+
+.action-message .action-icon {
+  background: linear-gradient(145deg, rgba(255,210,0,0.35), rgba(255,255,255,0.12));
+}
+
+.action-qr .action-icon {
+  background: linear-gradient(145deg, rgba(60,140,255,0.35), rgba(255,255,255,0.12));
+}
+
+/* Badge notification bien placé dans le nouveau bouton */
+.notif-btn {
+  position: relative;
+}
+
+.notif-btn .mini-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+/* Responsive mobile */
+@media (max-width: 420px) {
+  .balance-card {
+    padding: 18px !important;
+    border-radius: 25px !important;
+  }
+
+  .welcome-line h2 {
+    font-size: 17px;
+  }
+
+  .balance-label {
+    font-size: 12px;
+  }
+
+  .balance-card #solde {
+    font-size: 25px;
+  }
+
+  .balance-toggle {
+    min-width: 98px;
+    padding: 7px 11px !important;
+    font-size: 11px !important;
+  }
+
+  .balance-card .wallet-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 19px;
+    font-size: 25px;
+  }
+
+  .actions-grid {
+    gap: 10px !important;
+  }
+
+  .action-box {
+    min-height: 92px;
+    padding: 12px 7px !important;
+    border-radius: 21px !important;
+  }
+
+  .action-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 15px;
+    font-size: 21px;
+  }
+
+  .action-box span {
+    font-size: 12px !important;
+  }
+
+  .action-box small {
+    font-size: 9.5px;
+  }
+}
+
+@media (max-width: 340px) {
+  .balance-card #solde {
+    font-size: 21px;
+  }
+
+  .balance-card .wallet-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .action-box {
+    min-height: 84px;
+  }
+
+  .action-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
+  }
+
+  .action-box span {
+    font-size: 11px !important;
+  }
+
+  .action-box small {
+    display: none;
+  }
+}
+
+/* =====================================================
+   ETAPE 3 — MODERNISATION DES MODALES ET FORMULAIRES
+   Objectif : fenêtres premium + formulaires propres
+===================================================== */
+
+/* Fond sombre derrière les fenêtres */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background:
+    radial-gradient(circle at top, rgba(255,154,0,0.18), transparent 35%),
+    rgba(0,0,0,0.68);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+/* Quand la modale est cachée */
+.modal.hidden {
+  display: none !important;
+}
+
+/* Boîte principale de la fenêtre */
+.modal-content {
+  width: 100%;
+  max-width: 430px;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 22px !important;
+  border-radius: 30px !important;
+  background:
+    linear-gradient(145deg, rgba(25,25,25,0.94), rgba(45,45,45,0.86)) !important;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.16);
+  color: white;
+  animation: modalZoom 0.28s ease;
+}
+
+/* Animation d'ouverture */
+@keyframes modalZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Bouton fermer */
+.close {
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.20), rgba(255,255,255,0.08));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+.close:hover {
+  background: rgba(255,80,80,0.85);
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* Cartes de formulaire */
+.form-card {
+  padding: 22px !important;
+  border-radius: 28px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06)) !important;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.16);
+  color: white;
+}
+
+/* Titres des formulaires */
+.form-title {
+  margin: 0 0 16px !important;
+  font-size: 23px !important;
+  font-weight: 950 !important;
+  color: white !important;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Petites boîtes d'information */
+.glass-box {
+  padding: 14px 15px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  color: rgba(255,255,255,0.84);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+/* Groupes de champs */
+.input-group {
+  margin-top: 13px;
+}
+
+/* Labels si tu en as */
+.input-group label,
+.form-card label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 850;
+  color: rgba(255,255,255,0.82);
+}
+
+/* Champs input, textarea, select */
+.input-group input,
+.input-group textarea,
+.input-group select,
+.form-card input,
+.form-card textarea,
+.form-card select {
+  width: 100% !important;
+  box-sizing: border-box;
+  padding: 13px 14px !important;
+  margin-top: 8px !important;
+  border-radius: 17px !important;
+  border: 1px solid rgba(255,255,255,0.20) !important;
+  background: rgba(255,255,255,0.12) !important;
+  color: white !important;
+  font-size: 14px !important;
+  outline: none !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 8px 18px rgba(0,0,0,0.16);
+}
+
+/* Placeholder */
+.input-group input::placeholder,
+.input-group textarea::placeholder,
+.form-card input::placeholder,
+.form-card textarea::placeholder {
+  color: rgba(255,255,255,0.55) !important;
+}
+
+/* Focus sur champ */
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus,
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+  border-color: rgba(255,154,0,0.85) !important;
+  background: rgba(255,255,255,0.16) !important;
+  box-shadow:
+    0 0 0 4px rgba(255,154,0,0.16),
+    0 10px 24px rgba(0,0,0,0.22);
+}
+
+/* Options des select */
+.form-card select option,
+.input-group select option {
+  color: #111 !important;
+  background: white !important;
+}
+
+/* Textarea */
+.form-card textarea,
+.input-group textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Boutons principaux des formulaires */
+.send-btn,
+.form-card button {
+  width: 100% !important;
+  margin-top: 15px !important;
+  padding: 14px 16px !important;
+  border-radius: 18px !important;
+  border: none !important;
+  background:
+    linear-gradient(135deg, #ff9a00, #ff6a00, #ff3d00) !important;
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: 950 !important;
+  cursor: pointer;
+  box-shadow:
+    0 14px 30px rgba(255,106,0,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+.send-btn:hover,
+.form-card button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 18px 38px rgba(255,106,0,0.36),
+    inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.send-btn:active,
+.form-card button:active {
+  transform: scale(0.98);
+}
+
+/* Boutons désactivés */
+.send-btn:disabled,
+.form-card button:disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* Zone conversion montant */
+#conversionBox {
+  margin-top: 12px !important;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,154,0,0.14);
+  border: 1px solid rgba(255,154,0,0.26);
+  color: rgba(255,255,255,0.90);
+  font-size: 13px !important;
+  font-weight: 800;
+}
+
+/* Liste des contacts */
+.contacts-box {
+  margin-top: 14px;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Contact individuel */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px !important;
+  margin-top: 9px;
+  border-radius: 18px !important;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.14);
+  cursor: pointer;
+}
+
+.contact-item:hover {
+  background: rgba(255,154,0,0.16);
+  transform: translateX(3px);
+}
+
+/* Avatar contact */
+.contact-avatar {
+  width: 43px !important;
+  height: 43px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.35);
+}
+
+/* Nom contact */
+.contact-name {
+  color: white;
+  font-size: 14px !important;
+  font-weight: 900;
+}
+
+/* Téléphone contact */
+.contact-phone {
+  color: rgba(255,255,255,0.65);
+  font-size: 12px !important;
+}
+
+/* Boîte notifications/messages */
+#notifBox .form-card,
+#languageBox .form-card,
+#passwordBox .form-card,
+#securityBox .form-card {
+  animation: fadeUpForm 0.28s ease;
+}
+
+@keyframes fadeUpForm {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =====================================================
+   VERSION MOBILE — MODALE COMME APPLICATION
+===================================================== */
+
+@media (max-width: 520px) {
+  .modal {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .modal-content {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 90vh !important;
+    border-radius: 30px 30px 0 0 !important;
+    padding: 18px !important;
+    animation: mobileModalUpStep3 0.30s ease !important;
+  }
+
+  @keyframes mobileModalUpStep3 {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .form-card {
+    padding: 18px !important;
+    border-radius: 24px !important;
+  }
+
+  .form-title {
+    font-size: 20px !important;
+  }
+
+  .input-group input,
+  .input-group textarea,
+  .input-group select,
+  .form-card input,
+  .form-card textarea,
+  .form-card select {
+    padding: 12px !important;
+    border-radius: 15px !important;
+    font-size: 13px !important;
+  }
+
+  .send-btn,
+  .form-card button {
+    padding: 13px !important;
+    border-radius: 16px !important;
+    font-size: 13px !important;
+  }
+
+  .contacts-box {
+    max-height: 210px;
+  }
+
+  .contact-item {
+    padding: 10px !important;
+    border-radius: 16px !important;
+  }
+
+  .contact-avatar {
+    width: 39px !important;
+    height: 39px !important;
+  }
+
+  .contact-name {
+    font-size: 13px !important;
+  }
+
+  .contact-phone {
+    font-size: 11px !important;
+  }
+}
+
+/* =====================================================
+   ETAPE 4 — ACTIVITES RECENTES + NOTIFICATIONS PREMIUM
+   Objectif : historique moderne, lisible et mobile
+===================================================== */
+
+
+/* Grande boîte Activités récentes */
+.history-box {
+  width: 100%;
+  margin-top: 20px !important;
+  padding: 22px !important;
+  border-radius: 30px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)) !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  box-shadow:
+    0 22px 55px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+/* Titre Activités récentes */
+.history-box h3,
+.history-title {
+  margin: 0 0 16px !important;
+  font-size: 23px !important;
+  font-weight: 950 !important;
+  color: white !important;
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Conteneur des lignes d'historique */
+#historyList,
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+/* Carte d'une activité */
+.history-item,
+.activity-item,
+.transaction-item {
+  position: relative;
+  padding: 14px 14px 14px 15px !important;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.07)) !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  box-shadow:
+    0 12px 28px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+  color: white !important;
+  overflow: hidden;
+  animation: activityFadeIn 0.25s ease;
+}
+
+/* Petite barre orange à gauche */
+.history-item::before,
+.activity-item::before,
+.transaction-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 4px;
+  height: 64%;
+  border-radius: 0 999px 999px 0;
+  background: linear-gradient(180deg, #ffb000, #ff5a00);
+}
+
+/* Animation douce */
+@keyframes activityFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Effet au survol */
+.history-item:hover,
+.activity-item:hover,
+.transaction-item:hover {
+  transform: translateY(-2px);
+  background:
+    linear-gradient(145deg, rgba(255,154,0,0.18), rgba(255,255,255,0.08)) !important;
+  box-shadow:
+    0 18px 36px rgba(0,0,0,0.30),
+    inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+/* Textes internes possibles */
+.history-item p,
+.activity-item p,
+.transaction-item p {
+  margin: 4px 0 !important;
+  color: rgba(255,255,255,0.82) !important;
+  font-size: 13px !important;
+  line-height: 1.45;
+}
+
+/* Nom / type d'opération */
+.history-item strong,
+.activity-item strong,
+.transaction-item strong {
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: 950 !important;
+}
+
+/* Montants */
+.history-item .amount,
+.activity-item .amount,
+.transaction-item .amount,
+.notif-amount {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(255,154,0,0.18);
+  border: 1px solid rgba(255,154,0,0.28);
+  color: #ffd28a !important;
+  font-weight: 950 !important;
+  font-size: 13px !important;
+}
+
+/* Date ou petit texte secondaire */
+.history-item small,
+.activity-item small,
+.transaction-item small,
+.notif-date {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255,255,255,0.55) !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+/* Message quand il n'y a pas encore d'activité */
+.empty-history,
+#historyList:empty::after {
+  content: "Aucune activité récente pour le moment.";
+  display: block;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px dashed rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.70);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   NOTIFICATIONS / BOITE DE MESSAGE
+===================================================== */
+
+/* Boîte générale de notification */
+.notif-box,
+.notification-box,
+.message-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Carte notification */
+.notif-item,
+.notification-item,
+.message-item {
+  position: relative;
+  padding: 15px !important;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.96), rgba(245,245,245,0.92)) !important;
+  color: #222 !important;
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  overflow: hidden;
+}
+
+/* Petite barre pour notification */
+.notif-item::before,
+.notification-item::before,
+.message-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 4px;
+  height: 64%;
+  border-radius: 0 999px 999px 0;
+  background: linear-gradient(180deg, #ff9a00, #ff3d00);
+}
+
+/* Titre notification */
+.notif-title,
+.notification-title,
+.message-title {
+  margin: 0 0 7px !important;
+  color: #222 !important;
+  font-size: 15px !important;
+  font-weight: 950 !important;
+}
+
+/* Texte notification */
+.notif-line,
+.notification-line,
+.message-line {
+  margin: 5px 0 !important;
+  color: #333 !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* Raison / détail */
+.notif-reason,
+.notification-reason,
+.message-reason {
+  margin-top: 10px !important;
+  padding: 10px !important;
+  border-radius: 14px !important;
+  background: rgba(0,0,0,0.05) !important;
+  color: #333 !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* Boutons dans les notifications */
+.notif-item button,
+.notification-item button,
+.message-item button {
+  margin-top: 10px !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  border: none !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  cursor: pointer;
+  color: white !important;
+  background: linear-gradient(135deg, #ff9a00, #ff5a00) !important;
+  box-shadow: 0 8px 20px rgba(255,90,0,0.25);
+}
+
+/* Bouton supprimer / refuser */
+.delete-btn,
+.reject-btn {
+  background: linear-gradient(135deg, #d90429, #7a0010) !important;
+}
+
+/* Bouton accepter / réclamer */
+.claim-btn,
+.accept-btn {
+  background: linear-gradient(135deg, #00a86b, #007a4d) !important;
+}
+
+/* Badge notification */
+.notif-badge,
+.message-dot,
+.status-dot {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ff2020 !important;
+  color: white !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(255,0,0,0.55);
+}
+
+
+/* =====================================================
+   VERSION MOBILE — HISTORIQUE PLUS COMPACT
+===================================================== */
+
+@media (max-width: 520px) {
+  .history-box {
+    margin-top: 16px !important;
+    padding: 18px !important;
+    border-radius: 26px !important;
+  }
+
+  .history-box h3,
+  .history-title {
+    font-size: 20px !important;
+    margin-bottom: 13px !important;
+  }
+
+  #historyList,
+  .history-list {
+    gap: 9px;
+  }
+
+  .history-item,
+  .activity-item,
+  .transaction-item {
+    padding: 12px 12px 12px 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .history-item strong,
+  .activity-item strong,
+  .transaction-item strong {
+    font-size: 13px !important;
+  }
+
+  .history-item p,
+  .activity-item p,
+  .transaction-item p {
+    font-size: 12px !important;
+  }
+
+  .history-item small,
+  .activity-item small,
+  .transaction-item small,
+  .notif-date {
+    font-size: 10px !important;
+  }
+
+  .notif-item,
+  .notification-item,
+  .message-item {
+    padding: 13px !important;
+    border-radius: 18px !important;
+  }
+
+  .notif-title,
+  .notification-title,
+  .message-title {
+    font-size: 14px !important;
+  }
+
+  .notif-line,
+  .notification-line,
+  .message-line,
+  .notif-reason,
+  .notification-reason,
+  .message-reason {
+    font-size: 12px !important;
+  }
+
+  .notif-item button,
+  .notification-item button,
+  .message-item button {
+    padding: 9px 11px !important;
+    font-size: 12px !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* =====================================================
+   ETAPE 5 — MENU PROFIL STYLE 5
+   Objectif : menu profil moderne, animé et responsive
+===================================================== */
+
+/* Bouton / zone profil en haut */
+.profile,
+.user-profile,
+.profile-box,
+.profile-area {
+  position: relative;
+}
+
+/* Photo / avatar profil */
+.profile img,
+.user-profile img,
+.profile-avatar,
+#profilePhoto,
+#userPhoto {
+  border-radius: 50% !important;
+  border: 2px solid rgba(255,255,255,0.55) !important;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.28),
+    0 0 0 5px rgba(255,255,255,0.08);
+  object-fit: cover;
+  transition: 0.25s ease;
+}
+
+.profile img:hover,
+.user-profile img:hover,
+.profile-avatar:hover,
+#profilePhoto:hover,
+#userPhoto:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.35),
+    0 0 0 6px rgba(255,154,0,0.18);
+}
+
+/* Nom et numéro dans l'entête profil */
+.profile-name,
+.user-name,
+#profileName,
+#userName {
+  color: white !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.2px;
+}
+
+.profile-phone,
+.user-phone,
+#profilePhone,
+#userPhone {
+  color: rgba(255,255,255,0.68) !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+}
+
+/* Menu profil principal */
+.profile-menu,
+.user-menu,
+#profileMenu,
+#userMenu {
+  position: absolute !important;
+  top: calc(100% + 12px) !important;
+  right: 0 !important;
+  width: 260px !important;
+  max-width: calc(100vw - 24px) !important;
+  padding: 12px !important;
+  border-radius: 24px !important;
+  background:
+    linear-gradient(145deg, rgba(28,28,28,0.96), rgba(55,55,55,0.88)) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  box-shadow:
+    0 25px 65px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 99999 !important;
+  overflow: hidden;
+
+  /* animation fermée par défaut */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.96);
+  transform-origin: top right;
+  pointer-events: none;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0.22s ease;
+}
+
+/* Quand le menu est ouvert */
+.profile-menu.show,
+.profile-menu.active,
+.profile-menu.open,
+.user-menu.show,
+.user-menu.active,
+.user-menu.open,
+#profileMenu.show,
+#profileMenu.active,
+#profileMenu.open,
+#userMenu.show,
+#userMenu.active,
+#userMenu.open {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+/* Si ton JS utilise hidden */
+.profile-menu.hidden,
+.user-menu.hidden,
+#profileMenu.hidden,
+#userMenu.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(-10px) scale(0.96) !important;
+  pointer-events: none !important;
+}
+
+/* Petite flèche en haut du menu */
+.profile-menu::before,
+.user-menu::before,
+#profileMenu::before,
+#userMenu::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 22px;
+  width: 14px;
+  height: 14px;
+  background: rgba(45,45,45,0.96);
+  transform: rotate(45deg);
+  border-left: 1px solid rgba(255,255,255,0.14);
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+
+/* Boutons/options dans le menu profil */
+.profile-menu button,
+.profile-menu a,
+.profile-menu div[onclick],
+.user-menu button,
+.user-menu a,
+.user-menu div[onclick],
+#profileMenu button,
+#profileMenu a,
+#profileMenu div[onclick],
+#userMenu button,
+#userMenu a,
+#userMenu div[onclick] {
+  width: 100% !important;
+  min-height: 44px;
+  margin: 6px 0 !important;
+  padding: 11px 12px !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  background: rgba(255,255,255,0.08) !important;
+  color: white !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  text-align: left !important;
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 8px 18px rgba(0,0,0,0.14);
+  transition: 0.22s ease;
+}
+
+/* Effet hover sur options */
+.profile-menu button:hover,
+.profile-menu a:hover,
+.profile-menu div[onclick]:hover,
+.user-menu button:hover,
+.user-menu a:hover,
+.user-menu div[onclick]:hover,
+#profileMenu button:hover,
+#profileMenu a:hover,
+#profileMenu div[onclick]:hover,
+#userMenu button:hover,
+#userMenu a:hover,
+#userMenu div[onclick]:hover {
+  background: rgba(255,154,0,0.18) !important;
+  border-color: rgba(255,154,0,0.32) !important;
+  transform: translateX(4px);
+}
+
+/* Option dangereuse : déconnexion / suppression si elle existe */
+.profile-menu .danger,
+.user-menu .danger,
+#profileMenu .danger,
+#userMenu .danger,
+.profile-menu .logout,
+.user-menu .logout,
+#profileMenu .logout,
+#userMenu .logout {
+  background: rgba(255,45,45,0.14) !important;
+  border-color: rgba(255,45,45,0.25) !important;
+}
+
+.profile-menu .danger:hover,
+.user-menu .danger:hover,
+#profileMenu .danger:hover,
+#userMenu .danger:hover,
+.profile-menu .logout:hover,
+.user-menu .logout:hover,
+#profileMenu .logout:hover,
+#userMenu .logout:hover {
+  background: rgba(255,45,45,0.24) !important;
+  border-color: rgba(255,45,45,0.38) !important;
+}
+
+/* Ligne séparatrice si présente */
+.profile-menu hr,
+.user-menu hr,
+#profileMenu hr,
+#userMenu hr {
+  border: none !important;
+  height: 1px;
+  background: rgba(255,255,255,0.12);
+  margin: 10px 0 !important;
+}
+
+/* Texte secondaire dans le menu */
+.profile-menu small,
+.user-menu small,
+#profileMenu small,
+#userMenu small {
+  color: rgba(255,255,255,0.58) !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+/* =====================================================
+   MOBILE — MENU PROFIL PLUS CONFORTABLE
+===================================================== */
+
+@media (max-width: 520px) {
+  .profile-menu,
+  .user-menu,
+  #profileMenu,
+  #userMenu {
+    position: fixed !important;
+    top: auto !important;
+    right: 12px !important;
+    left: 12px !important;
+    bottom: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+    border-radius: 28px !important;
+    padding: 14px !important;
+    transform-origin: bottom center;
+    transform: translateY(18px) scale(0.96);
+  }
+
+  .profile-menu.show,
+  .profile-menu.active,
+  .profile-menu.open,
+  .user-menu.show,
+  .user-menu.active,
+  .user-menu.open,
+  #profileMenu.show,
+  #profileMenu.active,
+  #profileMenu.open,
+  #userMenu.show,
+  #userMenu.active,
+  #userMenu.open {
+    transform: translateY(0) scale(1) !important;
+  }
+
+  .profile-menu.hidden,
+  .user-menu.hidden,
+  #profileMenu.hidden,
+  #userMenu.hidden {
+    transform: translateY(18px) scale(0.96) !important;
+  }
+
+  .profile-menu::before,
+  .user-menu::before,
+  #profileMenu::before,
+  #userMenu::before {
+    display: none;
+  }
+
+  .profile-menu button,
+  .profile-menu a,
+  .profile-menu div[onclick],
+  .user-menu button,
+  .user-menu a,
+  .user-menu div[onclick],
+  #profileMenu button,
+  #profileMenu a,
+  #profileMenu div[onclick],
+  #userMenu button,
+  #userMenu a,
+  #userMenu div[onclick] {
+    min-height: 48px;
+    border-radius: 18px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* =====================================================
+   CORRECTION ETAPE 5 — MENU PROFIL COMPATIBLE AVEC TON JS
+   Ton JS utilise uniquement : userMenu.classList.toggle("hidden")
+===================================================== */
+
+/* Etat normal du menu profil */
+#userMenu.user-menu {
+  position: fixed !important;
+  top: 82px !important;
+  right: 18px !important;
+  left: auto !important;
+  bottom: auto !important;
+
+  width: 260px !important;
+  max-width: calc(100vw - 24px) !important;
+  padding: 16px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+
+  border-radius: 24px !important;
+  background:
+    linear-gradient(145deg, rgba(18,18,18,0.96), rgba(50,50,50,0.90)) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  box-shadow:
+    0 28px 70px rgba(0,0,0,0.50),
+    inset 0 1px 0 rgba(255,255,255,0.14) !important;
+
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+
+  z-index: 99999 !important;
+  overflow: hidden !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) scale(1) !important;
+  filter: blur(0) !important;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s ease,
+    filter 0.25s ease !important;
+}
+
+/* Etat fermé : quand JS ajoute hidden */
+#userMenu.user-menu.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-12px) scale(0.96) !important;
+  filter: blur(3px) !important;
+}
+
+/* Petite flèche du menu */
+#userMenu.user-menu::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 22px;
+  width: 16px;
+  height: 16px;
+  background: rgba(24,24,24,0.96);
+  border-left: 1px solid rgba(255,255,255,0.16);
+  border-top: 1px solid rgba(255,255,255,0.16);
+  transform: rotate(45deg);
+}
+
+/* Profil dans le menu */
+#userMenu .menu-profile {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+}
+
+/* Photo profil dans le menu */
+#userMenu .menu-profile img {
+  width: 88px !important;
+  height: 88px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 3px solid #ff9a00 !important;
+  box-shadow: 0 0 18px rgba(255,154,0,0.45) !important;
+  margin-bottom: 8px !important;
+}
+
+/* Nom dans le menu */
+#userMenu .menu-profile p {
+  color: white !important;
+  font-weight: 950 !important;
+  font-size: 15px !important;
+  margin: 4px 0 0 !important;
+  text-align: center !important;
+}
+
+/* Téléphone */
+#userMenu .menu-phone {
+  color: rgba(255,255,255,0.72) !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  margin-top: 4px !important;
+}
+
+/* Statut */
+#userMenu .menu-status {
+  color: #ffb36b !important;
+  font-size: 12px !important;
+  margin-top: 5px !important;
+  font-weight: 800 !important;
+}
+
+/* Boutons du menu */
+#userMenu button {
+  width: 100% !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 11px 12px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+
+  border-radius: 15px !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06)) !important;
+
+  color: white !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.10) !important;
+
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Effet hover */
+#userMenu button:hover {
+  background:
+    linear-gradient(135deg, rgba(255,154,0,0.30), rgba(255,61,0,0.20)) !important;
+  border-color: rgba(255,180,80,0.35) !important;
+  transform: translateX(4px) !important;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  #userMenu.user-menu {
+    top: 74px !important;
+    right: 12px !important;
+    left: auto !important;
+    bottom: auto !important;
+
+    width: min(260px, calc(100vw - 24px)) !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 14px !important;
+    border-radius: 22px !important;
+
+    transform-origin: top right !important;
+  }
+
+  #userMenu.user-menu.hidden {
+    transform: translateY(-12px) scale(0.96) !important;
+  }
+
+  #userMenu.user-menu::before {
+    display: block !important;
+    right: 20px !important;
+  }
+
+  #userMenu .menu-profile img {
+    width: 76px !important;
+    height: 76px !important;
+  }
+
+  #userMenu .menu-profile p {
+    font-size: 14px !important;
+  }
+
+  #userMenu button {
+    min-height: 42px !important;
+    font-size: 12.5px !important;
+    border-radius: 14px !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<!-- 🔥 BACKGROUND DYNAMIQUE -->
+<div class="hero-wall">
+<video id="bgVideo" playsinline></video>
+<img id="bgImage">
+</div>
+
+<button id="toggleAudio" class="audio-btn">🔇</button>
+
+<div class="hero-overlay"></div>
+
+<header class="header">
+
+  <div class="logo-box">
+    <div class="logo-icon">💰</div>
+    <div class="logo-title">Ma Money</div>
+  </div>
+
+  <div class="header-right">
+
+    <!-- 🔥 ICÔNE MESSAGE AU LIEU DES CHIFFRES -->
+    <div class="message-icon" onclick="openModal('notifBox')">
+      💬
+      <div id="messageDot" class="message-dot"></div>
+    </div>
+
+    <!-- 🔥 PROFIL -->
+    <div class="profile-container" onclick="toggleMenu(event)">
+      <img id="profilePic" class="profile-pic" src="" alt="profil">
+    </div>
+
+  </div>
+
+</header>
+
+<div id="userMenu" class="user-menu hidden">
+
+<!-- 🔥 PHOTO PROFIL AGRANDIE -->
+<div class="menu-profile">
+  <img id="menuProfilePic" src="" alt="profil">
+  <p id="menuUserName"></p>
+  <span id="menuUserPhone" class="menu-phone"></span>
+  <span class="menu-status">Compte sécurisé</span>
+</div>
+
+<button onclick="changePhoto()">📸 Changer photo</button>
+<button onclick="openModal('passwordBox')">🔐 Modifier mot de passe</button>
+<button onclick="openModal('languageBox')">🌍 Langue du compte</button>
+<button onclick="openSecuritySettings()">🔐 Sécurité avancée</button>
+<button onclick="logout()">🚪 Déconnexion</button>
+
+</div>
+<main>
+<section class="dashboard-box">
+
+<!-- 💎 CARTE SOLDE STYLE 5 -->
+<div class="main-card balance-card">
+
+  <div class="balance-left">
+
+    <div class="welcome-line">
+      <h2 id="welcome"></h2>
+    </div>
+
+    <p class="balance-label">💰 Solde disponible</p>
+
+    <h1 id="solde"></h1>
+
+    <button id="toggleBalance" class="balance-toggle">
+      👁 Masquer
+    </button>
+
+  </div>
+
+  <div class="wallet-icon">
+    💼
+  </div>
+
+</div>
+
+<!-- 🔥 BOUTONS -->
+<!-- 💎 OPTIONS DASHBOARD STYLE 5 -->
+<div class="actions-grid">
+
+  <div class="action-box action-transfer" onclick="openModal('transferBox')">
+    <div class="action-icon">💸</div>
+    <span>Transfert instantané</span>
+    <small>Envoyer maintenant</small>
+  </div>
+
+  <div class="action-box action-schedule" onclick="openModal('scheduledTransferBox')">
+    <div class="action-icon">📅</div>
+    <span>Programmer un transfert</span>
+    <small>Envoyer plus tard</small>
+  </div>
+
+  <div class="action-box notif-btn action-message" onclick="openModal('notifBox')">
+    <div class="action-icon">🔔</div>
+    <span>Boîte de message</span>
+    <small>Notifications</small>
+    <div id="notifMiniBadge" class="mini-badge">0</div>
+  </div>
+
+  <div class="action-box action-qr" onclick="showQR()">
+    <div class="action-icon">📱</div>
+    <span>Mon QR</span>
+    <small>Recevoir par QR</small>
+  </div>
+
+</div>
+
+<!-- 🔥 CONTENU (INVISIBLE AU DÉBUT) -->
+
+
+</section>
+</main>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="closeBtn">✖</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="history-box" style="max-width:420px;margin:20px auto;">
+<h3 onclick="toggleHistory()" style="cursor:pointer;">
+🕒 Activités récentes
+</h3>
+
+<div id="historyContent" style="display:none;">
+<div id="historyList"></div>
+</div>
+</div>
+
+<div id="hiddenZone" style="display:none;">
+
+  <div id="languageBox" style="display:none;">
+  <div class="form-card">
+
+    <h2 class="form-title">🌍 Langue du compte</h2>
+
+    <div class="glass-box">
+      Choisis la langue que tu veux utiliser dans ton compte.
+    </div>
+
+    <div class="input-group">
+      <label>Langue</label>
+      <select id="accountLanguage" style="
+        width:100%;
+        padding:12px;
+        margin-top:10px;
+        border-radius:12px;
+        border:none;
+        font-weight:bold;
+      ">
+        <option value="fr">🇫🇷 Français</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="zh">🇨🇳 中文 Chinois</option>
+        <option value="ar">🇸🇦 العربية Arabe</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="pt">🇵🇹 Português</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="de">🇩🇪 Deutsch</option>
+      </select>
+    </div>
+
+    <button onclick="saveLanguage()" class="send-btn">
+      💾 Enregistrer la langue
+    </button>
+
+    <p id="languageMsg"></p>
+
+  </div>
+</div>
+
+<div id="securityBox" style="display:none;">
+  <div class="form-card">
+
+    <h2 class="form-title">🔐 Sécurité avancée</h2>
+
+    <div class="glass-box">
+      <strong>Protection du compte</strong><br>
+      Active une deuxième vérification pour renforcer l’accès à ton compte.
+    </div>
+
+    <button onclick="registerTrustedDevice()" class="send-btn">
+      📱 Définir cet appareil comme appareil personnel
+    </button>
+
+    <button onclick="enableBiometric()" class="send-btn">
+      🧬 Activer la sécurité biométrique
+    </button>
+
+    <button onclick="enableFirebaseAuth()" class="send-btn">
+      🔥 Activer Firebase Authentication
+    </button>
+
+    <div id="securityStatus" class="glass-box" style="margin-top:15px;"></div>
+
+  </div>
+</div>
+
+  <div id="notifBox" style="display:none;"></div>
+
+<div id="passwordBox" style="display:none;">
+<div class="form-card">
+
+<h2 class="form-title">🔐 Sécurité du compte</h2>
+
+<div class="input-group">
+<label>Ancien mot de passe</label>
+<input id="oldPass" type="password" placeholder="Entrez l'ancien mot de passe">
+</div>
+
+<div class="input-group">
+<label>Nouveau mot de passe</label>
+<input id="newPass" type="password" placeholder="Entrez le nouveau mot de passe">
+</div>
+
+<button onclick="changePassword()" class="send-btn">
+Modifier mot de passe
+</button>
+
+<p id="passMsg"></p>
+
+</div>
+</div>
+
+<div id="transferBox" style="display:none;">
+
+  <div class="form-card">
+
+    <h2 class="form-title">💸 Fiche de transfert</h2>
+
+    <div class="input-group">
+
+      <label>Numéro du destinataire</label>
+      <input id="receiver" placeholder="+223 XX XX XX XX">
+
+      <small class="field-help">
+        Clique dans le champ pour choisir un correspondant ou saisis son numéro.
+      </small>
+
+      <!-- 🔥 NOM AUTO -->
+      <div id="receiverName" style="font-size:12px;margin-top:5px;"></div>
+
+      <div id="selectedContact" class="hidden"></div>
+
+      <!-- 🔥 LISTE CONTACTS -->
+      <div id="contactsList" class="contacts-box hidden"></div>
+
+    </div>
+
+        <div class="input-group">
+          <label>Montant</label>
+          <input id="amount" type="number" placeholder="Ex: 5000">
+
+          <small class="field-help">
+            Vérifie ton solde avant de confirmer l’opération.
+          </small>
+        </div>
+
+        <div id="conversionBox" class="glass-box"></div>
+
+          <div class="input-group">
+            <label>Raison (facultatif)</label>
+            <textarea id="reason" placeholder="Ex: aide familiale, achat, remboursement..."></textarea>
+          </div>
+
+          <div id="transferSummary" class="transfer-summary"></div>
+
+          <button id="sendBtn" class="send-btn" onclick="sendMoney()">
+            💸 Confirmer l’envoi
+          </button>
+
+        <p id="message"></p>
+
+    </div>
+
+</div>
+
+
+
+<div id="scheduledTransferBox" style="display:none;">
+
+  <div class="form-card">
+
+  <h2 class="form-title">📅 Transfert programmé</h2>
+
+  <div class="input-group">
+
+      <label>Numéro du destinataire</label>
+      <input id="scheduledReceiver" placeholder="+223 XX XX XX XX">
+
+      <small class="field-help">
+        Le transfert sera exécuté automatiquement à la date prévue.
+      </small>
+
+      <div id="scheduledReceiverName" style="font-size:12px;margin-top:5px;"></div>
+
+      <div id="scheduledSelectedContact" class="hidden"></div>
+
+
+      <div id="scheduledContactsList" class="contacts-box hidden"></div>
+
+  </div>
+
+  <div class="input-group">
+
+      <label>Montant</label>
+      <input id="scheduledAmount" type="number" placeholder="Ex: 5000">
+
+      <small class="field-help">
+        La conversion du montant s’affichera automatiquement.
+      </small>
+
+  </div>
+
+  <div id="scheduledConversionBox" class="glass-box"></div>
+
+      <div class="input-group">
+
+        <label>Raison (facultatif)</label>
+        <textarea id="scheduledReason" placeholder="Ex: paiement prévu, aide, cotisation..."></textarea>
+
+      </div>
+
+  <div class="input-group">
+
+    <label>Date programmée</label>
+    <input id="scheduledDate" type="datetime-local">
+
+    <small class="field-help">
+      Choisis une date et une heure futures.
+    </small>
+
+  </div>
+<div id="scheduleSummary" class="schedule-summary"></div>
+<button id="scheduledSendBtn" class="send-btn" onclick="sendScheduledMoney()">
+Programmer le transfert
+</button>
+
+<p id="scheduledMessage"></p>
+
+</div>
+
+</div>
+
+
+</div>
+
+<audio id="notifSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  get,
+  update,
+  push,
+  remove,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+
+import {
+  getStorage,
+  ref as sRef,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBsKMDF-nX-4tM_Hh0JPozZRuY9x9sFmh4",
+    authDomain: "securite-53ada.firebaseapp.com",
+    databaseURL:"https://securite-53ada-default-rtdb.firebaseio.com/",
+    projectId: "securite-53ada",
+    storageBucket: "securite-53ada.firebasestorage.app" // ✅ TRÈS IMPORTANT
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+// ================= BACKGROUND DYNAMIQUE =================
+const video = document.getElementById("bgVideo");
+const image = document.getElementById("bgImage");
+const toggleAudioBtn = document.getElementById("toggleAudio");
+
+let isMuted = true;
+let currentIsVideo = false;
+
+// 🔊 bouton audio
+toggleAudioBtn.addEventListener("click", () => {
+isMuted = !isMuted;
+if(currentIsVideo){
+video.muted = isMuted;
+}
+toggleAudioBtn.textContent = isMuted ? "🔇" : "🔊";
+});
+
+// 🔥 fallback
+let maliMedia = [
+{type:"image", url:"https://images.unsplash.com/photo-1600172454520-134a542d7c97"},
+{type:"video", url:"https://cdn.pixabay.com/video/2018/10/09/18675-297657059_large.mp4"}
+];
+
+let index = 0;
+let currentTimeout;
+
+function switchMedia(){
+if (!maliMedia.length) return;
+
+clearTimeout(currentTimeout);
+
+const ad = maliMedia[index];
+
+// 🎬 VIDEO
+if (ad.type === "video") {
+video.src = ad.url;
+video.style.display = "block";
+image.style.display = "none";
+
+video.muted = isMuted;
+currentIsVideo = true;
+
+video.onloadedmetadata = () => {
+video.play().catch(()=>{});
+const duration = ad.duration || video.duration || 10;
+
+currentTimeout = setTimeout(() => {
+index = (index + 1) % maliMedia.length;
+switchMedia();
+}, duration * 1000);
+};
+}
+
+// 🖼 IMAGE
+else {
+image.src = ad.url;
+image.style.display = "block";
+video.style.display = "none";
+
+currentIsVideo = false;
+
+const duration = ad.duration || 10;
+
+currentTimeout = setTimeout(() => {
+index = (index + 1) % maliMedia.length;
+switchMedia();
+}, duration * 1000);
+}
+}
+
+// 🔄 restart
+function restartSlider(){
+index = 0;
+switchMedia();
+}
+
+// 🔥 démarrage
+restartSlider();
+
+// 🔥 Firebase sync
+onValue(ref(db, "ads"), snap => {
+const data = snap.val();
+if (!data) return;
+
+maliMedia = Object.values(data);
+restartSlider();
+});
+
+let currentUser = JSON.parse(localStorage.getItem("loggedUser"));
+if(!currentUser) window.location.href="index.html";
+
+/* =========================
+🔐 SECURITE AVANCEE
+========================= */
+
+function getDeviceId(){
+  let id = localStorage.getItem("cobraDeviceId");
+
+  if(!id){
+    id = "DEV-" + Date.now() + "-" + Math.random().toString(36).substring(2,10);
+    localStorage.setItem("cobraDeviceId", id);
+  }
+
+  return id;
+}
+
+function arrayBufferToBase64(buffer){
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+
+  for(let i = 0; i < bytes.byteLength; i++){
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  return btoa(binary);
+}
+
+function base64ToArrayBuffer(base64){
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+
+  for(let i = 0; i < binary.length; i++){
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return bytes.buffer;
+}
+
+async function ensureSecurityObject(){
+  const userRef = ref(db, "users/" + currentUser.phone);
+  const snap = await get(userRef);
+
+  if(!snap.exists()) return;
+
+  const user = snap.val();
+
+  if(!user.security){
+  await update(userRef, {
+    security:{
+      biometricEnabled:false,
+      firebaseAuthEnabled:false,
+      trustedDeviceId:"",
+      firebaseEmail:"",
+      biometricCredentialId:"",
+      biometricRegisteredAt:0,
+      firebaseAuthRegisteredAt:0,
+      lastSecondAuthAt:0
+    }
+  });
+}
+}
+
+await ensureSecurityObject();
+
+/* =========================
+⏱️ SESSION DOUBLE IDENTIFICATION
+========================= */
+
+// Durée pendant laquelle on ne redemande pas la 2e identification
+// 10 minutes = 10 * 60 * 1000
+const SECOND_AUTH_VALIDITY = 10 * 60 * 1000;
+
+async function requireSecondAuth(){
+
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+
+  if(!snap.exists()){
+    localStorage.removeItem("loggedUser");
+    window.location.href = "index.html";
+    return false;
+  }
+
+  const freshUser = snap.val();
+  const sec = freshUser.security || {};
+
+  const currentDevice = getDeviceId();
+  const isTrustedDevice = sec.trustedDeviceId === currentDevice;
+
+  /* 
+  ✅ Si la deuxième identification vient déjà d’être faite,
+  on ne la redemande pas dans dashboard.html
+  */
+  const lastSecondAuthAt = Number(sec.lastSecondAuthAt || 0);
+  const secondAuthStillValid =
+    lastSecondAuthAt &&
+    Date.now() - lastSecondAuthAt < SECOND_AUTH_VALIDITY;
+
+  if(secondAuthStillValid){
+    return true;
+  }
+
+  /*
+  Première connexion :
+  aucune sécurité avancée activée
+  */
+  if(!sec.biometricEnabled && !sec.firebaseAuthEnabled){
+    return true;
+  }
+
+  /*
+  Autre appareil :
+  Firebase Auth obligatoire
+  */
+  if(!isTrustedDevice){
+
+    if(!sec.firebaseAuthEnabled || !sec.firebaseEmail){
+      alert("❌ Nouvel appareil détecté. Firebase Authentication doit être activé depuis ton appareil personnel.");
+      localStorage.removeItem("loggedUser");
+      window.location.href = "index.html";
+      return false;
+    }
+
+    const firebaseOk = await verifyFirebaseAuth(sec.firebaseEmail);
+
+    if(!firebaseOk){
+      localStorage.removeItem("loggedUser");
+      window.location.href = "index.html";
+      return false;
+    }
+
+    await update(ref(db, "users/" + currentUser.phone + "/security"), {
+      lastSecondAuthAt:Date.now()
+    });
+
+    return true;
+  }
+
+  /*
+  Appareil personnel :
+  biométrie d'abord
+  */
+  if(sec.biometricEnabled){
+    const bioOk = await verifyBiometric();
+
+    if(bioOk){
+      await update(ref(db, "users/" + currentUser.phone + "/security"), {
+        lastSecondAuthAt:Date.now()
+      });
+
+      return true;
+    }
+
+    /*
+    Si biométrie échoue, on tente Firebase Auth si activé
+    */
+    if(sec.firebaseAuthEnabled && sec.firebaseEmail){
+      const firebaseOk = await verifyFirebaseAuth(sec.firebaseEmail);
+
+      if(firebaseOk){
+        await update(ref(db, "users/" + currentUser.phone + "/security"), {
+          lastSecondAuthAt:Date.now()
+        });
+
+        return true;
+      }
+    }
+
+    alert("❌ Vérification biométrique échouée");
+    localStorage.removeItem("loggedUser");
+    window.location.href = "index.html";
+    return false;
+  }
+
+  /*
+  Appareil personnel sans biométrie :
+  Firebase Auth
+  */
+  if(sec.firebaseAuthEnabled && sec.firebaseEmail){
+    const firebaseOk = await verifyFirebaseAuth(sec.firebaseEmail);
+
+    if(!firebaseOk){
+      localStorage.removeItem("loggedUser");
+      window.location.href = "index.html";
+      return false;
+    }
+
+    await update(ref(db, "users/" + currentUser.phone + "/security"), {
+      lastSecondAuthAt:Date.now()
+    });
+
+    return true;
+  }
+
+  return true;
+}
+
+async function verifyBiometric(){
+
+  if(!window.PublicKeyCredential){
+    console.log("WebAuthn non supporté");
+    return false;
+  }
+
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+
+  if(!snap.exists()){
+    return false;
+  }
+
+  const user = snap.val();
+  const sec = user.security || {};
+
+  if(!sec.biometricCredentialId){
+    console.log("Aucune clé biométrique enregistrée dans Firebase");
+    return false;
+  }
+
+  try{
+
+    const challenge = new Uint8Array(32);
+    window.crypto.getRandomValues(challenge);
+
+    let credentialId;
+
+    try{
+      credentialId = base64ToArrayBuffer(sec.biometricCredentialId);
+    }catch(e){
+      console.log("Credential ID invalide :", e);
+      return false;
+    }
+
+    await navigator.credentials.get({
+      publicKey:{
+        challenge: challenge,
+
+        // ✅ IMPORTANT : même domaine que lors de la création
+        rpId: window.location.hostname,
+
+        allowCredentials:[
+          {
+            id: credentialId,
+            type: "public-key",
+            transports:["internal"]
+          }
+        ],
+
+        userVerification: "required",
+        timeout: 60000
+      }
+    });
+
+    return true;
+
+  }catch(e){
+    console.log("Biométrie refusée ou clé introuvable :", e);
+    return false;
+  }
+}
+
+async function verifyFirebaseAuth(email){
+
+  const pass = prompt(
+    "Nouvel appareil détecté ou vérification requise.\nEntre ton mot de passe Firebase Auth"
+  );
+
+  if(!pass){
+    return false;
+  }
+
+  try{
+    await signInWithEmailAndPassword(auth, email, pass);
+    return true;
+  }catch(e){
+    console.error(e);
+    alert("❌ Firebase Authentication échoué");
+    return false;
+  }
+}
+
+const secondAuthOk = await requireSecondAuth();
+
+if(!secondAuthOk){
+  throw new Error("Vérification secondaire échouée");
+}
+
+window.openSecuritySettings = async function(){
+  openModal("securityBox");
+  await loadSecurityStatus();
+};
+
+async function loadSecurityStatus(){
+  const box = document.getElementById("securityStatus");
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+
+  if(!snap.exists()) return;
+
+  const user = snap.val();
+  const sec = user.security || {};
+
+  const currentDevice = getDeviceId();
+  const trusted = sec.trustedDeviceId === currentDevice;
+
+  box.innerHTML = `
+    📱 Appareil personnel : <strong>${trusted ? "Oui" : "Non"}</strong><br>
+    🧬 Biométrie : <strong>${sec.biometricEnabled ? "Activée" : "Non activée"}</strong><br>
+    🔥 Firebase Auth : <strong>${sec.firebaseAuthEnabled ? "Activé" : "Non activé"}</strong>
+  `;
+};
+
+window.registerTrustedDevice = async function(){
+  const pass = prompt("Entre ton mot de passe pour confirmer cet appareil");
+
+  if(!pass) return;
+
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+
+  if(!snap.exists()){
+    alert("❌ Utilisateur introuvable");
+    return;
+  }
+
+  const user = snap.val();
+
+  if(user.password !== pass){
+    alert("❌ Mot de passe incorrect");
+    return;
+  }
+
+  const deviceId = getDeviceId();
+
+  await update(ref(db, "users/" + currentUser.phone + "/security"), {
+    trustedDeviceId: deviceId
+  });
+
+  alert("✅ Cet appareil est maintenant reconnu comme ton appareil personnel");
+  loadSecurityStatus();
+};
+
+window.enableBiometric = async function(){
+
+  if(!window.PublicKeyCredential){
+    alert("❌ Ton navigateur ne supporte pas les clés d’accès / WebAuthn");
+    return;
+  }
+
+  const pass = prompt("Entre ton mot de passe Ma Money pour activer la biométrie");
+
+  if(!pass) return;
+
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+
+  if(!snap.exists()){
+    alert("❌ Utilisateur introuvable");
+    return;
+  }
+
+  const user = snap.val();
+
+  if(user.password !== pass){
+    alert("❌ Mot de passe incorrect");
+    return;
+  }
+
+  try{
+
+    const challenge = new Uint8Array(32);
+    window.crypto.getRandomValues(challenge);
+
+    const userId = new TextEncoder().encode(currentUser.phone);
+
+    const credential = await navigator.credentials.create({
+      publicKey:{
+        challenge: challenge,
+
+        // ✅ IMPORTANT : identité du site
+        rp:{
+          name: "Ma Money",
+          id: window.location.hostname
+        },
+
+        user:{
+          id: userId,
+          name: currentUser.phone,
+          displayName: currentUser.name || currentUser.phone
+        },
+
+        pubKeyCredParams:[
+          {
+            type: "public-key",
+            alg: -7
+          },
+          {
+            type: "public-key",
+            alg: -257
+          }
+        ],
+
+        // ✅ IMPORTANT : forcer clé interne du téléphone
+        authenticatorSelection:{
+          authenticatorAttachment: "platform",
+          residentKey: "required",
+          requireResidentKey: true,
+          userVerification: "required"
+        },
+
+        timeout: 60000,
+        attestation: "none"
+      }
+    });
+
+    if(!credential){
+      alert("❌ Activation annulée");
+      return;
+    }
+
+    const credentialId = arrayBufferToBase64(credential.rawId);
+
+    await update(ref(db, "users/" + currentUser.phone + "/security"), {
+      biometricEnabled: true,
+      biometricCredentialId: credentialId,
+      trustedDeviceId: getDeviceId(),
+      biometricRegisteredAt: Date.now()
+    });
+
+    alert("✅ Clé d’accès biométrique enregistrée sur ce téléphone");
+    loadSecurityStatus();
+
+  }catch(e){
+    console.error("Erreur biométrie :", e);
+
+    alert(
+      "❌ Impossible d’enregistrer la clé d’accès.\n\n" +
+      "Vérifie que :\n" +
+      "1. Ton téléphone a un verrouillage écran activé\n" +
+      "2. Chrome est à jour\n" +
+      "3. Le site est ouvert en HTTPS\n" +
+      "4. Tu n’es pas en navigation privée\n\n" +
+      "Erreur : " + e.message
+    );
+  }
+};
+
+window.enableFirebaseAuth = async function(){
+
+  const email = prompt("Entre ton email Firebase Auth");
+  if(!email) return;
+
+  const firebasePass = prompt("Crée un mot de passe Firebase Auth");
+  if(!firebasePass) return;
+
+  const accountPass = prompt("Entre ton mot de passe Ma Money pour confirmer");
+  if(!accountPass) return;
+
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+
+  if(!snap.exists()){
+    alert("❌ Utilisateur introuvable");
+    return;
+  }
+
+  const user = snap.val();
+
+  if(user.password !== accountPass){
+    alert("❌ Mot de passe Ma Money incorrect");
+    return;
+  }
+
+  try{
+
+    await createUserWithEmailAndPassword(auth, email, firebasePass);
+    
+  await update(ref(db, "users/" + currentUser.phone + "/security"), {
+    firebaseAuthEnabled:true,
+    firebaseEmail:email,
+    trustedDeviceId:getDeviceId(),
+    firebaseAuthRegisteredAt:Date.now()
+  });
+
+    alert("✅ Firebase Authentication activé avec succès");
+    loadSecurityStatus();
+
+  }catch(e){
+
+    if(e.code === "auth/email-already-in-use"){
+      await update(ref(db, "users/" + currentUser.phone + "/security"), {
+        firebaseAuthEnabled:true,
+        firebaseEmail:email,
+        firebaseAuthRegisteredAt:Date.now()
+      });
+      alert("✅ Email déjà existant, Firebase Auth lié au compte");
+      loadSecurityStatus();
+      return;
+    }
+
+    console.error(e);
+    alert("❌ Erreur Firebase Auth : " + e.message);
+  }
+};
+
+const welcome=document.getElementById("welcome");
+const soldeBox=document.getElementById("solde");
+const messageBox=document.getElementById("message");
+const profilePic = document.getElementById("profilePic");
+const menuProfilePic = document.getElementById("menuProfilePic");
+const menuUserName = document.getElementById("menuUserName");
+const menuUserPhone = document.getElementById("menuUserPhone");
+const notifBox = document.getElementById("notifBox");
+const messageDot = document.getElementById("messageDot");
+const sendBtn=document.getElementById("sendBtn");
+const receiverInput=document.getElementById("receiver");
+const amountInput=document.getElementById("amount");
+const conversionBox=document.getElementById("conversionBox");
+const transferSummary = document.getElementById("transferSummary");
+const scheduleSummary = document.getElementById("scheduleSummary");
+const translations = {
+  fr:{
+    welcome:"👋 Bienvenue ",
+    online:"● En ligne",
+
+    send:"Envoyer",
+    instantTransfer:"Transfert instantané",
+    scheduledTransferBtn:"Programmer un transfert",
+    scheduleButton:"Programmer le transfert",
+    messageBox:"Boîte de message",
+    myQr:"Mon QR",
+    valid:"VALID",
+    scanToPay:"Scanne pour payer",
+
+    balance:"💰 Solde disponible",
+    hide:"👁 Masquer",
+    show:"👁 Afficher",
+
+    changePhoto:"📸 Changer photo",
+    changePasswordMenu:"🔐 Modifier mot de passe",
+    accountLanguageMenu:"🌍 Langue du compte",
+    advancedSecurityMenu:"🔐 Sécurité avancée",
+    logout:"🚪 Déconnexion",
+
+    languageTitle:"🌍 Langue du compte",
+    languageDescription:"Choisis la langue que tu veux utiliser dans ton compte.",
+    languageLabel:"Langue",
+    saveLanguage:"💾 Enregistrer la langue",
+    languageSaved:"✅ Langue enregistrée avec succès",
+    chooseLanguage:"❌ Choisis une langue",
+
+    securityTitle:"🔐 Sécurité avancée",
+    securityDescription:"Protection du compte<br>Active une deuxième vérification pour renforcer l’accès à ton compte.",
+    trustedDevice:"📱 Définir cet appareil comme appareil personnel",
+    enableBiometric:"🧬 Activer la sécurité biométrique",
+    enableFirebaseAuth:"🔥 Activer Firebase Authentication",
+
+    passwordTitle:"🔐 Sécurité du compte",
+    oldPassword:"Ancien mot de passe",
+    newPassword:"Nouveau mot de passe",
+    changePasswordBtn:"Modifier mot de passe",
+
+    transferTitle:"💸 Fiche d’envoi",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 Rechercher...",
+    amountLabel:"Numéro du destinateur",
+    amountPlaceholder:"Ex: 5000",
+    reasonLabel:"Montant",
+    scheduleDateLabel:"Raison (facultatif)",
+
+    recentActivities:"🕒 Activités récentes",
+    processing:"⏳ Traitement...",
+    invalidData:"❌ Données invalides",
+    accountNotFound:"❌ Compte introuvable",
+    frozenAccount:"❌ Compte gelé",
+    frozenReceiver:"❌ Destinataire gelé",
+    rateError:"❌ Impossible de récupérer le taux",
+    insufficientBalance:"❌ Solde insuffisant (fonds bloqués)",
+    scheduledTransfer:"📅 Transfert programmé",
+    transferSuccess:"✅ Transfert réussi",
+wrongPassword:"❌ Mot de passe incorrect",
+enterPassword:"Entrez votre mot de passe",
+
+moneySent:"📤 Argent envoyé",
+moneyReceived:"💰 Argent reçu",
+moneyRefundReceived:"💸 Remboursement reçu",
+moneySentScheduled:"📤 Argent envoyé (programmé)",
+moneyReceivedScheduled:"💰 Argent reçu (programmé)",
+claim:"🚨 Réclamation",
+delete:"🗑 Supprimer",
+claimSent:"✅ Réclamation envoyée",
+claimAlreadySent:"⚠ Réclamation déjà envoyée !",
+transactionNotFound:"Transaction introuvable",
+firebaseAuthFailed:"❌ Firebase Authentication échoué",
+newDeviceFirebasePrompt:"Nouvel appareil détecté ou vérification requise.\nEntre ton mot de passe Firebase Auth",
+confirmDevicePrompt:"Entre ton mot de passe pour confirmer cet appareil",
+confirmBiometricPrompt:"Entre ton mot de passe Ma Money pour activer la biométrie",
+firebaseEmailPrompt:"Entre ton email Firebase Auth",
+firebasePasswordPrompt:"Crée un mot de passe Firebase Auth",
+confirmAccountPrompt:"Entre ton mot de passe Ma Money pour confirmer",
+deviceRecognized:"✅ Cet appareil est maintenant reconnu comme ton appareil personnel",
+biometricSaved:"✅ Clé d’accès biométrique enregistrée sur ce téléphone",
+firebaseAuthEnabled:"✅ Firebase Authentication activé avec succès",
+firebaseEmailLinked:"✅ Email déjà existant, Firebase Auth lié au compte",
+yes:"Oui",
+no:"Non",
+enabled:"Activée",
+notEnabled:"Non activée",
+active:"Activé",
+notActive:"Non activé",
+personalDeviceStatus:"📱 Appareil personnel",
+biometricStatus:"🧬 Biométrie",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 Destinataire recevra",
+unknownCountry:"Inconnu",
+
+fillAllFields:"❌ Remplis tous les champs",
+userNotFound:"❌ Utilisateur introuvable",
+    oldPasswordWrong:"❌ Ancien mot de passe incorrect",
+    passwordChanged:"✅ Mot de passe modifié avec succès"
+  },
+
+  en:{
+    welcome:"👋 Welcome ",
+    online:"● Online",
+
+    send:"Send",
+    notifications:"Notifications",
+    myQr:"My QR",
+    valid:"VALID",
+    scanToPay:"Scan to pay",
+
+    balance:"💰 Available balance",
+    hide:"👁 Hide",
+    show:"👁 Show",
+
+    changePhoto:"📸 Change photo",
+    changePasswordMenu:"🔐 Change password",
+    accountLanguageMenu:"🌍 Account language",
+    advancedSecurityMenu:"🔐 Advanced security",
+    logout:"🚪 Logout",
+
+    languageTitle:"🌍 Account language",
+    languageDescription:"Choose the language you want to use in your account.",
+    languageLabel:"Language",
+    saveLanguage:"💾 Save language",
+    languageSaved:"✅ Language saved successfully",
+    chooseLanguage:"❌ Choose a language",
+
+    securityTitle:"🔐 Advanced security",
+    securityDescription:"Account protection<br>Enable a second verification to strengthen access to your account.",
+    trustedDevice:"📱 Set this device as personal device",
+    enableBiometric:"🧬 Enable biometric security",
+    enableFirebaseAuth:"🔥 Enable Firebase Authentication",
+
+    passwordTitle:"🔐 Account security",
+    oldPassword:"Old password",
+    newPassword:"New password",
+    changePasswordBtn:"Change password",
+
+    transferTitle:"💸 Send form",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 Search...",
+    amountLabel:"Amount",
+    amountPlaceholder:"Ex: 5000",
+    reasonLabel:"Reason (optional)",
+    scheduleDateLabel:"Scheduled date",
+
+    recentActivities:"🕒 Recent activities",
+    processing:"⏳Processing...",
+    invalidData:"❌Invalid data",
+    accountNotFound:"❌Account not found",
+    frozenAccount:"❌Account frozen",
+    frozenReceiver:"❌Receiver frozen",
+    rateError:"❌Unable to get exchange rate",
+    insufficientBalance:"❌Insufficient balance (blocked funds)",
+    scheduledTransfer:"📅Scheduled transfer",
+    transferSuccess:"✅Transfer successful",
+wrongPassword:"❌ Wrong password",
+enterPassword:"Enter your password",
+
+moneySent:"📤 Money sent",
+moneyReceived:"💰 Money received",
+moneyRefundReceived:"💸 Refund received",
+moneySentScheduled:"📤 Money sent (scheduled)",
+moneyReceivedScheduled:"💰 Money received (scheduled)",
+claim:"🚨 Claim",
+delete:"🗑 Delete",
+claimSent:"✅ Claim sent",
+claimAlreadySent:"⚠ Claim already sent!",
+transactionNotFound:"Transaction not found",
+firebaseAuthFailed:"❌ Firebase Authentication failed",
+newDeviceFirebasePrompt:"New device detected or verification required.\nEnter your Firebase Auth password",
+confirmDevicePrompt:"Enter your password to confirm this device",
+confirmBiometricPrompt:"Enter your Ma Money password to enable biometrics",
+firebaseEmailPrompt:"Enter your Firebase Auth email",
+firebasePasswordPrompt:"Create a Firebase Auth password",
+confirmAccountPrompt:"Enter your Ma Money password to confirm",
+deviceRecognized:"✅ This device is now recognized as your personal device",
+biometricSaved:"✅ Biometric passkey saved on this phone",
+firebaseAuthEnabled:"✅ Firebase Authentication enabled successfully",
+firebaseEmailLinked:"✅ Email already exists, Firebase Auth linked to account",
+yes:"Yes",
+no:"No",
+enabled:"Enabled",
+notEnabled:"Not enabled",
+active:"Active",
+notActive:"Not active",
+personalDeviceStatus:"📱 Personal device",
+biometricStatus:"🧬 Biometrics",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 Receiver will receive",
+unknownCountry:"Unknown",
+
+fillAllFields:"❌ Fill in all fields",
+userNotFound:"❌ User not found",
+    oldPasswordWrong:"❌ Old password incorrect",
+    passwordChanged:"✅ Password changed successfully"
+  },
+
+  zh:{
+    welcome:"👋 欢迎 ",
+    online:"● 在线",
+
+    send:"发送",
+    notifications:"通知",
+    myQr:"我的二维码",
+    valid:"有效",
+    scanToPay:"扫码付款",
+
+    balance:"💰 可用余额",
+    hide:"👁 隐藏",
+    show:"👁 显示",
+
+    changePhoto:"📸 更换照片",
+    changePasswordMenu:"🔐 修改密码",
+    accountLanguageMenu:"🌍 账户语言",
+    advancedSecurityMenu:"🔐 高级安全",
+    logout:"🚪 退出登录",
+
+    languageTitle:"🌍 账户语言",
+    languageDescription:"选择你想在账户中使用的语言。",
+    languageLabel:"语言",
+    saveLanguage:"💾 保存语言",
+    languageSaved:"✅ 语言保存成功",
+    chooseLanguage:"❌ 请选择语言",
+
+    securityTitle:"🔐 高级安全",
+    securityDescription:"账户保护<br>启用第二次验证以加强账户安全。",
+    trustedDevice:"📱 将此设备设为个人设备",
+    enableBiometric:"🧬 启用生物识别安全",
+    enableFirebaseAuth:"🔥 启用 Firebase 身份验证",
+
+    passwordTitle:"🔐 账户安全",
+    oldPassword:"旧密码",
+    newPassword:"新密码",
+    changePasswordBtn:"修改密码",
+
+    transferTitle:"💸 转账表单",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 搜索...",
+    amountLabel:"金额",
+    amountPlaceholder:"例如：5000",
+    reasonLabel:"原因（可选）",
+    scheduleDateLabel:"预约日期",
+
+    recentActivities:"🕒 最近活动",
+    processing:"⏳处理中...",
+    invalidData:"❌数据无效",
+    accountNotFound:"❌账户未找到",
+    frozenAccount:"❌账户被冻结",
+    frozenReceiver:"❌收款人被冻结",
+    rateError:"❌无法获取汇率",
+    insufficientBalance:"❌余额不足（冻结资金）",
+    scheduledTransfer:"📅转账已预约",
+    transferSuccess:"✅转账成功",
+wrongPassword:"❌ 密码错误",
+enterPassword:"请输入密码",
+
+moneySent:"📤 已发送金额",
+moneyReceived:"💰 已收到金额",
+moneyRefundReceived:"💸 已收到退款",
+moneySentScheduled:"📤 已发送金额（预约）",
+moneyReceivedScheduled:"💰 已收到金额（预约）",
+claim:"🚨 投诉",
+delete:"🗑 删除",
+claimSent:"✅ 投诉已发送",
+claimAlreadySent:"⚠ 投诉已发送！",
+transactionNotFound:"交易未找到",
+firebaseAuthFailed:"❌ Firebase 身份验证失败",
+newDeviceFirebasePrompt:"检测到新设备或需要验证。\n请输入 Firebase Auth 密码",
+confirmDevicePrompt:"输入密码以确认此设备",
+confirmBiometricPrompt:"输入 Ma Money 密码以启用生物识别",
+firebaseEmailPrompt:"输入 Firebase Auth 邮箱",
+firebasePasswordPrompt:"创建 Firebase Auth 密码",
+confirmAccountPrompt:"输入 Ma Money 密码进行确认",
+deviceRecognized:"✅ 此设备已被识别为你的个人设备",
+biometricSaved:"✅ 生物识别密钥已保存在此手机上",
+firebaseAuthEnabled:"✅ Firebase Authentication 已成功启用",
+firebaseEmailLinked:"✅ 邮箱已存在，Firebase Auth 已关联到账户",
+yes:"是",
+no:"否",
+enabled:"已启用",
+notEnabled:"未启用",
+active:"已启用",
+notActive:"未启用",
+personalDeviceStatus:"📱 个人设备",
+biometricStatus:"🧬 生物识别",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 收款人将收到",
+unknownCountry:"未知",
+
+fillAllFields:"❌ 请填写所有字段",
+userNotFound:"❌ 用户未找到",
+    oldPasswordWrong:"❌ 旧密码错误",
+    passwordChanged:"✅ 密码修改成功"
+  },
+
+  ar:{
+    welcome:"👋 مرحباً ",
+    online:"● متصل",
+
+    send:"إرسال",
+    notifications:"الإشعارات",
+    myQr:"رمز QR الخاص بي",
+    valid:"صالح",
+    scanToPay:"امسح للدفع",
+
+    balance:"💰 الرصيد المتاح",
+    hide:"👁 إخفاء",
+    show:"👁 إظهار",
+
+    changePhoto:"📸 تغيير الصورة",
+    changePasswordMenu:"🔐 تغيير كلمة المرور",
+    accountLanguageMenu:"🌍 لغة الحساب",
+    advancedSecurityMenu:"🔐 الأمان المتقدم",
+    logout:"🚪 تسجيل الخروج",
+
+    languageTitle:"🌍 لغة الحساب",
+    languageDescription:"اختر اللغة التي تريد استخدامها في حسابك.",
+    languageLabel:"اللغة",
+    saveLanguage:"💾 حفظ اللغة",
+    languageSaved:"✅ تم حفظ اللغة بنجاح",
+    chooseLanguage:"❌ اختر لغة",
+
+    securityTitle:"🔐 الأمان المتقدم",
+    securityDescription:"حماية الحساب<br>فعّل تحققاً ثانياً لتعزيز أمان حسابك.",
+    trustedDevice:"📱 تعيين هذا الجهاز كجهاز شخصي",
+    enableBiometric:"🧬 تفعيل الأمان البيومتري",
+    enableFirebaseAuth:"🔥 تفعيل Firebase Authentication",
+
+    passwordTitle:"🔐 أمان الحساب",
+    oldPassword:"كلمة المرور القديمة",
+    newPassword:"كلمة المرور الجديدة",
+    changePasswordBtn:"تغيير كلمة المرور",
+
+    transferTitle:"💸 نموذج الإرسال",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 بحث...",
+    amountLabel:"المبلغ",
+    amountPlaceholder:"مثال: 5000",
+    reasonLabel:"السبب (اختياري)",
+    scheduleDateLabel:"التاريخ المجدول",
+
+    recentActivities:"🕒 الأنشطة الأخيرة",
+    processing:"⏳جارٍ المعالجة...",
+    invalidData:"❌بيانات غير صحيحة",
+    accountNotFound:"❌الحساب غير موجود",
+    frozenAccount:"❌الحساب مجمد",
+    frozenReceiver:"❌المستلم مجمد",
+    rateError:"❌تعذر الحصول على سعر الصرف",
+    insufficientBalance:"❌الرصيد غير كافٍ (أموال محجوزة)",
+    scheduledTransfer:"📅تمت جدولة التحويل",
+    transferSuccess:"✅تم التحويل بنجاح",
+wrongPassword:"❌ كلمة المرور غير صحيحة",
+enterPassword:"أدخل كلمة المرور",
+
+moneySent:"📤 تم إرسال المال",
+moneyReceived:"💰 تم استلام المال",
+moneyRefundReceived:"💸 تم استلام الاسترداد",
+moneySentScheduled:"📤 تم إرسال المال (مجدول)",
+moneyReceivedScheduled:"💰 تم استلام المال (مجدول)",
+claim:"🚨 شكوى",
+delete:"🗑 حذف",
+claimSent:"✅ تم إرسال الشكوى",
+claimAlreadySent:"⚠ تم إرسال الشكوى من قبل!",
+transactionNotFound:"المعاملة غير موجودة",
+firebaseAuthFailed:"❌ فشل Firebase Authentication",
+newDeviceFirebasePrompt:"تم اكتشاف جهاز جديد أو يلزم التحقق.\nأدخل كلمة مرور Firebase Auth",
+confirmDevicePrompt:"أدخل كلمة المرور لتأكيد هذا الجهاز",
+confirmBiometricPrompt:"أدخل كلمة مرور Ma Money لتفعيل البصمة",
+firebaseEmailPrompt:"أدخل بريد Firebase Auth الإلكتروني",
+firebasePasswordPrompt:"أنشئ كلمة مرور Firebase Auth",
+confirmAccountPrompt:"أدخل كلمة مرور Ma Money للتأكيد",
+deviceRecognized:"✅ تم التعرف على هذا الجهاز كجهازك الشخصي",
+biometricSaved:"✅ تم حفظ مفتاح البصمة على هذا الهاتف",
+firebaseAuthEnabled:"✅ تم تفعيل Firebase Authentication بنجاح",
+firebaseEmailLinked:"✅ البريد موجود بالفعل، تم ربط Firebase Auth بالحساب",
+yes:"نعم",
+no:"لا",
+enabled:"مفعلة",
+notEnabled:"غير مفعلة",
+active:"مفعل",
+notActive:"غير مفعل",
+personalDeviceStatus:"📱 الجهاز الشخصي",
+biometricStatus:"🧬 البصمة",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 سيستلم المستلم",
+unknownCountry:"غير معروف",
+
+fillAllFields:"❌ املأ جميع الحقول",
+userNotFound:"❌ المستخدم غير موجود",
+    oldPasswordWrong:"❌ كلمة المرور القديمة غير صحيحة",
+    passwordChanged:"✅ تم تغيير كلمة المرور بنجاح"
+  },
+
+  es:{
+    welcome:"👋 Bienvenido ",
+    online:"● En línea",
+
+    send:"Enviar",
+    notifications:"Notificaciones",
+    myQr:"Mi QR",
+    valid:"VÁLIDO",
+    scanToPay:"Escanear para pagar",
+
+    balance:"💰 Saldo disponible",
+    hide:"👁 Ocultar",
+    show:"👁 Mostrar",
+
+    changePhoto:"📸 Cambiar foto",
+    changePasswordMenu:"🔐 Cambiar contraseña",
+    accountLanguageMenu:"🌍 Idioma de la cuenta",
+    advancedSecurityMenu:"🔐 Seguridad avanzada",
+    logout:"🚪 Cerrar sesión",
+
+    languageTitle:"🌍 Idioma de la cuenta",
+    languageDescription:"Elige el idioma que quieres usar en tu cuenta.",
+    languageLabel:"Idioma",
+    saveLanguage:"💾 Guardar idioma",
+    languageSaved:"✅ Idioma guardado correctamente",
+    chooseLanguage:"❌ Elige un idioma",
+
+    securityTitle:"🔐 Seguridad avanzada",
+    securityDescription:"Protección de la cuenta<br>Activa una segunda verificación para reforzar el acceso a tu cuenta.",
+    trustedDevice:"📱 Definir este dispositivo como personal",
+    enableBiometric:"🧬 Activar seguridad biométrica",
+    enableFirebaseAuth:"🔥 Activar Firebase Authentication",
+
+    passwordTitle:"🔐 Seguridad de la cuenta",
+    oldPassword:"Contraseña anterior",
+    newPassword:"Nueva contraseña",
+    changePasswordBtn:"Cambiar contraseña",
+
+    transferTitle:"💸 Formulario de envío",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 Buscar...",
+    amountLabel:"Monto",
+    amountPlaceholder:"Ej: 5000",
+    reasonLabel:"Motivo (opcional)",
+    scheduleDateLabel:"Fecha programada",
+
+    recentActivities:"🕒 Actividades recientes",
+    processing:"⏳Procesando...",
+    invalidData:"❌Datos inválidos",
+    accountNotFound:"❌Cuenta no encontrada",
+    frozenAccount:"❌Cuenta congelada",
+    frozenReceiver:"❌Destinatario congelado",
+    rateError:"❌No se pudo obtener la tasa",
+    insufficientBalance:"❌Saldo insuficiente (fondos bloqueados)",
+    scheduledTransfer:"📅Transferencia programada",
+    transferSuccess:"✅Transferencia exitosa",
+wrongPassword:"❌ Contraseña incorrecta",
+enterPassword:"Introduce tu contraseña",
+
+moneySent:"📤 Dinero enviado",
+moneyReceived:"💰 Dinero recibido",
+moneyRefundReceived:"💸 Reembolso recibido",
+moneySentScheduled:"📤 Dinero enviado (programado)",
+moneyReceivedScheduled:"💰 Dinero recibido (programado)",
+claim:"🚨 Reclamación",
+delete:"🗑 Eliminar",
+claimSent:"✅ Reclamación enviada",
+claimAlreadySent:"⚠ ¡Reclamación ya enviada!",
+transactionNotFound:"Transacción no encontrada",
+firebaseAuthFailed:"❌ Firebase Authentication falló",
+newDeviceFirebasePrompt:"Nuevo dispositivo detectado o verificación requerida.\nIntroduce tu contraseña de Firebase Auth",
+confirmDevicePrompt:"Introduce tu contraseña para confirmar este dispositivo",
+confirmBiometricPrompt:"Introduce tu contraseña de Ma Money para activar la biometría",
+firebaseEmailPrompt:"Introduce tu email de Firebase Auth",
+firebasePasswordPrompt:"Crea una contraseña de Firebase Auth",
+confirmAccountPrompt:"Introduce tu contraseña de Ma Money para confirmar",
+deviceRecognized:"✅ Este dispositivo ahora se reconoce como tu dispositivo personal",
+biometricSaved:"✅ Clave biométrica guardada en este teléfono",
+firebaseAuthEnabled:"✅ Firebase Authentication activado con éxito",
+firebaseEmailLinked:"✅ Email ya existente, Firebase Auth vinculado a la cuenta",
+yes:"Sí",
+no:"No",
+enabled:"Activada",
+notEnabled:"No activada",
+active:"Activado",
+notActive:"No activado",
+personalDeviceStatus:"📱 Dispositivo personal",
+biometricStatus:"🧬 Biometría",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 El destinatario recibirá",
+unknownCountry:"Desconocido",
+
+fillAllFields:"❌ Completa todos los campos",
+userNotFound:"❌ Usuario no encontrado",
+    oldPasswordWrong:"❌ Contraseña anterior incorrecta",
+    passwordChanged:"✅ Contraseña modificada correctamente"
+  },
+
+  pt:{
+    welcome:"👋 Bem-vindo ",
+    online:"● Online",
+
+    send:"Enviar",
+    notifications:"Notificações",
+    myQr:"Meu QR",
+    valid:"VÁLIDO",
+    scanToPay:"Escanear para pagar",
+
+    balance:"💰 Saldo disponível",
+    hide:"👁 Ocultar",
+    show:"👁 Mostrar",
+
+    changePhoto:"📸 Alterar foto",
+    changePasswordMenu:"🔐 Alterar senha",
+    accountLanguageMenu:"🌍 Idioma da conta",
+    advancedSecurityMenu:"🔐 Segurança avançada",
+    logout:"🚪 Sair",
+
+    languageTitle:"🌍 Idioma da conta",
+    languageDescription:"Escolha o idioma que deseja usar na sua conta.",
+    languageLabel:"Idioma",
+    saveLanguage:"💾 Salvar idioma",
+    languageSaved:"✅ Idioma salvo com sucesso",
+    chooseLanguage:"❌ Escolha um idioma",
+
+    securityTitle:"🔐 Segurança avançada",
+    securityDescription:"Proteção da conta<br>Ative uma segunda verificação para reforçar o acesso à sua conta.",
+    trustedDevice:"📱 Definir este dispositivo como pessoal",
+    enableBiometric:"🧬 Ativar segurança biométrica",
+    enableFirebaseAuth:"🔥 Ativar Firebase Authentication",
+
+    passwordTitle:"🔐 Segurança da conta",
+    oldPassword:"Senha antiga",
+    newPassword:"Nova senha",
+    changePasswordBtn:"Alterar senha",
+
+    transferTitle:"💸 Formulário de envio",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 Pesquisar...",
+    amountLabel:"Valor",
+    amountPlaceholder:"Ex: 5000",
+    reasonLabel:"Motivo (opcional)",
+    scheduleDateLabel:"Data programada",
+
+    recentActivities:"🕒 Atividades recentes",
+    processing:"⏳Processando...",
+    invalidData:"❌Dados inválidos",
+    accountNotFound:"❌Conta não encontrada",
+    frozenAccount:"❌Conta congelada",
+    frozenReceiver:"❌Destinatário congelado",
+    rateError:"❌Não foi possível obter a taxa",
+    insufficientBalance:"❌Saldo insuficiente (fundos bloqueados)",
+    scheduledTransfer:"📅Transferência programada",
+    transferSuccess:"✅Transferência realizada",
+wrongPassword:"❌ Senha incorreta",
+enterPassword:"Digite sua senha",
+
+moneySent:"📤 Dinheiro enviado",
+moneyReceived:"💰 Dinheiro recebido",
+moneyRefundReceived:"💸 Reembolso recebido",
+moneySentScheduled:"📤 Dinheiro enviado (programado)",
+moneyReceivedScheduled:"💰 Dinheiro recebido (programado)",
+claim:"🚨 Reclamação",
+delete:"🗑 Excluir",
+claimSent:"✅ Reclamação enviada",
+claimAlreadySent:"⚠ Reclamação já enviada!",
+transactionNotFound:"Transação não encontrada",
+firebaseAuthFailed:"❌ Firebase Authentication falhou",
+newDeviceFirebasePrompt:"Novo dispositivo detectado ou verificação necessária.\nDigite sua senha do Firebase Auth",
+confirmDevicePrompt:"Digite sua senha para confirmar este dispositivo",
+confirmBiometricPrompt:"Digite sua senha Ma Money para ativar a biometria",
+firebaseEmailPrompt:"Digite seu email Firebase Auth",
+firebasePasswordPrompt:"Crie uma senha Firebase Auth",
+confirmAccountPrompt:"Digite sua senha Ma Money para confirmar",
+deviceRecognized:"✅ Este dispositivo agora é reconhecido como seu dispositivo pessoal",
+biometricSaved:"✅ Chave biométrica salva neste telefone",
+firebaseAuthEnabled:"✅ Firebase Authentication ativado com sucesso",
+firebaseEmailLinked:"✅ Email já existente, Firebase Auth vinculado à conta",
+yes:"Sim",
+no:"Não",
+enabled:"Ativada",
+notEnabled:"Não ativada",
+active:"Ativado",
+notActive:"Não ativado",
+personalDeviceStatus:"📱 Dispositivo pessoal",
+biometricStatus:"🧬 Biometria",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 O destinatário receberá",
+unknownCountry:"Desconhecido",
+
+fillAllFields:"❌ Preencha todos os campos",
+userNotFound:"❌ Usuário não encontrado",
+    oldPasswordWrong:"❌ Senha antiga incorreta",
+    passwordChanged:"✅ Senha alterada com sucesso"
+  },
+
+  ru:{
+    welcome:"👋 Добро пожаловать ",
+    online:"● Онлайн",
+
+    send:"Отправить",
+    notifications:"Уведомления",
+    myQr:"Мой QR",
+    valid:"ДЕЙСТВИТЕЛЬНО",
+    scanToPay:"Сканируйте для оплаты",
+
+    balance:"💰 Доступный баланс",
+    hide:"👁 Скрыть",
+    show:"👁 Показать",
+
+    changePhoto:"📸 Изменить фото",
+    changePasswordMenu:"🔐 Изменить пароль",
+    accountLanguageMenu:"🌍 Язык аккаунта",
+    advancedSecurityMenu:"🔐 Расширенная безопасность",
+    logout:"🚪 Выйти",
+
+    languageTitle:"🌍 Язык аккаунта",
+    languageDescription:"Выберите язык, который хотите использовать в аккаунте.",
+    languageLabel:"Язык",
+    saveLanguage:"💾 Сохранить язык",
+    languageSaved:"✅ Язык успешно сохранён",
+    chooseLanguage:"❌ Выберите язык",
+
+    securityTitle:"🔐 Расширенная безопасность",
+    securityDescription:"Защита аккаунта<br>Включите вторую проверку для усиления доступа к аккаунту.",
+    trustedDevice:"📱 Сделать это устройство личным",
+    enableBiometric:"🧬 Включить биометрию",
+    enableFirebaseAuth:"🔥 Включить Firebase Authentication",
+
+    passwordTitle:"🔐 Безопасность аккаунта",
+    oldPassword:"Старый пароль",
+    newPassword:"Новый пароль",
+    changePasswordBtn:"Изменить пароль",
+
+    transferTitle:"💸 Форма отправки",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 Поиск...",
+    amountLabel:"Сумма",
+    amountPlaceholder:"Напр: 5000",
+    reasonLabel:"Причина (необязательно)",
+    scheduleDateLabel:"Запланированная дата",
+
+    recentActivities:"🕒 Последние действия",
+    processing:"⏳Обработка...",
+    invalidData:"❌Неверные данные",
+    accountNotFound:"❌Аккаунт не найден",
+    frozenAccount:"❌Аккаунт заморожен",
+    frozenReceiver:"❌Получатель заморожен",
+    rateError:"❌Не удалось получить курс",
+    insufficientBalance:"❌Недостаточно средств (заблокированные средства)",
+    scheduledTransfer:"📅Перевод запланирован",
+    transferSuccess:"✅Перевод успешен",
+wrongPassword:"❌ Неверный пароль",
+enterPassword:"Введите пароль",
+
+moneySent:"📤 Деньги отправлены",
+moneyReceived:"💰 Деньги получены",
+moneyRefundReceived:"💸 Возврат получен",
+moneySentScheduled:"📤 Деньги отправлены (запланировано)",
+moneyReceivedScheduled:"💰 Деньги получены (запланировано)",
+claim:"🚨 Жалоба",
+delete:"🗑 Удалить",
+claimSent:"✅ Жалоба отправлена",
+claimAlreadySent:"⚠ Жалоба уже отправлена!",
+transactionNotFound:"Транзакция не найдена",
+firebaseAuthFailed:"❌ Firebase Authentication не удалась",
+newDeviceFirebasePrompt:"Обнаружено новое устройство или требуется проверка.\nВведите пароль Firebase Auth",
+confirmDevicePrompt:"Введите пароль, чтобы подтвердить это устройство",
+confirmBiometricPrompt:"Введите пароль Ma Money, чтобы включить биометрию",
+firebaseEmailPrompt:"Введите email Firebase Auth",
+firebasePasswordPrompt:"Создайте пароль Firebase Auth",
+confirmAccountPrompt:"Введите пароль Ma Money для подтверждения",
+deviceRecognized:"✅ Это устройство теперь распознано как ваше личное устройство",
+biometricSaved:"✅ Биометрический ключ сохранён на этом телефоне",
+firebaseAuthEnabled:"✅ Firebase Authentication успешно включён",
+firebaseEmailLinked:"✅ Email уже существует, Firebase Auth привязан к аккаунту",
+yes:"Да",
+no:"Нет",
+enabled:"Включена",
+notEnabled:"Не включена",
+active:"Активен",
+notActive:"Не активен",
+personalDeviceStatus:"📱 Личное устройство",
+biometricStatus:"🧬 Биометрия",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 Получатель получит",
+unknownCountry:"Неизвестно",
+
+fillAllFields:"❌ Заполните все поля",
+userNotFound:"❌ Пользователь не найден",
+    oldPasswordWrong:"❌ Старый пароль неверен",
+    passwordChanged:"✅ Пароль успешно изменён"
+  },
+
+  de:{
+    welcome:"👋 Willkommen ",
+    online:"● Online",
+
+    send:"Senden",
+    notifications:"Benachrichtigungen",
+    myQr:"Mein QR",
+    valid:"GÜLTIG",
+    scanToPay:"Zum Bezahlen scannen",
+
+    balance:"💰 Verfügbares Guthaben",
+    hide:"👁 Ausblenden",
+    show:"👁 Anzeigen",
+
+    changePhoto:"📸 Foto ändern",
+    changePasswordMenu:"🔐 Passwort ändern",
+    accountLanguageMenu:"🌍 Kontosprache",
+    advancedSecurityMenu:"🔐 Erweiterte Sicherheit",
+    logout:"🚪 Abmelden",
+
+    languageTitle:"🌍 Kontosprache",
+    languageDescription:"Wähle die Sprache, die du in deinem Konto verwenden möchtest.",
+    languageLabel:"Sprache",
+    saveLanguage:"💾 Sprache speichern",
+    languageSaved:"✅ Sprache erfolgreich gespeichert",
+    chooseLanguage:"❌ Wähle eine Sprache",
+
+    securityTitle:"🔐 Erweiterte Sicherheit",
+    securityDescription:"Kontoschutz<br>Aktiviere eine zweite Überprüfung, um den Zugriff auf dein Konto zu stärken.",
+    trustedDevice:"📱 Dieses Gerät als persönliches Gerät festlegen",
+    enableBiometric:"🧬 Biometrische Sicherheit aktivieren",
+    enableFirebaseAuth:"🔥 Firebase Authentication aktivieren",
+
+    passwordTitle:"🔐 Kontosicherheit",
+    oldPassword:"Altes Passwort",
+    newPassword:"Neues Passwort",
+    changePasswordBtn:"Passwort ändern",
+
+    transferTitle:"💸 Sendeformular",
+    receiverPlaceholder:"+223 XX XX XX XX",
+    searchPlaceholder:"🔍 Suchen...",
+    amountLabel:"Betrag",
+    amountPlaceholder:"Bsp: 5000",
+    reasonLabel:"Grund (optional)",
+    scheduleDateLabel:"Geplantes Datum",
+
+    recentActivities:"🕒 Letzte Aktivitäten",
+    processing:"⏳Verarbeitung...",
+    invalidData:"❌Ungültige Daten",
+    accountNotFound:"❌Konto nicht gefunden",
+    frozenAccount:"❌Konto gesperrt",
+    frozenReceiver:"❌Empfänger gesperrt",
+    rateError:"❌Wechselkurs konnte nicht abgerufen werden",
+    insufficientBalance:"❌Unzureichendes Guthaben (gesperrte Mittel)",
+    scheduledTransfer:"📅Überweisung geplant",
+    transferSuccess:"✅Überweisung erfolgreich",
+wrongPassword:"❌ Falsches Passwort",
+enterPassword:"Passwort eingeben",
+
+moneySent:"📤 Geld gesendet",
+moneyReceived:"💰 Geld erhalten",
+moneyRefundReceived:"💸 Rückerstattung erhalten",
+moneySentScheduled:"📤 Geld gesendet (geplant)",
+moneyReceivedScheduled:"💰 Geld erhalten (geplant)",
+claim:"🚨 Reklamation",
+delete:"🗑 Löschen",
+claimSent:"✅ Reklamation gesendet",
+claimAlreadySent:"⚠ Reklamation bereits gesendet!",
+transactionNotFound:"Transaktion nicht gefunden",
+firebaseAuthFailed:"❌ Firebase Authentication fehlgeschlagen",
+newDeviceFirebasePrompt:"Neues Gerät erkannt oder Überprüfung erforderlich.\nGib dein Firebase Auth-Passwort ein",
+confirmDevicePrompt:"Gib dein Passwort ein, um dieses Gerät zu bestätigen",
+confirmBiometricPrompt:"Gib dein Ma Money-Passwort ein, um Biometrie zu aktivieren",
+firebaseEmailPrompt:"Gib deine Firebase Auth-E-Mail ein",
+firebasePasswordPrompt:"Erstelle ein Firebase Auth-Passwort",
+confirmAccountPrompt:"Gib dein Ma Money-Passwort zur Bestätigung ein",
+deviceRecognized:"✅ Dieses Gerät wird jetzt als dein persönliches Gerät erkannt",
+biometricSaved:"✅ Biometrischer Schlüssel auf diesem Telefon gespeichert",
+firebaseAuthEnabled:"✅ Firebase Authentication erfolgreich aktiviert",
+firebaseEmailLinked:"✅ E-Mail existiert bereits, Firebase Auth mit Konto verknüpft",
+yes:"Ja",
+no:"Nein",
+enabled:"Aktiviert",
+notEnabled:"Nicht aktiviert",
+active:"Aktiv",
+notActive:"Nicht aktiv",
+personalDeviceStatus:"📱 Persönliches Gerät",
+biometricStatus:"🧬 Biometrie",
+firebaseAuthStatus:"🔥 Firebase Auth",
+receiverWillReceive:"💰 Empfänger erhält",
+unknownCountry:"Unbekannt",
+
+fillAllFields:"❌ Fülle alle Felder aus",
+userNotFound:"❌ Benutzer nicht gefunden",
+    oldPasswordWrong:"❌ Altes Passwort falsch",
+    passwordChanged:"✅ Passwort erfolgreich geändert"
+  }
+};
+
+function updateTransferSummary(){
+  if(!transferSummary) return;
+
+  const receiver = receiverInput.value.trim();
+  const amount = amountInput.value.trim();
+  const reason = document.getElementById("reason").value.trim();
+
+  if(!receiver || !amount){
+    transferSummary.classList.remove("show");
+    transferSummary.innerHTML = "";
+    return;
+  }
+
+  transferSummary.innerHTML = `
+    <strong>Résumé de l’opération</strong><br>
+    📱 Destinataire : ${receiver}<br>
+    💰 Montant : ${amount}<br>
+    📝 Raison : ${reason || "Non précisée"}
+  `;
+
+  transferSummary.classList.add("show");
+}
+
+function updateScheduleSummary(){
+  if(!scheduleSummary) return;
+
+  const receiver = document.getElementById("scheduledReceiver").value.trim();
+  const amount = document.getElementById("scheduledAmount").value.trim();
+  const reason = document.getElementById("scheduledReason").value.trim();
+  const date = document.getElementById("scheduledDate").value;
+
+  if(!receiver || !amount || !date){
+    scheduleSummary.classList.remove("show");
+    scheduleSummary.innerHTML = "";
+    return;
+  }
+
+  scheduleSummary.innerHTML = `
+    <strong>Résumé du transfert programmé</strong><br>
+    📱 Destinataire : ${receiver}<br>
+    💰 Montant : ${amount}<br>
+    📅 Date prévue : ${date}<br>
+    📝 Raison : ${reason || "Non précisée"}
+  `;
+
+  scheduleSummary.classList.add("show");
+}
+
+receiverInput.addEventListener("input", updateTransferSummary);
+amountInput.addEventListener("input", updateTransferSummary);
+document.getElementById("reason").addEventListener("input", updateTransferSummary);
+
+document.getElementById("scheduledReceiver").addEventListener("input", updateScheduleSummary);
+document.getElementById("scheduledAmount").addEventListener("input", updateScheduleSummary);
+document.getElementById("scheduledReason").addEventListener("input", updateScheduleSummary);
+document.getElementById("scheduledDate").addEventListener("input", updateScheduleSummary);
+
+function getUserLang(){
+  return currentUser.language || localStorage.getItem("accountLanguage") || "fr";
+}
+function tr(key){
+  const lang = getUserLang();
+  const t = translations[lang] || translations.fr;
+  return t[key] || translations.fr[key] || key;
+}
+
+function applyLanguage(){
+  const lang = getUserLang();
+  const t = translations[lang] || translations.fr;
+
+  // direction arabe
+  if(lang === "ar"){
+    document.documentElement.lang = "ar";
+    document.body.dir = "rtl";
+  }else{
+    document.documentElement.lang = lang;
+    document.body.dir = "ltr";
+  }
+
+  // bienvenue
+  if(welcome){
+    welcome.innerText = t.welcome + currentUser.name;
+  }
+
+  // statut en ligne
+  const menuStatus = document.querySelector(".menu-status");
+  if(menuStatus){
+    menuStatus.innerText = t.online;
+  }
+
+  // solde disponible
+  const balanceText = document.querySelector(".main-card p");
+  if(balanceText){
+    balanceText.innerText = t.balance;
+  }
+
+  // boutons principaux
+ const actionLabels = document.querySelectorAll(".action-box span");
+
+    if(actionLabels[0]) actionLabels[0].innerText = t.instantTransfer || "Transfert instatané";
+    if(actionLabels[1]) actionLabels[1].innerText = t.scheduledTransferBtn || "Programmer un transfert";
+    if(actionLabels[2]) actionLabels[2].innerText = t.messageBox || "Boîte de message";
+    if(actionLabels[3]) actionLabels[3].innerText = t.myQr || "Mon QR";
+  // bouton masquer / afficher
+  const toggleBtn = document.getElementById("toggleBalance");
+  if(toggleBtn){
+    if(localStorage.getItem("balanceVisible") === "false"){
+      toggleBtn.innerText = t.show;
+    }else{
+      toggleBtn.innerText = t.hide;
+    }
+  }
+
+  // menu profil
+  const menuButtons = document.querySelectorAll("#userMenu button");
+  if(menuButtons[0]) menuButtons[0].innerText = t.changePhoto;
+  if(menuButtons[1]) menuButtons[1].innerText = t.changePasswordMenu;
+  if(menuButtons[2]) menuButtons[2].innerText = t.accountLanguageMenu;
+  if(menuButtons[3]) menuButtons[3].innerText = t.advancedSecurityMenu;
+  if(menuButtons[4]) menuButtons[4].innerText = t.logout;
+
+  // titre activités récentes
+  const historyTitle = document.querySelector(".history-box h3");
+  if(historyTitle){
+    historyTitle.innerText = t.recentActivities;
+  }
+
+  // langue du compte
+  const languageTitle = document.querySelector("#languageBox .form-title");
+  if(languageTitle) languageTitle.innerText = t.languageTitle;
+
+  const languageDescription = document.querySelector("#languageBox .glass-box");
+  if(languageDescription) languageDescription.innerText = t.languageDescription;
+
+  const languageLabel = document.querySelector("#languageBox label");
+  if(languageLabel) languageLabel.innerText = t.languageLabel;
+
+  const saveLanguageBtn = document.querySelector("#languageBox button");
+  if(saveLanguageBtn) saveLanguageBtn.innerText = t.saveLanguage;
+
+  // sécurité avancée
+  const securityTitle = document.querySelector("#securityBox .form-title");
+  if(securityTitle) securityTitle.innerText = t.securityTitle;
+
+  const securityDescription = document.querySelector("#securityBox .glass-box");
+  if(securityDescription) securityDescription.innerHTML = t.securityDescription;
+
+  const securityButtons = document.querySelectorAll("#securityBox button");
+  if(securityButtons[0]) securityButtons[0].innerText = t.trustedDevice;
+  if(securityButtons[1]) securityButtons[1].innerText = t.enableBiometric;
+  if(securityButtons[2]) securityButtons[2].innerText = t.enableFirebaseAuth;
+
+  // mot de passe
+  const passwordTitle = document.querySelector("#passwordBox .form-title");
+  if(passwordTitle) passwordTitle.innerText = t.passwordTitle;
+
+  const passwordLabels = document.querySelectorAll("#passwordBox label");
+  if(passwordLabels[0]) passwordLabels[0].innerText = t.oldPassword;
+  if(passwordLabels[1]) passwordLabels[1].innerText = t.newPassword;
+
+  const passwordBtn = document.querySelector("#passwordBox button");
+  if(passwordBtn) passwordBtn.innerText = t.changePasswordBtn;
+
+  // fiche d'envoi
+  const transferTitle = document.querySelector("#transferBox .form-title");
+  if(transferTitle) transferTitle.innerText = t.transferTitle;
+
+  const receiver = document.getElementById("receiver");
+  if(receiver) receiver.placeholder = t.receiverPlaceholder;
+
+  const contactSearch = document.getElementById("contactSearch");
+  if(contactSearch) contactSearch.placeholder = t.searchPlaceholder;
+
+  const amount = document.getElementById("amount");
+  if(amount) amount.placeholder = t.amountPlaceholder;
+
+  const transferLabels = document.querySelectorAll("#transferBox label");
+  if(transferLabels[0]) transferLabels[0].innerText = t.amountLabel;
+  if(transferLabels[1]) transferLabels[1].innerText = t.reasonLabel;
+  if(transferLabels[2]) transferLabels[2].innerText = t.scheduleDateLabel;
+
+  const sendButton = document.getElementById("sendBtn");
+  if(sendButton && !sendButton.disabled){
+    sendButton.innerText = t.send;
+  }
+
+  // select langue
+  const select = document.getElementById("accountLanguage");
+  if(select){
+    select.value = lang;
+  }
+
+  loadNotifications();
+}
+applyLanguage();
+let allUsers = [];
+let currenciesData = {};
+
+async function loadContacts(){
+const snap = await get(ref(db,"users"));
+
+if(snap.exists()){
+allUsers = Object.values(snap.val());
+}
+}
+
+loadContacts();
+
+/* =========================
+🌍 CHARGER DEVISES FIREBASE
+========================= */
+
+/* =========================
+🌍 CHARGER DEVISES FIREBASE
+========================= */
+
+onValue(ref(db,"currencies"),(snap)=>{
+
+  currenciesData = snap.val() || {};
+
+  console.log("Devises chargées :", currenciesData);
+
+  /*
+  🔥 IMPORTANT :
+  Quand les devises sont chargées, on réaffiche le solde.
+  Sinon au premier chargement, getCurrency() retourne FCFA par défaut.
+  */
+  refreshBalanceDisplay();
+
+});
+/* ===== MULTI DEVISE ===== */
+
+function normalizePhone(phone){
+return phone.replace(/\s+/g,'').replace(/[^+\d]/g,'');
+}
+
+/* =========================
+   📞 NUMÉRO DESTINATAIRE INTELLIGENT
+   National : accepte le numéro sans indicatif
+   International : exige le numéro avec indicatif
+========================= */
+
+function getCountryPrefixFromPhone(phone){
+
+  phone = normalizePhone(String(phone || ""));
+
+  const prefixes = Object.keys(currenciesData || {})
+    .sort((a, b) => b.length - a.length);
+
+  for(const prefix of prefixes){
+    if(phone.startsWith(prefix)){
+      return prefix;
+    }
+  }
+
+  return "";
+}
+
+function normalizeReceiverPhoneSmart(inputPhone){
+
+  let phone = normalizePhone(String(inputPhone || ""));
+
+  if(!phone) return "";
+
+  /*
+    Si l'utilisateur écrit 0022370707070,
+    on transforme en +22370707070
+  */
+  if(phone.startsWith("00")){
+    phone = "+" + phone.slice(2);
+  }
+
+  /*
+    Si le numéro commence déjà par +,
+    on considère que c'est un numéro international complet
+  */
+  if(phone.startsWith("+")){
+    return phone;
+  }
+
+  /*
+    Sinon, c'est un numéro national :
+    on ajoute automatiquement l'indicatif du pays
+    de l'utilisateur connecté.
+  */
+  const senderPrefix = getCountryPrefixFromPhone(currentUser.phone);
+
+  if(!senderPrefix){
+    return phone;
+  }
+
+  return senderPrefix + phone;
+}
+
+function getPhoneDigits(phone){
+  return String(phone || "").replace(/\D/g, "");
+}
+
+function findUserSmart(inputPhone){
+  const smartPhone = normalizeReceiverPhoneSmart(inputPhone);
+  const inputDigits = getPhoneDigits(inputPhone);
+
+  if(!inputDigits){
+    return null;
+  }
+
+  return allUsers.find(u => {
+    if(!u.phone) return false;
+
+    const userSmartPhone = normalizeReceiverPhoneSmart(u.phone);
+    const userDigits = getPhoneDigits(u.phone);
+
+    return (
+      u.phone === smartPhone ||
+      userSmartPhone === smartPhone ||
+      userDigits.endsWith(inputDigits)
+    );
+  }) || null;
+}
+
+function filterUsersSmart(inputPhone){
+  const inputDigits = getPhoneDigits(inputPhone);
+
+  if(!inputDigits){
+    return allUsers.filter(u => u.phone !== currentUser.phone);
+  }
+
+  return allUsers.filter(u => {
+    if(!u.phone || u.phone === currentUser.phone) return false;
+
+    const userDigits = getPhoneDigits(u.phone);
+
+    return userDigits.includes(inputDigits);
+  });
+}
+
+function renderSmartContacts(list, contactsBox){
+  contactsBox.innerHTML = "";
+
+  if(!list.length){
+    contactsBox.innerHTML = `
+      <div class="contact-item" style="cursor:default;">
+        <div class="contact-info">
+          <div class="contact-name">Aucun correspondant trouvé</div>
+          <div class="contact-phone">Continue à saisir le numéro</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  list.forEach(user => {
+    const country = getCountry(user.phone);
+    const photo = user.photo ? user.photo : "";
+    const safeName = user.name || "Utilisateur";
+
+    contactsBox.innerHTML += `
+      <div class="contact-item" data-phone="${user.phone}" data-name="${safeName}">
+        <div class="contact-avatar">
+          ${
+            photo
+            ? `<img src="${photo}">`
+            : safeName.charAt(0)
+          }
+        </div>
+
+        <div class="contact-info">
+          <div class="contact-name">${safeName} ${country.flag}</div>
+          <div class="contact-phone">${user.phone}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function updateReceiverNameSmart(input, receiverNameBox){
+  const value = input.value.trim();
+
+  if(!value){
+    receiverNameBox.innerText = "";
+    return null;
+  }
+
+  const found = findUserSmart(value);
+
+  if(found){
+    receiverNameBox.innerText = "👤 " + (found.name || "Utilisateur");
+    return found;
+  }
+
+  receiverNameBox.innerText = "❌ Utilisateur inconnu";
+  return null;
+}
+
+function getCurrency(phone){
+
+for(const prefix in currenciesData){
+
+if(phone.startsWith(prefix)){
+
+return {
+code: currenciesData[prefix].code,
+symbol: currenciesData[prefix].symbol
+};
+
+}
+
+}
+
+/* défaut */
+return {
+code:"XOF",
+symbol:"FCFA"
+};
+
+}
+
+function refreshBalanceDisplay(){
+
+  if(!currentUser || !currentUser.phone) return;
+
+  const cur = getCurrency(currentUser.phone);
+  const visibleBalance = getVisibleBalanceAmount(currentUser);
+  const decimalPocket = getHiddenDecimalAmount(currentUser);
+
+  if(localStorage.getItem("balanceVisible") === "false"){
+    soldeBox.innerText = "••••••••";
+  }else{
+    soldeBox.innerText = formatMoney(visibleBalance, cur);
+  }
+
+  /* 🔥 petit cartable décimal dans la carte */
+  const walletIcon = document.querySelector(".wallet-icon");
+
+  if(walletIcon){
+    if(cur.code === "XOF" && decimalPocket > 0){
+      walletIcon.innerHTML = `
+        💼
+        <div style="
+          margin-top:6px;
+          font-size:11px;
+          background:rgba(0,0,0,0.25);
+          padding:4px 6px;
+          border-radius:8px;
+          line-height:1.2;
+        ">
+          +${decimalPocket.toFixed(3)} ${cur.symbol}
+        </div>
+      `;
+    }else{
+      walletIcon.innerHTML = "💼";
+    }
+  }
+}
+
+
+function getCountry(phone){
+
+for(const prefix in currenciesData){
+
+if(phone.startsWith(prefix)){
+
+return {
+flag: currenciesData[prefix].flag,
+name: currenciesData[prefix].country
+};
+
+}
+
+}
+
+return {
+flag:"🌍",
+name:"Inconnu"
+};
+
+}
+
+async function getLiveRate(from,to){
+
+if(from === to) return 1;
+
+try{
+
+const res =
+await fetch(
+`https://open.er-api.com/v6/latest/${from}`
+);
+
+if(!res.ok){
+return null;
+}
+
+const data = await res.json();
+
+if(
+data.result === "success" &&
+data.rates &&
+data.rates[to]
+){
+return data.rates[to];
+}
+
+return null;
+
+}catch(e){
+
+console.log("Erreur API :", e);
+
+return null;
+}
+}
+
+function getCurrencyDecimals(currencyCode){
+  const code = currencyCode || "XOF";
+
+  /*
+  XOF / FCFA : pas de décimales visibles.
+  Les autres devises gardent 2 décimales.
+  */
+  if(code === "XOF") return 0;
+
+  return 2;
+}
+
+function formatMoney(amount, currencyInfo = null){
+  const value = Number(amount || 0);
+
+  const cur = currencyInfo || getCurrency(currentUser.phone);
+
+  const code = cur.code || "XOF";
+  const symbol = cur.symbol || code;
+
+  const decimals = getCurrencyDecimals(code);
+
+  return value.toLocaleString("fr-FR", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  }) + " " + symbol;
+}
+
+function formatMoneyForPhone(amount, phone){
+  const cur = getCurrency(phone);
+
+  return formatMoney(amount, cur);
+}
+
+function getVisibleBalanceAmount(user){
+  const cur = getCurrency(user.phone || currentUser.phone);
+  const solde = Number(user.solde || 0);
+
+  if(cur.code === "XOF"){
+    return Math.trunc(solde);
+  }
+
+  return solde;
+}
+
+function getHiddenDecimalAmount(user){
+  const cur = getCurrency(user.phone || currentUser.phone);
+  const solde = Number(user.solde || 0);
+
+  if(cur.code !== "XOF"){
+    return 0;
+  }
+
+  return solde - Math.trunc(solde);
+}
+
+async function normalizeUserDecimalBalance(userPhone, userData){
+  const cur = getCurrency(userPhone);
+  const solde = Number(userData.solde || 0);
+
+  /*
+  But :
+  - on n'arrondit pas ;
+  - on cache seulement les décimales FCFA ;
+  - si la partie décimale atteint 1 ou plus, on l'ajoute au solde visible.
+  Normalement, solde - Math.trunc(solde) est toujours inférieur à 1.
+  Mais cette fonction sécurise quand même le cas.
+  */
+
+  if(cur.code !== "XOF") return userData;
+
+  const visible = Math.trunc(solde);
+  const decimalPocket = Number(userData.decimalPocket || 0) + (solde - visible);
+
+  const decimalToAdd = Math.trunc(decimalPocket);
+  const decimalRest = decimalPocket - decimalToAdd;
+
+  const newSolde = visible + decimalToAdd + decimalRest;
+
+  if(decimalToAdd > 0 || Math.abs(decimalPocket - Number(userData.decimalPocket || 0)) > 0){
+    await update(ref(db,"users/" + userPhone), {
+      solde: newSolde,
+      decimalPocket: decimalRest
+    });
+
+    userData.solde = newSolde;
+    userData.decimalPocket = decimalRest;
+  }
+
+  return userData;
+}
+
+function generateTxID(){
+const d = new Date();
+
+const date = d.getFullYear() +
+String(d.getMonth()+1).padStart(2,'0') +
+String(d.getDate()).padStart(2,'0');
+
+const time =
+String(d.getHours()).padStart(2,'0') +
+String(d.getMinutes()).padStart(2,'0') +
+String(d.getSeconds()).padStart(2,'0');
+
+const random = Math.random().toString(36).substring(2,8).toUpperCase();
+
+return `MLP-${date}-${time}-${random}`;
+}
+
+function listenBalance(){
+
+const userRef = ref(db,"users/"+currentUser.phone);
+
+onValue(userRef, async (snap)=>{
+
+if(snap.exists()){
+
+currentUser = snap.val();
+currentUser.phone = currentUser.phone || JSON.parse(localStorage.getItem("loggedUser")).phone;
+
+currentUser = await normalizeUserDecimalBalance(currentUser.phone, currentUser);
+
+localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+
+refreshBalanceDisplay();
+
+/* 🔥 photo */
+let photoUrl = currentUser.photo || "https://i.imgur.com/6VBx3io.png";
+profilePic.src = photoUrl;
+menuProfilePic.src = photoUrl;
+menuUserName.innerText = currentUser.name || "Utilisateur";
+menuUserPhone.innerText = currentUser.phone || "";
+
+}
+
+});
+
+}
+listenBalance();
+
+/* 🔄 synchroniser bouton */
+const toggleBtn = document.getElementById("toggleBalance");
+
+applyLanguage();
+
+/* =============
+============
+🔒 ETAT DU SOLDE (PERSISTANT)
+========================= */
+let balanceVisible = localStorage.getItem("balanceVisible");
+
+/* si jamais vide (première fois) */
+if(balanceVisible === null){
+balanceVisible = "true";
+localStorage.setItem("balanceVisible","true");
+}
+
+document.getElementById("toggleBalance").onclick = async function(){
+
+  const t = translations[getUserLang()] || translations.fr;
+  const isVisible = localStorage.getItem("balanceVisible");
+
+  if(isVisible === "true"){
+
+    /* 🔒 cacher */
+    localStorage.setItem("balanceVisible","false");
+
+    refreshBalanceDisplay();
+
+    this.innerText = t.show;
+
+  }else{
+
+    /* 🔐 demander mot de passe */
+    const pass = prompt(t.enterPassword);
+
+    const snap = await get(ref(db,"users/" + currentUser.phone));
+
+    if(snap.exists() && snap.val().password === pass){
+
+      localStorage.setItem("balanceVisible","true");
+
+      const freshUser = snap.val();
+      freshUser.phone = currentUser.phone;
+
+      currentUser = freshUser;
+      localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+
+      refreshBalanceDisplay();
+
+      this.innerText = t.hide;
+
+    }else{
+      alert(t.wrongPassword);
+    }
+
+  }
+};
+
+/* ===== CONVERSION LIVE VISUELLE ===== */
+
+async function updateConversion(){
+const receiverPhone=normalizeReceiverPhoneSmart(receiverInput.value.trim());
+const amount=parseFloat(amountInput.value);
+if(!receiverPhone || !amount){ conversionBox.style.display="none"; return; }
+
+const senderCur=getCurrency(currentUser.phone);
+const receiverCur=getCurrency(receiverPhone);
+
+const rate=await getLiveRate(senderCur.code,receiverCur.code);
+if(!rate){ conversionBox.style.display="none"; return; }
+
+const converted=amount*rate;
+
+conversionBox.style.display="block";
+conversionBox.innerHTML=
+`💱 1 ${senderCur.symbol} = ${rate.toFixed(4)} ${receiverCur.symbol}<br>
+💰 Destinataire recevra : <strong>${formatMoney(converted)} ${receiverCur.symbol}</strong>`;
+}
+
+/* =========================
+   💱 CONVERSION LIVE - TRANSFERT PROGRAMMÉ
+========================= */
+async function updateScheduledConversion(){
+
+const receiverInput = document.getElementById("scheduledReceiver");
+const amountInput = document.getElementById("scheduledAmount");
+const box = document.getElementById("scheduledConversionBox");
+
+if(!receiverInput || !amountInput || !box) return;
+
+const receiverPhone = normalizeReceiverPhoneSmart(receiverInput.value.trim());
+const amount = Number(amountInput.value);
+
+if(!receiverPhone || !amount || amount <= 0){
+box.style.display = "none";
+box.innerHTML = "";
+return;
+}
+
+const senderCur = getCurrency(currentUser.phone);
+const receiverCur = getCurrency(receiverPhone);
+
+const rate = await getLiveRate(senderCur.code, receiverCur.code);
+
+if(!rate){
+box.style.display = "block";
+box.innerHTML = "❌ Impossible de récupérer le taux";
+return;
+}
+
+const convertedAmount = amount * rate;
+
+box.style.display = "block";
+box.innerHTML = `
+💱 ${formatMoney(amount, senderCur)}
+➡️
+<strong>${formatMoney(convertedAmount, receiverCur)}</strong><br>
+<small>1 ${senderCur.code} = ${rate} ${receiverCur.code}</small>
+`;
+}
+
+receiverInput.addEventListener("input",updateConversion);
+amountInput.addEventListener("input",updateConversion);
+
+const scheduledReceiverInput = document.getElementById("scheduledReceiver");
+const scheduledAmountInput = document.getElementById("scheduledAmount");
+
+if(scheduledReceiverInput){
+scheduledReceiverInput.addEventListener("input", updateScheduledConversion);
+}
+
+if(scheduledAmountInput){
+scheduledAmountInput.addEventListener("input", updateScheduledConversion);
+}
+
+/* ===== ENVOI ARGENT ===== */
+
+window.sendMoney=async function(){
+
+if(sendBtn.disabled) return;
+sendBtn.disabled=true;
+sendBtn.innerText=(translations[getUserLang()] || translations.fr).processing;
+
+try{
+
+const receiverPhone=normalizeReceiverPhoneSmart(receiverInput.value.trim());
+let amount = parseFloat(amountInput.value);
+const reason=document.getElementById("reason").value.trim();
+
+if(!receiverPhone || amount<=0){
+messageBox.innerText=(translations[getUserLang()] || translations.fr).invalidData;
+resetButton();return;
+}
+
+const senderSnap=await get(ref(db,"users/"+currentUser.phone));
+const receiverSnap=await get(ref(db,"users/"+receiverPhone));
+const treasurySnap=await get(ref(db,"treasury"));
+
+if(!senderSnap.exists()||!receiverSnap.exists()){
+messageBox.innerText=(translations[getUserLang()] || translations.fr).accountNotFound;
+resetButton();return;
+}
+
+let sender=senderSnap.val();
+let receiverData=receiverSnap.val();
+let treasury = treasurySnap.exists()
+? treasurySnap.val()
+: {
+national:{
+name:"Commission nationale",
+rate:0.01,
+balance:0
+},
+international:{
+name:"Commission internationale",
+rate:0.015,
+balance:0
+},
+startup:{
+name:"Fonds soutien digital",
+rate:0.005,
+balance:0
+}
+};
+
+if(sender.frozen){messageBox.innerText=(translations[getUserLang()] || translations.fr).frozenAccount;resetButton();return;}
+if(receiverData.frozen){messageBox.innerText=(translations[getUserLang()] || translations.fr).frozenReceiver;resetButton();return;}
+
+const senderCur=getCurrency(sender.phone);
+const receiverCur=getCurrency(receiverPhone);
+const rate=await getLiveRate(senderCur.code,receiverCur.code);
+if(!rate){messageBox.innerText=(translations[getUserLang()] || translations.fr).rateError;resetButton();return;}
+
+/* =========================
+💰 SYSTEME MULTI TAXES PRO
+========================= */
+
+/* 🔥 montant converti */
+let convertedAmount = amount * rate;
+
+/* =========================
+🌍 LOGIQUE PAYS / TAXES
+========================= */
+
+/* 🌍 pays */
+const senderCountry =
+getCountry(sender.phone).name;
+
+const receiverCountry =
+getCountry(receiverPhone).name;
+
+/* 🌍 même pays ? */
+const sameCountry =
+senderCountry === receiverCountry;
+
+/* 🇲🇱 Mali ? */
+const isMaliSender =
+sender.phone.startsWith("+223");
+
+const isMaliReceiver =
+receiverPhone.startsWith("+223");
+
+/* 🌍 international ? */
+const isInternational =
+!sameCountry;
+
+/* ===== TAUX ===== */
+let serviceRate = 0;
+
+/* 🔥 commission */
+if(sameCountry){
+serviceRate =
+treasury.national?.rate || 0;
+}else{
+serviceRate =
+treasury.international?.rate || 0;
+}
+
+/* =========================
+🏛 FONDS SOUTIEN
+========================= */
+
+let startupRate = 0;
+
+/*
+✅ +223 → +223
+✅ +223 → +XXX
+❌ +XXX → +223
+❌ +XXX → +XXX
+*/
+
+if(isMaliSender){
+startupRate =
+treasury.startup?.rate || 0;
+}
+
+/* ===== CALCUL FRAIS ===== */
+
+/* sécuriser montant */
+amount = Number(amount) || 0;
+
+/* sécuriser taux */
+serviceRate = Number(serviceRate) || 0;
+startupRate = Number(startupRate) || 0;
+
+/* =========================
+💱 BASE DE CALCUL
+========================= */
+
+let feeBaseAmount = amount;
+
+/*
+🔥 si transfert national étranger
+ex: +1514 → +1514
+on calcule en XOF
+*/
+
+if(
+sameCountry &&
+!isMaliSender
+){
+const xofRate =
+await getLiveRate(
+senderCur.code,
+"XOF"
+);
+
+feeBaseAmount =
+amount * xofRate;
+}
+
+/* =========================
+💰 FRAIS
+========================= */
+
+/* 🔥 frais service */
+let serviceFee =
+Number(feeBaseAmount * serviceRate) || 0;
+
+/* 🔥 fonds soutien */
+let startupFee =
+Number(amount * startupRate) || 0;
+
+/*
+🔥 reconvertir frais
+vers devise utilisateur
+si national étranger
+*/
+
+if(
+sameCountry &&
+!isMaliSender
+){
+const reverseRate =
+await getLiveRate(
+"XOF",
+senderCur.code
+);
+
+serviceFee =
+serviceFee * reverseRate;
+}
+
+/* total frais */
+let totalFees =
+Number(serviceFee + startupFee) || 0;
+
+/* total débit */
+let totalDebit =
+Number(amount + totalFees) || 0;
+
+const disponible = sender.solde - (sender.frozenBalance || 0);
+
+if(disponible < totalDebit){
+messageBox.innerText=(translations[getUserLang()] || translations.fr).insufficientBalance;
+resetButton();
+return;
+}
+
+/* ===== TRANSFERT PROGRAMMÉ MULTI-DEVISE FIXÉ ===== */
+
+if(disponible < totalDebit){
+messageBox.innerText=(translations[getUserLang()] || translations.fr).insufficientBalance;
+resetButton();
+return;
+}
+
+
+/* ===== TRANSFERT IMMÉDIAT ===== */
+
+const customID = generateTxID(); // 🔥 ID UNIQUE
+
+/* ===== TRANSFERT IMMÉDIAT ===== */
+
+sender.solde -= totalDebit;
+receiverData.solde+=convertedAmount;
+/* =========================
+🏦 ALIMENTATION TRESORERIE
+========================= */
+
+/* 🔥 SI TRANSFERT INTERNATIONAL */
+if(isInternational){
+
+/* 🔥 convertir frais en FCFA */
+const xofRate = await getLiveRate(
+senderCur.code,
+"XOF"
+);
+
+/* 🔥 frais convertis */
+const serviceFeeXOF =
+serviceFee * xofRate;
+
+const startupFeeXOF =
+startupFee * xofRate;
+
+/* 🔥 ajout trésorerie */
+treasury.international.balance += serviceFeeXOF;
+
+treasury.startup.balance += startupFeeXOF;
+
+}else{
+
+/* =========================
+🌍 NATIONAL
+========================= */
+
+/*
+🇲🇱 Mali :
+on garde normal
+*/
+
+if(isMaliSender){
+
+treasury.national.balance =
+Number(treasury.national.balance || 0)
++ Number(serviceFee || 0);
+
+treasury.startup.balance =
+Number(treasury.startup.balance || 0)
++ Number(startupFee || 0);
+
+}
+
+/*
+🌍 National étranger
+(+1514 → +1514)
+*/
+
+else{
+
+const xofRate =
+await getLiveRate(
+senderCur.code,
+"XOF"
+);
+
+const serviceFeeXOF =
+serviceFee * xofRate;
+
+treasury.national.balance =
+Number(treasury.national.balance || 0)
++ Number(serviceFeeXOF || 0);
+
+}
+
+}
+
+await update(ref(db,"users/"+sender.phone),sender);
+await update(ref(db,"users/"+receiverPhone),receiverData);
+await update(ref(db,"treasury"),treasury);
+
+const tx=await push(ref(db,"history/"+currentUser.phone),{
+customID: customID,
+from:sender.phone,
+to:receiverPhone,
+amountOriginal:amount,
+amountConverted:convertedAmount,
+serviceFee,
+startupFee,
+totalFees,
+rateUsed:rate,
+reason,
+date:new Date().toLocaleString(),
+createdAt: Date.now()
+});
+
+/* Notifications complètes avec réclamation */
+
+await push(ref(db,"notifications/"+receiverPhone),{
+title:"💰Argent reçu",
+phone:sender.phone,
+amount:convertedAmount,
+currency:receiverCur.code,
+symbol:receiverCur.symbol,
+reason,
+date:new Date().toLocaleString(),
+claimable:false,
+seen:false
+});
+
+await push(ref(db,"history/"+receiverPhone),{
+customID: customID,
+from:sender.phone,
+to:receiverPhone,
+amountOriginal:convertedAmount,
+date:new Date().toLocaleString(),
+createdAt: Date.now(),
+type:"received"
+});
+
+await push(ref(db,"notifications/"+sender.phone),{
+title:"📤Argent envoyé",
+phone:receiverPhone,
+amount:amount,
+currency:senderCur.code,
+symbol:senderCur.symbol,
+reason,
+date:new Date().toLocaleString(),
+claimable:true,
+seen:false,
+txId:tx.key
+});
+
+messageBox.innerText=(translations[getUserLang()] || translations.fr).transferSuccess;
+resetForm();
+loadNotifications();
+
+}catch(e){
+messageBox.innerText="❌Erreur : "+e.message;
+}
+
+resetButton();
+};
+
+window.sendScheduledMoney=async function(){
+
+const scheduledBtn=document.getElementById("scheduledSendBtn");
+const scheduledMsg=document.getElementById("scheduledMessage");
+
+if(scheduledBtn.disabled) return;
+
+scheduledBtn.disabled=true;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).processing;
+
+try{
+
+const receiverInputValue = document.getElementById("scheduledReceiver").value.trim();
+
+const receiverUser = findUserSmart(receiverInputValue);
+
+const receiverPhone = receiverUser
+  ? receiverUser.phone
+  : normalizeReceiverPhoneSmart(receiverInputValue);
+
+let amount=parseFloat(
+document.getElementById("scheduledAmount").value
+);
+
+const reason=document.getElementById("scheduledReason").value.trim();
+const scheduleDate=document.getElementById("scheduledDate").value;
+
+if(!receiverPhone || amount<=0 || !scheduleDate){
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).invalidData;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+const scheduledTime=new Date(scheduleDate).getTime();
+
+if(!scheduledTime || scheduledTime<=Date.now()){
+scheduledMsg.innerText="❌ Choisis une date future";
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+const senderSnap=await get(ref(db,"users/"+currentUser.phone));
+const receiverSnap=await get(ref(db,"users/"+receiverPhone));
+const treasurySnap=await get(ref(db,"treasury"));
+
+if(!senderSnap.exists()||!receiverSnap.exists()){
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).accountNotFound;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+let sender=senderSnap.val();
+let receiverData=receiverSnap.val();
+
+let treasury = treasurySnap.exists()
+? treasurySnap.val()
+: {
+national:{
+name:"Commission nationale",
+rate:0.01,
+balance:0
+},
+international:{
+name:"Commission internationale",
+rate:0.015,
+balance:0
+},
+startup:{
+name:"Fonds soutien digital",
+rate:0.005,
+balance:0
+}
+};
+
+if(sender.frozen){
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).frozenAccount;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+if(receiverData.frozen){
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).frozenReceiver;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+const senderCur=getCurrency(sender.phone);
+const receiverCur=getCurrency(receiverPhone);
+
+const rate=await getLiveRate(senderCur.code,receiverCur.code);
+
+if(!rate){
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).rateError;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+/* 🔥 montant converti */
+let convertedAmount=amount*rate;
+
+/* 🌍 pays */
+const senderCountry=getCountry(sender.phone).name;
+const receiverCountry=getCountry(receiverPhone).name;
+
+/* 🌍 même pays ? */
+const sameCountry=senderCountry===receiverCountry;
+
+/* 🇲🇱 Mali ? */
+const isMaliSender=sender.phone.startsWith("+223");
+
+/* 🌍 international ? */
+const isInternational=!sameCountry;
+
+/* ===== TAUX ===== */
+let serviceRate=0;
+
+if(sameCountry){
+serviceRate=treasury.national?.rate || 0;
+}else{
+serviceRate=treasury.international?.rate || 0;
+}
+
+/* 🏛 Fonds soutien */
+let startupRate=0;
+
+if(isMaliSender){
+startupRate=treasury.startup?.rate || 0;
+}
+
+/* sécuriser montant */
+amount=Number(amount) || 0;
+serviceRate=Number(serviceRate) || 0;
+startupRate=Number(startupRate) || 0;
+
+/* base frais */
+let feeBaseAmount=amount;
+
+/* si national étranger */
+if(sameCountry && !isMaliSender){
+const xofRate=await getLiveRate(senderCur.code,"XOF");
+feeBaseAmount=amount*xofRate;
+}
+
+/* frais service */
+let serviceFee=Number(feeBaseAmount*serviceRate) || 0;
+
+/* fonds soutien */
+let startupFee=Number(amount*startupRate) || 0;
+
+/* reconvertir frais si national étranger */
+if(sameCountry && !isMaliSender){
+const reverseRate=await getLiveRate("XOF",senderCur.code);
+serviceFee=serviceFee*reverseRate;
+}
+
+/* total frais */
+let totalFees=Number(serviceFee+startupFee) || 0;
+
+/* total débit */
+let totalDebit=Number(amount+totalFees) || 0;
+
+const disponible=Number(sender.solde || 0) - Number(sender.frozenBalance || 0);
+
+if(disponible < totalDebit){
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).insufficientBalance;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+return;
+}
+
+/* 🔥 ID unique */
+const customID=generateTxID();
+
+/* 🔥 Enregistrer transfert programmé */
+await push(ref(db,"scheduledTransfers"),{
+customID:customID,
+
+from:sender.phone,
+to:receiverPhone,
+
+amountOriginal:amount,
+amountConverted:convertedAmount,
+
+serviceFee,
+startupFee,
+totalFees,
+
+rateUsed:rate,
+
+senderCurrency:senderCur.code,
+receiverCurrency:receiverCur.code,
+
+senderSymbol:senderCur.symbol,
+receiverSymbol:receiverCur.symbol,
+
+reason,
+scheduledFor:scheduleDate,
+createdAt:Date.now(),
+executed:false
+});
+
+scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+
+resetScheduledForm();
+
+}catch(e){
+scheduledMsg.innerText="❌Erreur : "+e.message;
+}
+
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+};
+
+/* ===============================
+   MOTEUR TRANSFERT PROGRAMMÉ PRO
+================================ */
+
+async function processScheduledTransfers(){
+
+const scheduledRef = ref(db,"scheduledTransfers");
+const snapshot = await get(scheduledRef);
+
+if(!snapshot.exists()) return;
+
+const transfers = snapshot.val();
+const now = Date.now();
+
+for(const [id, tx] of Object.entries(transfers)){
+
+if(tx.executed === true) continue;
+
+if(!tx.scheduledFor) continue;
+
+const scheduledTime = new Date(tx.scheduledFor).getTime();
+
+if(now < scheduledTime) continue;
+
+/* ===== Récupération comptes ===== */
+
+const senderSnap = await get(ref(db,"users/"+tx.from));
+const receiverSnap = await get(ref(db,"users/"+tx.to));
+const treasurySnap = await get(ref(db,"treasury"));
+
+if(!senderSnap.exists() || !receiverSnap.exists()){
+console.log("Compte introuvable");
+continue;
+}
+
+let sender = senderSnap.val();
+let receiver = receiverSnap.val();
+let treasury = treasurySnap.exists()
+? treasurySnap.val()
+: {
+national:{
+name:"Commission nationale",
+rate:0.01,
+balance:0
+},
+international:{
+name:"Commission internationale",
+rate:0.015,
+balance:0
+},
+startup:{
+name:"Fonds soutien digital",
+rate:0.005,
+balance:0
+}
+};
+
+/* ===== Vérifications sécurité ===== */
+
+if(sender.frozen || receiver.frozen){
+console.log("Compte gelé");
+continue;
+}
+
+let totalDebit =
+tx.amountOriginal + tx.totalFees;
+
+const disponible = sender.solde - (sender.frozenBalance || 0);
+
+if(disponible < totalDebit){
+console.log("Solde insuffisant (bloqué)");
+continue;
+}
+
+/* ===== Débit / Crédit ===== */
+
+sender.solde -= totalDebit;
+receiver.solde += tx.amountConverted;
+/* =========================
+🏦 TRESORERIE PROGRAMMEE
+========================= */
+
+/* 🌍 pays */
+const senderCountry =
+getCountry(tx.from).name;
+
+const receiverCountry =
+getCountry(tx.to).name;
+
+/* 🌍 même pays ? */
+const sameCountry =
+senderCountry === receiverCountry;
+
+/* 🌍 international ? */
+const isInternational =
+!sameCountry;
+
+/* 🇲🇱 Mali ? */
+const isMaliSender =
+tx.from.startsWith("+223");
+
+if(isInternational){
+
+const xofRate =
+await getLiveRate(
+tx.senderCurrency,
+"XOF"
+);
+
+treasury.international.balance =
+Number(treasury.international.balance || 0)
++ Number((tx.serviceFee || 0) * xofRate);
+
+treasury.startup.balance =
+Number(treasury.startup.balance || 0)
++ Number((tx.startupFee || 0) * xofRate);
+
+}else{
+
+/* 🇲🇱 Mali */
+if(isMaliSender){
+
+treasury.national.balance =
+Number(treasury.national.balance || 0)
++ Number(tx.serviceFee || 0);
+
+treasury.startup.balance =
+Number(treasury.startup.balance || 0)
++ Number(tx.startupFee || 0);
+
+}
+
+/* 🌍 National étranger */
+else{
+
+const xofRate =
+await getLiveRate(
+tx.senderCurrency,
+"XOF"
+);
+
+const serviceFeeXOF =
+(tx.serviceFee || 0) * xofRate;
+
+treasury.national.balance =
+Number(treasury.national.balance || 0)
++ Number(serviceFeeXOF || 0);
+
+}
+
+}
+
+/* ===== Mise à jour comptes ===== */
+
+await update(ref(db,"users/"+tx.from), sender);
+await update(ref(db,"users/"+tx.to), receiver);
+await update(ref(db,"treasury"), treasury);
+
+/* ===== Historique transaction ===== */
+
+const historyRef = await push(ref(db,"history/"+tx.from),{
+from: tx.from,
+to: tx.to,
+amountOriginal: tx.amountOriginal,
+amountConverted: tx.amountConverted,
+serviceFee: tx.serviceFee,
+startupFee: tx.startupFee,
+totalFees: tx.totalFees,
+rateUsed: tx.rateUsed,
+reason: tx.reason,
+date: new Date().toLocaleString(),
+scheduled: true,
+status: "executed"
+});
+
+
+/* ===== Notifications ===== */
+
+const scheduledReceiverCur = getCurrency(tx.to);
+const scheduledSenderCur = getCurrency(tx.from);
+
+await push(ref(db,"notifications/"+tx.to),{
+title:"💰 Argent reçu (programmé)",
+phone:tx.from,
+amount:tx.amountConverted,
+currency:scheduledReceiverCur.code,
+symbol:scheduledReceiverCur.symbol,
+reason:tx.reason || "",
+date:new Date().toLocaleString(),
+claimable:false,
+seen:false
+});
+
+await push(ref(db,"notifications/"+tx.from),{
+title:"📤 Argent envoyé (programmé)",
+phone:tx.to,
+amount:tx.amountOriginal,
+currency:scheduledSenderCur.code,
+symbol:scheduledSenderCur.symbol,
+date:new Date().toLocaleString(),
+claimable:true,
+seen:false,
+txId:historyRef.key
+});
+
+/* ===== Marquer exécuté ===== */
+
+await update(ref(db,"scheduledTransfers/"+id),{
+executed:true,
+executedAt:Date.now()
+});
+
+}
+
+}
+
+/* Vérification toutes les 5 secondes */
+processScheduledTransfers();
+setInterval(processScheduledTransfers,5000);
+
+/* ===============================
+   SYSTEME RECLAMATION PRO
+================================ */
+
+window.sendClaim = async function(txId){
+
+const claimsRef = ref(db,"serviceClaims");
+const claimsSnap = await get(claimsRef);
+
+/* 🔥 ANTI DOUBLE */
+if(claimsSnap.exists()){
+let exists = false;
+
+Object.values(claimsSnap.val()).forEach(c=>{
+if(c.txId === txId && c.user === currentUser.phone && c.status !== "resolved"){
+exists = true;
+}
+});
+
+if(exists){
+alert(tr("claimAlreadySent"));
+return;
+}
+}
+
+/* 🔍 récupérer transaction */
+const historyRef = ref(db,"history/"+currentUser.phone);
+const snap = await get(historyRef);
+
+if(!snap.exists()){
+alert(tr("transactionNotFound"));
+return;
+}
+
+let tx = null;
+
+Object.entries(snap.val()).forEach(([id,data])=>{
+if(id === txId){
+tx = data;
+}
+});
+
+if(!tx){
+alert(tr("transactionNotFound"));
+return;
+}
+
+/* 🔒 GELER L’ARGENT CHEZ LE DESTINATAIRE */
+const receiverSnap = await get(ref(db,"users/"+tx.to));
+
+if(receiverSnap.exists()){
+let receiver = receiverSnap.val();
+
+/* initialiser si vide */
+if(!receiver.frozenBalance){
+receiver.frozenBalance = 0;
+}
+
+/* =========================
+🔒 GEL MULTI-DEVISE
+========================= */
+
+/*
+🔥 on bloque uniquement
+le montant réellement reçu
+par le destinataire
+*/
+
+receiver.frozenBalance +=
+Number(tx.amountConverted || 0);
+
+/* sauvegarde */
+await update(ref(db,"users/"+tx.to),{
+frozenBalance: receiver.frozenBalance
+});
+}
+
+/* =========================
+🤖 IA ANTI FAUSSE RÉCLAMATION
+========================= */
+
+let riskScore = 0;
+
+/* 🔥 1. fréquence utilisateur */
+const claimsSnap2 = await get(ref(db,"serviceClaims"));
+
+if(claimsSnap2.exists()){
+const allClaims = Object.values(claimsSnap2.val());
+
+const userClaims = allClaims.filter(c => c.user === currentUser.phone);
+
+if(userClaims.length >= 3){
+riskScore += 2;
+}
+}
+
+/* 🔥 2. montant élevé */
+if(tx.amountOriginal >= 50000){
+riskScore += 2;
+}
+
+/* 🔥 3. réclamation trop rapide */
+const now = Date.now();
+const txTime = new Date(tx.date).getTime();
+
+if(!isNaN(txTime)){
+const diff = now - txTime;
+
+if(diff < 2 * 60 * 1000){ // moins de 2 minutes
+riskScore += 3;
+}
+}
+
+/* 🔥 4. même destinataire répété */
+if(claimsSnap2.exists()){
+const repeated = Object.values(claimsSnap2.val())
+.filter(c => c.to === tx.to && c.user === currentUser.phone);
+
+if(repeated.length >= 2){
+riskScore += 2;
+}
+}
+
+/* 🔥 CLASSIFICATION */
+let riskLevel = "normal";
+
+if(riskScore >= 5){
+riskLevel = "high_risk";
+}
+else if(riskScore >= 3){
+riskLevel = "medium_risk";
+}
+
+/* 🔥 envoi */
+await push(ref(db,"serviceClaims"),{
+txId: txId,
+user: currentUser.phone,
+from: tx.from,
+to: tx.to,
+amount: tx.amountOriginal,
+date: tx.date,
+status:"pending",
+
+/* 🤖 IA */
+risk: riskLevel,
+score: riskScore,
+
+createdAt: Date.now()
+});
+
+alert(tr("claimSent"));
+};
+
+/* ===== NOTIFICATIONS ===== */
+function getNotificationTitle(title){
+  let text = title || "";
+
+  if(
+    text.includes("Argent envoyé") ||
+    text.includes("Money sent") ||
+    text.includes("Dinero enviado") ||
+    text.includes("Dinheiro enviado") ||
+    text.includes("Geld gesendet") ||
+    text.includes("Деньги отправлены") ||
+    text.includes("已发送")
+  ){
+    return tr("moneySent");
+  }
+
+  if(
+    text.includes("Argent reçu") ||
+    text.includes("Money received") ||
+    text.includes("Dinero recibido") ||
+    text.includes("Dinheiro recebido") ||
+    text.includes("Geld erhalten") ||
+    text.includes("Деньги получены") ||
+    text.includes("已收到")
+  ){
+    return tr("moneyReceived");
+  }
+
+  if(
+    text.includes("Remboursement") ||
+    text.includes("Refund") ||
+    text.includes("Reembolso") ||
+    text.includes("Rückerstattung") ||
+    text.includes("Возврат") ||
+    text.includes("退款") ||
+    text.includes("استرداد")
+  ){
+    return tr("moneyRefundReceived");
+  }
+
+  return text;
+}
+
+function getNotificationCurrency(n){
+  /*
+    Dans les notifications, on affiche toujours
+    la devise locale de l'utilisateur connecté.
+  */
+  return getCurrency(currentUser.phone);
+}
+
+async function loadNotifications(){
+  const snap = await get(ref(db,"notifications/" + currentUser.phone));
+  notifBox.innerHTML = "";
+  let count = 0;
+
+  if(snap.exists()){
+    Object.entries(snap.val()).reverse().forEach(([id,n])=>{
+      if(!n.seen) count++;
+
+      const title = getNotificationTitle(n.title);
+      const notifCur = getNotificationCurrency(n);
+
+      notifBox.innerHTML += `
+        <div class="notif-card">
+
+          <div class="notif-title">${title}</div>
+
+          <div class="notif-line">📱 ${n.phone || ""}</div>
+
+          <div class="notif-line">
+            💰 <span class="notif-amount">${formatMoney(n.amount || 0, notifCur)}</span>
+          </div>
+
+          <div class="notif-date">🕒 ${n.date || ""}</div>
+
+          ${n.reason ? `<div class="notif-reason">${n.reason}</div>` : ""}
+
+          ${n.claimable && n.txId ? `
+            <button onclick="sendClaim('${n.txId}')" class="claim-btn">
+              ${tr("claim")}
+            </button>
+          ` : ""}
+
+          <button onclick="deleteNotif('${id}')" class="delete-btn">
+            ${tr("delete")}
+          </button>
+
+        </div>
+      `;
+    });
+  }
+
+  /* POINT ROUGE SUR L'ICÔNE MESSAGE */
+    if(messageDot){
+      messageDot.style.display = count > 0 ? "block" : "none";
+    }
+
+    /* BADGE NUMÉRIQUE SUR BOÎTE DE MESSAGE 🔔 */
+      const miniBadge = document.getElementById("notifMiniBadge");
+      if(miniBadge){
+        miniBadge.innerText = count;
+        miniBadge.style.display = count > 0 ? "block" : "none";
+}
+}
+
+function listenNotifications(){
+
+const notifRef = ref(db,"notifications/"+currentUser.phone);
+
+onValue(notifRef,(snapshot)=>{
+
+loadNotifications();
+
+/* 🔥 animation popup */
+if(snapshot.exists()){
+const last = Object.values(snapshot.val()).pop();
+
+if(last && !last.seen){
+
+const toastTitle = getNotificationTitle(last.title);
+const toastCur = getNotificationCurrency(last);
+
+showToast(toastTitle + " - " + formatMoney(last.amount || 0, toastCur));
+
+}
+}
+
+});
+
+}
+
+loadNotifications();
+listenWithdrawRequests();
+listenNotifications();
+
+window.deleteNotif = async function(id){
+  await remove(ref(db, "notifications/" + currentUser.phone + "/" + id));
+  await loadNotifications();
+};
+
+function resetForm(){
+  receiverInput.value = "";
+  amountInput.value = "";
+
+  const reasonInput = document.getElementById("reason");
+  if(reasonInput){
+    reasonInput.value = "";
+  }
+
+  const receiverName = document.getElementById("receiverName");
+  if(receiverName){
+    receiverName.innerText = "";
+  }
+
+  const selectedContact = document.getElementById("selectedContact");
+  if(selectedContact){
+    selectedContact.classList.add("hidden");
+    selectedContact.innerHTML = "";
+  }
+
+  const contactsList = document.getElementById("contactsList");
+    if(contactsList){
+      contactsList.classList.add("hidden");
+      contactsList.innerHTML = "";
+  }
+
+  if(conversionBox){
+    conversionBox.style.display = "none";
+    conversionBox.innerHTML = "";
+  }
+}
+
+function resetScheduledForm(){
+
+const scheduledReceiver = document.getElementById("scheduledReceiver");
+const scheduledAmount = document.getElementById("scheduledAmount");
+const scheduledReason = document.getElementById("scheduledReason");
+const scheduledDate = document.getElementById("scheduledDate");
+
+if(scheduledReceiver) scheduledReceiver.value = "";
+if(scheduledAmount) scheduledAmount.value = "";
+if(scheduledReason) scheduledReason.value = "";
+if(scheduledDate) scheduledDate.value = "";
+
+const scheduledConversionBox = document.getElementById("scheduledConversionBox");
+const scheduledSelectedContact = document.getElementById("scheduledSelectedContact");
+const scheduledReceiverName = document.getElementById("scheduledReceiverName");
+const scheduledContactsList = document.getElementById("scheduledContactsList");
+
+if(scheduledConversionBox){
+scheduledConversionBox.style.display = "none";
+scheduledConversionBox.innerHTML = "";
+}
+
+if(scheduledSelectedContact){
+scheduledSelectedContact.classList.add("hidden");
+scheduledSelectedContact.innerHTML = "";
+}
+
+if(scheduledReceiverName){
+scheduledReceiverName.innerText = "";
+}
+
+if(scheduledContactsList){
+scheduledContactsList.classList.add("hidden");
+scheduledContactsList.innerHTML = "";
+}
+
+}
+
+const scheduledReceiverName=document.getElementById("scheduledReceiverName");
+
+if(scheduledReceiverName){
+scheduledReceiverName.innerText="";
+}
+
+const scheduledSelectedContact=document.getElementById("scheduledSelectedContact");
+
+if(scheduledSelectedContact){
+scheduledSelectedContact.classList.add("hidden");
+scheduledSelectedContact.innerHTML="";
+}
+
+
+function resetButton(){
+  const t = translations[getUserLang()] || translations.fr;
+
+  if(sendBtn){
+    sendBtn.disabled = false;
+    sendBtn.innerText = t.send || "Envoyer";
+  }
+}
+
+function resetScheduledButton(){
+  const t = translations[getUserLang()] || translations.fr;
+  const scheduledBtn = document.getElementById("scheduledSendBtn");
+
+  if(scheduledBtn){
+    scheduledBtn.disabled = false;
+    scheduledBtn.innerText = t.scheduleButton || "Programmer le transfert";
+  }
+}
+
+window.toggleNotifications = () => {
+  const box = document.getElementById("notifBox");
+  if(box){
+    box.style.display = box.style.display === "none" ? "block" : "none";
+  }
+};
+
+window.togglePassword = () => {
+  const box = document.getElementById("passwordBox");
+  if(box){
+    box.style.display = box.style.display === "none" ? "block" : "none";
+  }
+};
+
+window.toggleTransfer = () => {
+  const box = document.getElementById("transferBox");
+  if(box){
+    box.style.display = box.style.display === "none" ? "block" : "none";
+  }
+};
+window.logout = async function(){
+  localStorage.removeItem("loggedUser");
+
+  try{
+    await signOut(auth);
+  }catch(e){
+    console.log("Déconnexion Firebase Auth :", e);
+  }
+
+  window.location.href = "index.html";
+};
+
+/* =========================
+🔐 CHANGEMENT MOT DE PASSE
+========================= */
+window.changePassword = async function(){
+
+const oldPass = document.getElementById("oldPass").value;
+const newPass = document.getElementById("newPass").value;
+const msg = document.getElementById("passMsg");
+const t = translations[getUserLang()] || translations.fr;
+
+if(!oldPass || !newPass){
+msg.innerText = t.fillAllFields;
+return;
+}
+
+const snap = await get(ref(db,"users/"+currentUser.phone));
+
+if(!snap.exists()){
+msg.innerText = t.userNotFound;
+return;
+}
+
+const user = snap.val();
+
+if(user.password !== oldPass){
+msg.innerText = t.oldPasswordWrong;
+return;
+}
+
+/* 🔥 update Firebase */
+await update(ref(db,"users/"+currentUser.phone),{
+password: newPass
+});
+
+msg.innerText = t.passwordChanged;
+};
+
+/* =========================
+🌍 CHANGEMENT LANGUE COMPTE
+========================= */
+window.saveLanguage = async function(){
+
+  const lang = document.getElementById("accountLanguage").value;
+  const msg = document.getElementById("languageMsg");
+  const t = translations[lang] || translations.fr;
+
+  if(!lang){
+    msg.innerText = t.chooseLanguage;
+    return;
+  }
+
+  try{
+    await update(ref(db, "users/" + currentUser.phone), {
+      language: lang
+    });
+
+    currentUser.language = lang;
+    localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+    localStorage.setItem("accountLanguage", lang);
+
+        if(typeof applyLanguage === "function"){
+      applyLanguage();
+    }
+
+      msg.innerText = t.languageSaved;
+
+  }catch(e){
+    msg.innerText = "❌ Erreur : " + e.message;
+  }
+};
+
+const userMenu = document.getElementById("userMenu");
+
+window.toggleMenu = (e) => {
+  if(e){
+    e.stopPropagation();
+  }
+
+  const modal = document.getElementById("modal");
+
+  /* bloque si modal ouvert */
+  if(modal && !modal.classList.contains("hidden")){
+    return;
+  }
+
+  if(userMenu){
+    userMenu.classList.toggle("hidden");
+  }
+};
+
+window.changePhoto = () => {
+const input = document.createElement("input");
+input.type = "file";
+input.accept = "image/*";
+
+input.onchange = async (e) => {
+const file = e.target.files[0];
+if(!file) return;
+
+try {
+const storageRef = sRef(storage, "users/" + currentUser.phone + "_profile.jpg");
+
+await uploadBytes(storageRef, file);
+
+const url = await getDownloadURL(storageRef);
+
+// 🔥 FIREBASE DATABASE
+await update(ref(db, "users/" + currentUser.phone), {
+photo: url
+});
+
+// 🔥 LOCAL STORAGE (MANQUAIT !!!)
+currentUser.photo = url;
+localStorage.setItem("loggedUser", JSON.stringify(currentUser));
+
+// 🔥 UI UPDATE
+profilePic.src = url;
+menuProfilePic.src = url;
+
+alert("✅ Photo mise à jour");
+
+} catch(e) {
+alert("❌ " + e.message);
+}
+};
+
+input.click();
+};
+
+document.addEventListener("click", (e) => {
+const menu = document.getElementById("userMenu");
+const profile = document.querySelector(".profile-container");
+
+if (!menu.contains(e.target) && !profile.contains(e.target)) {
+menu.classList.add("hidden");
+}
+});
+
+document.getElementById("closeBtn").addEventListener("click", closeModal);
+
+window.openModal = async function(contentId){
+
+console.log("Ouverture :", contentId);
+
+const modal = document.getElementById("modal");
+const modalBody = document.getElementById("modalBody");
+const content = document.getElementById(contentId);
+
+if(!content){
+console.error("❌ Introuvable :", contentId);
+return;
+}
+
+/* 🔥 déplacer contenu */
+modalBody.innerHTML = "";
+modalBody.appendChild(content);
+content.style.display = "block";
+modal.classList.remove("hidden");
+
+/* =========================
+   🔔 NOTIFICATIONS
+========================= */
+if(contentId === "notifBox"){
+const snap = await get(ref(db,"notifications/"+currentUser.phone));
+
+if(snap.exists()){
+Object.entries(snap.val()).forEach(([id,n])=>{
+if(!n.seen){
+update(ref(db,"notifications/"+currentUser.phone+"/"+id),{
+seen:true
+});
+}
+});
+}
+
+setTimeout(loadNotifications,300);
+}
+
+/* =========================
+   📱 CONTACTS INTELLIGENTS
+========================= */
+if(contentId === "transferBox"){
+
+const receiver = content.querySelector("#receiver");
+const contactsBox = content.querySelector("#contactsList");
+const receiverName = content.querySelector("#receiverName");
+
+/* 🔥 ouverture contacts */
+receiver.onfocus = ()=>{
+  const list = filterUsersSmart(receiver.value);
+  renderSmartContacts(list, contactsBox);
+  contactsBox.classList.remove("hidden");
+};
+
+/* 🔥 filtrage intelligent directement dans le champ numéro */
+receiver.oninput = ()=>{
+  const list = filterUsersSmart(receiver.value);
+  renderSmartContacts(list, contactsBox);
+  contactsBox.classList.remove("hidden");
+
+  updateReceiverNameSmart(receiver, receiverName);
+
+  /* 🔥 conversion live */
+  updateConversion();
+};
+
+/* 🔥 clic contact */
+contactsBox.onclick = (e)=>{
+
+  const item = e.target.closest(".contact-item");
+  if(!item || !item.dataset.phone) return;
+
+  const phone = item.dataset.phone;
+  const name = item.dataset.name || "Utilisateur";
+
+  const selectedBox = content.querySelector("#selectedContact");
+
+  selectedBox.innerHTML = `
+    <div class="contact-avatar">${name.charAt(0)}</div>
+    <div>
+      <strong>${name}</strong><br>
+      ${phone}
+    </div>
+  `;
+
+  selectedBox.classList.remove("hidden");
+
+  receiver.value = phone;
+  receiverName.innerText = "👤 " + name;
+
+  contactsBox.classList.add("hidden");
+
+  /* 🔥 conversion */
+  updateConversion();
+};
+
+/* 🔥 fermer liste */
+document.addEventListener("click", (e)=>{
+  if(!contactsBox.contains(e.target) && e.target !== receiver){
+    contactsBox.classList.add("hidden");
+  }
+});
+
+}
+
+/* =========================
+   📅 CONTACTS INTELLIGENTS - TRANSFERT PROGRAMMÉ
+========================= */
+if(contentId === "scheduledTransferBox"){
+
+const receiver = content.querySelector("#scheduledReceiver");
+const contactsBox = content.querySelector("#scheduledContactsList");
+const receiverName = content.querySelector("#scheduledReceiverName");
+const selectedBox = content.querySelector("#scheduledSelectedContact");
+
+/* 🔥 ouverture contacts */
+receiver.onfocus = ()=>{
+  const list = filterUsersSmart(receiver.value);
+  renderSmartContacts(list, contactsBox);
+  contactsBox.classList.remove("hidden");
+};
+
+/* 🔥 filtrage intelligent directement dans le champ numéro */
+receiver.oninput = ()=>{
+  const list = filterUsersSmart(receiver.value);
+  renderSmartContacts(list, contactsBox);
+  contactsBox.classList.remove("hidden");
+
+  updateReceiverNameSmart(receiver, receiverName);
+
+  /* 🔥 conversion live */
+  updateScheduledConversion();
+};
+
+/* 🔥 clic contact */
+contactsBox.onclick = (e)=>{
+
+  const item = e.target.closest(".contact-item");
+  if(!item || !item.dataset.phone) return;
+
+  const phone = item.dataset.phone;
+  const name = item.dataset.name || "Utilisateur";
+
+  selectedBox.innerHTML = `
+    <div class="contact-avatar">${name.charAt(0)}</div>
+    <div>
+      <strong>${name}</strong><br>
+      ${phone}
+    </div>
+  `;
+
+  selectedBox.classList.remove("hidden");
+
+  receiver.value = phone;
+  receiverName.innerText = "👤 " + name;
+
+  contactsBox.classList.add("hidden");
+
+  /* 🔥 conversion programmée */
+  updateScheduledConversion();
+};
+
+/* 🔥 fermer liste */
+document.addEventListener("click", (e)=>{
+  if(!contactsBox.contains(e.target) && e.target !== receiver){
+    contactsBox.classList.add("hidden");
+  }
+});
+
+}
+
+};
+
+
+
+function closeModal(){
+
+const modal = document.getElementById("modal");
+const modalBody = document.getElementById("modalBody");
+const hiddenZone = document.getElementById("hiddenZone");
+
+/* 🔥 remettre les éléments à leur place */
+while(modalBody.firstChild){
+hiddenZone.appendChild(modalBody.firstChild);
+}
+
+modal.classList.add("hidden");
+}
+
+/* =========================
+🧹 LIMITER HISTORIQUE À 10 ACTIVITÉS
+========================= */
+async function limitRecentHistory(userPhone){
+  const historyRef = ref(db, "history/" + userPhone);
+  const snap = await get(historyRef);
+
+  if(!snap.exists()) return;
+
+  const entries = Object.entries(snap.val());
+
+  /*
+    Si l'historique est inférieur ou égal à 10,
+    on ne supprime rien.
+  */
+  if(entries.length <= 10) return;
+
+  /*
+    On trie du plus récent au plus ancien.
+    Priorité :
+    1. createdAt si disponible
+    2. date si disponible
+    3. sinon 0
+  */
+  const sorted = entries.sort((a, b) => {
+    const dateA = Number(a[1].createdAt || new Date(a[1].date || 0).getTime() || 0);
+    const dateB = Number(b[1].createdAt || new Date(b[1].date || 0).getTime() || 0);
+
+    return dateB - dateA;
+  });
+
+  /*
+    On garde les 10 premiers,
+    puis on supprime automatiquement les autres.
+  */
+  const toDelete = sorted.slice(10);
+
+  const deletePromises = toDelete.map(([id]) => {
+    return remove(ref(db, "history/" + userPhone + "/" + id));
+  });
+
+  await Promise.all(deletePromises);
+}
+
+function listenHistory(){
+  const historyRef = ref(db,"history/" + currentUser.phone);
+
+  onValue(historyRef, async (snap)=>{
+
+    await limitRecentHistory(currentUser.phone);
+
+    const historyList = document.getElementById("historyList");
+    historyList.innerHTML = "";
+
+    if(!snap.exists()){
+      historyList.innerHTML = `
+        <div class="history-item">
+          <div class="history-title">Aucune activité</div>
+        </div>
+      `;
+      return;
+    }
+
+    const cur = getCurrency(currentUser.phone);
+
+    Object.entries(snap.val())
+      .sort((a,b)=>{
+        const dateA = Number(a[1].createdAt || new Date(a[1].date || 0).getTime() || 0);
+        const dateB = Number(b[1].createdAt || new Date(b[1].date || 0).getTime() || 0);
+        return dateB - dateA;
+      })
+      .slice(0,10)
+      .forEach(([id,tx])=>{
+
+        const isSent = tx.from === currentUser.phone;
+
+        let title = isSent ? tr("moneySent") : tr("moneyReceived");
+        let phone = isSent ? tx.to : tx.from;
+
+        /*
+          Cas retrait / dépôt si tu les utilises dans ton historique
+        */
+        if(tx.type === "withdraw"){
+          title = "📤 Retrait";
+          phone = tx.agentPhone || tx.to || "";
+        }
+
+        if(tx.type === "deposit"){
+          title = "💰 Dépôt";
+          phone = tx.agentPhone || tx.from || "";
+        }
+
+        const amount =
+          tx.amountOriginal !== undefined
+          ? tx.amountOriginal
+          : tx.amountConverted || tx.amount || 0;
+
+        historyList.innerHTML += `
+          <div class="history-item">
+
+            <div class="history-title">${title}</div>
+
+            <div class="history-phone">📱 ${phone || ""}</div>
+
+            <div class="history-amount">
+              💰 ${formatMoney(amount, cur)}
+            </div>
+
+            <div class="history-date">🕒 ${tx.date || ""}</div>
+
+            ${tx.reason ? `<div class="history-reason">${tx.reason}</div>` : ""}
+
+          </div>
+        `;
+      });
+
+  });
+}
+listenHistory();
+
+window.toggleHistory = function(){
+const box = document.getElementById("historyContent");
+box.style.display = box.style.display === "none" ? "block" : "none";
+};
+
+window.deleteHistory = async function(id){
+await remove(ref(db,"history/"+currentUser.phone+"/"+id));
+}
+
+document.getElementById("modal").addEventListener("click", (e)=>{
+if(e.target.id === "modal"){
+closeModal();
+}
+});
+
+window.showQR = function(){
+
+const modal = document.getElementById("modal");
+const modalBody = document.getElementById("modalBody");
+
+modalBody.innerHTML = `
+<div style="
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+padding:20px;
+border-radius:25px;
+color:white;
+box-shadow:0 25px 60px rgba(0,0,0,0.6);
+animation: fadeUp 0.5s ease;
+">
+
+<!-- 💳 CARTE -->
+<div style="
+background: linear-gradient(135deg,#ff9a00,#ff3d00);
+border-radius:18px;
+padding:20px;
+position:relative;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+">
+
+<div style="font-size:14px;opacity:0.8;">💎 COBRA</div>
+
+<div style="
+margin-top:25px;
+font-size:20px;
+letter-spacing:3px;
+font-weight:bold;
+">
+${currentUser.phone}
+</div>
+
+<div style="
+margin-top:20px;
+display:flex;
+justify-content:space-between;
+font-size:13px;
+">
+<span>${currentUser.name}</span>
+<span>${tr("valid")}</span>
+</div>
+
+<!-- ✨ effet shine -->
+<div style="
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background: linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
+animation: shine 3s infinite;
+"></div>
+
+</div>
+
+<!-- QR -->
+<div style="text-align:center;margin-top:25px;">
+<canvas id="qrCanvas" style="
+background:white;
+padding:12px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+"></canvas>
+
+<p style="margin-top:10px;font-weight:bold;">
+${tr("scanToPay")}
+</p>
+</div>
+
+</div>
+`;
+
+modal.classList.remove("hidden");
+
+/* 🔥 QR */
+setTimeout(()=>{
+QRCode.toCanvas(
+document.getElementById("qrCanvas"),
+currentUser.phone,
+{ width:200 }
+);
+},100);
+
+};
+
+function listenWithdrawRequests(){
+
+const reqRef = ref(db,"withdrawRequests/"+currentUser.phone);
+
+onValue(reqRef, async (snapshot)=>{
+
+if(!snapshot.exists()) return;
+
+const data = snapshot.val();
+
+for(const id in data){
+
+const req = data[id];
+
+console.log("REQ =", req);
+
+/* 🔥 ignorer si déjà traité */
+if(req.status !== "pending") continue;
+
+/* 🔥 bloquer double traitement */
+await update(ref(db,"withdrawRequests/"+currentUser.phone+"/"+id),{
+status:"processing"
+});
+
+/* 🔐 DEMANDE MOT DE PASSE */
+const pass = prompt(
+`💸 Demande de retrait
+Montant : ${req.amount} FCFA
+Frais : 0 FCFA
+Entrez votre mot de passe`
+);
+
+/* ❌ utilisateur annule */
+if(!pass){
+await update(ref(db,"withdrawRequests/"+currentUser.phone+"/"+id),{
+status:"pending"
+});
+continue;
+}
+
+/* 🔍 récupérer user */
+const userSnap = await get(ref(db,"users/"+currentUser.phone));
+
+if(!userSnap.exists()){
+alert("❌ Utilisateur introuvable");
+continue;
+}
+
+let user = userSnap.val();
+
+/* ❌ mauvais mot de passe */
+if(user.password !== pass){
+alert("❌ Mot de passe incorrect");
+
+await update(ref(db,"withdrawRequests/"+currentUser.phone+"/"+id),{
+status:"pending"
+});
+
+continue;
+}
+
+/* ❌ solde insuffisant */
+const disponible = user.solde - (user.frozenBalance || 0);
+
+if(disponible < req.amount){
+alert("❌ Solde insuffisant (fonds bloqués)");
+
+await update(ref(db,"withdrawRequests/"+currentUser.phone+"/"+id),{
+status:"pending"
+});
+
+continue;
+}
+
+/* ❌ agent manquant */
+const agentPhone = req.agent || req.fromAgent;
+
+if(!agentPhone){
+alert("❌ Agent introuvable");
+continue;
+}
+
+/* 🔍 récupérer agent */
+const agentRef = ref(db,"agents/"+agentPhone);
+const agentSnap = await get(agentRef);
+
+if(!agentSnap.exists()){
+alert("❌ Agent inexistant");
+continue;
+}
+
+let agentData = agentSnap.val();
+
+/* 🔥 conversion propre */
+const amount = Number(req.amount);
+
+/* ===== TRANSFERT ===== */
+user.solde -= amount;
+agentData.solde += amount;
+
+/* ===== UPDATE ===== */
+await update(ref(db,"users/"+currentUser.phone),{
+solde:user.solde
+});
+
+await update(agentRef,{
+solde:agentData.solde
+});
+
+/* ===== NOTIFICATIONS ===== */
+
+/* utilisateur */
+await push(ref(db,"notifications/"+currentUser.phone),{
+title:"💸 Retrait effectué",
+phone:agentPhone,
+amount:amount,
+date:new Date().toLocaleString(),
+seen:false
+});
+
+/* agent */
+await push(ref(db,"notifications/"+req.agent),{
+title:"💰 Retrait reçu",
+phone:currentUser.phone,
+amount:amount,
+date:new Date().toLocaleString(),
+seen:false
+});
+
+/* ===== SUPPRESSION DEMANDE ===== */
+await remove(ref(db,"withdrawRequests/"+currentUser.phone+"/"+id));
+
+await push(ref(db,"history/"+currentUser.phone),{
+from: currentUser.phone,
+to: req.fromAgent,
+amountOriginal: req.amount,
+date: new Date().toLocaleString(),
+type:"withdraw"
+});
+
+await push(ref(db,"history/"+agentPhone),{
+from: currentUser.phone,
+to: agentPhone,
+amountOriginal: req.amount,
+date: new Date().toLocaleString(),
+type:"withdraw"
+});
+
+alert("✅ Retrait confirmé");
+
+/* 🔄 refresh UI */
+listenBalance();
+
+}
+
+});
+
+}
+
+function showToast(message){
+
+const sound = document.getElementById("notifSound");
+sound.play();
+
+const toast = document.createElement("div");
+
+toast.innerText = message;
+
+toast.style = `
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:linear-gradient(45deg,#00c853,#00e676);
+color:white;
+padding:12px 20px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+z-index:9999;
+animation:slideUp 0.4s ease;
+`;
+
+document.body.appendChild(toast);
+
+setTimeout(()=>toast.remove(),3000);
+
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</body>
+</html>

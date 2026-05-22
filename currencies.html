@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion des devises — COBRA</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:"Segoe UI",sans-serif;
+color:#111;
+min-height:100vh;
+overflow-x:hidden;
+padding-top:90px;
+}
+
+/* 🔥 HEADER COMME MONEY-MONITOR */
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:14px 20px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
+color:white;
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+header h1{
+font-size:20px;
+font-weight:bold;
+color:white;
+}
+
+.live-box{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:14px;
+color:#00ff99;
+font-weight:bold;
+}
+
+.live-dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:#00ff99;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:1;}
+50%{opacity:0.3;}
+100%{opacity:1;}
+}
+
+/* 🔥 BACKGROUND DYNAMIQUE */
+.hero-wall{
+position:fixed;
+inset:0;
+z-index:-2;
+overflow:hidden;
+}
+
+.hero-wall video,
+.hero-wall img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.hero-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.2);
+z-index:-1;
+}
+
+/* 🔥 AUDIO */
+.audio-btn{
+position:fixed;
+bottom:15px;
+right:15px;
+z-index:1000;
+background:rgba(0,0,0,0.35);
+border:none;
+border-radius:50%;
+width:42px;
+height:42px;
+color:white;
+cursor:pointer;
+font-size:18px;
+}
+
+/* 🔥 CONTAINER */
+.container{
+width:92%;
+max-width:1100px;
+margin:25px auto;
+}
+
+/* 🔥 CARD */
+.card{
+background:rgba(255,255,255,0.95);
+color:#111;
+padding:22px;
+border-radius:18px;
+box-shadow:0 15px 35px rgba(0,0,0,0.3);
+animation:fadeUp 0.4s ease;
+transition:0.3s;
+margin-bottom:20px;
+}
+
+.card:hover{
+transform:translateY(-4px);
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+h2{
+margin-top:0;
+color:#ff6a00;
+}
+
+/* 🔥 INPUT */
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #ddd;
+background:rgba(255,255,255,0.95);
+color:#111;
+font-size:15px;
+outline:none;
+}
+
+input::placeholder{
+color:#999;
+}
+
+input:focus{
+border:2px solid #ff6a00;
+box-shadow:0 0 20px rgba(255,106,0,0.35);
+}
+
+/* 🔥 BOUTONS */
+button{
+padding:13px;
+margin-top:12px;
+border:none;
+border-radius:14px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(45deg,#ff9a00,#ff3d00);
+color:white;
+font-size:15px;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+button:active{
+transform:scale(0.95);
+}
+
+.btn-full{
+width:100%;
+}
+
+.btn-back{
+background:linear-gradient(45deg,#222,#444);
+color:white;
+padding:12px 18px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.btn-back:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.delete-btn{
+background:crimson;
+}
+
+.small-btn{
+padding:10px 14px;
+width:auto;
+}
+
+/* 🔥 SECTION TITLE */
+.section-title{
+font-size:22px;
+margin:30px 0 15px;
+color:white;
+background:rgba(0,0,0,0.55);
+backdrop-filter:blur(10px);
+padding:14px 18px;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+cursor:pointer;
+}
+
+/* 🔥 LISTE */
+.currency-list{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+margin-top:15px;
+}
+
+.currency-item{
+background:rgba(255,255,255,0.95);
+color:#111;
+padding:18px;
+border-radius:18px;
+box-shadow:0 15px 35px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+.currency-item:hover{
+transform:translateY(-4px);
+}
+
+.currency-code{
+font-size:26px;
+font-weight:bold;
+color:#ff6a00;
+margin-bottom:8px;
+}
+
+.currency-country{
+font-size:18px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.currency-rate{
+font-size:15px;
+margin-top:8px;
+color:#333;
+font-weight:600;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:12px;
+flex-wrap:wrap;
+}
+
+.hidden{
+display:none;
+}
+
+/* 🔥 SEARCH */
+.search-box{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.search-box input{
+margin-top:0;
+}
+
+/* 🔥 RESPONSIVE */
+@media(max-width:700px){
+header h1{
+font-size:17px;
+}
+
+.section-title{
+font-size:18px;
+}
+
+.search-box{
+flex-direction:column;
+align-items:stretch;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND DYNAMIQUE -->
+<div class="hero-wall">
+<video id="bgVideo" playsinline></video>
+<img id="bgImage">
+</div>
+<div class="hero-overlay"></div>
+<button id="toggleAudio" class="audio-btn">🔇</button>
+
+<header>
+<h1>💱 Gestion des devises — COBRA</h1>
+<div class="live-box">
+<div class="live-dot"></div>
+LIVE
+</div>
+</header>
+
+<div class="container">
+
+<!-- AJOUT -->
+<div class="card">
+<h2>➕ Ajouter une devise</h2>
+
+<input id="prefix" placeholder="Indicatif téléphone (+1)">
+<input id="code" placeholder="Code devise (USD)">
+<input id="country" placeholder="Pays (USA)">
+<input id="flag" placeholder="Drapeau (🇺🇸)">
+<input id="symbol" placeholder="Symbole ($)">
+
+<button class="btn-full" onclick="addCurrency()">
+➕ Ajouter devise
+</button>
+</div>
+
+<!-- LISTE -->
+<h2 class="section-title" onclick="toggleCurrencyList()">
+🌍 Devises disponibles ⬇
+</h2>
+
+<div id="currencyBox">
+
+<div class="card">
+<div class="search-box">
+<input
+id="searchCurrency"
+placeholder="🔎 Rechercher par indicatif, code ISO ou pays..."
+>
+</div>
+</div>
+
+<div id="currencyList" class="currency-list"></div>
+
+</div>
+
+<div class="card">
+<button onclick="location.href='admin.html'" class="btn-back">
+⬅ Retour
+</button>
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+set,
+remove,
+onValue
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+
+const firebaseConfig = {
+   apiKey: "AIzaSyBsKMDF-nX-4tM_Hh0JPozZRuY9x9sFmh4",
+   authDomain: "securite-53ada.firebaseapp.com",
+   databaseURL:"https://securite-53ada-default-rtdb.firebaseio.com/",       
+   projectId: "securite-53ada",
+   storageBucket: "securite-53ada.firebasestorage.app"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+/* =========================
+🔥 BACKGROUND DYNAMIQUE
+========================= */
+const video =
+document.getElementById("bgVideo");
+const image =
+document.getElementById("bgImage");
+const toggleAudioBtn =
+document.getElementById("toggleAudio");
+
+let isMuted = true;
+let currentIsVideo = false;
+
+toggleAudioBtn.addEventListener("click", () => {
+isMuted = !isMuted;
+
+if(currentIsVideo){
+video.muted = isMuted;
+}
+
+toggleAudioBtn.textContent =
+isMuted ? "🔇" : "🔊";
+});
+
+let maliMedia = [
+{
+type:"image",
+url:"https://images.unsplash.com/photo-1600172454520-134a542d7c97"
+},
+{
+type:"video",
+url:"https://cdn.pixabay.com/video/2018/10/09/18675-297657059_large.mp4"
+}
+];
+
+let index = 0;
+let currentTimeout;
+
+switchMedia();
+
+function switchMedia(){
+if(!maliMedia.length) return;
+
+clearTimeout(currentTimeout);
+
+const ad = maliMedia[index];
+
+if(ad.type === "video"){
+video.src = ad.url;
+video.style.display = "block";
+image.style.display = "none";
+video.muted = isMuted;
+currentIsVideo = true;
+
+video.onloadedmetadata = () => {
+video.play().catch(()=>{});
+
+const duration =
+ad.duration || video.duration || 10;
+
+currentTimeout = setTimeout(() => {
+index = (index + 1) % maliMedia.length;
+switchMedia();
+}, duration * 1000);
+};
+
+}else{
+image.src = ad.url;
+image.style.display = "block";
+video.style.display = "none";
+currentIsVideo = false;
+
+const duration =
+ad.duration || 10;
+
+currentTimeout = setTimeout(() => {
+index = (index + 1) % maliMedia.length;
+switchMedia();
+}, duration * 1000);
+}
+}
+
+function restartSlider(){
+index = 0;
+switchMedia();
+}
+
+/* 🔥 FIREBASE SYNC ADS */
+onValue(ref(db,"ads"), snap => {
+console.log("ADS =", snap.val());
+
+const data = snap.val();
+
+if(!data) return;
+
+maliMedia = Object.values(data);
+restartSlider();
+});
+
+const currencyList =
+document.getElementById("currencyList");
+const currencyBox =
+document.getElementById("currencyBox");
+
+const searchCurrency =
+document.getElementById("searchCurrency");
+
+let allCurrencies = {};
+
+/* =========================
+👁 OUVRIR / FERMER LISTE
+========================= */
+window.toggleCurrencyList = function(){
+currencyBox.classList.toggle("hidden");
+};
+
+/* =========================
+🧮 FORMAT FCFA
+========================= */
+function formatXOF(value){
+return Number(value || 0).toLocaleString(
+"fr-FR",
+{
+minimumFractionDigits:0,
+maximumFractionDigits:0
+}
+) + " FCFA";
+}
+
+/* =========================
+➕ AJOUTER DEVISE
+========================= */
+
+const countriesData = {
+
+"+223":{
+code:"XOF",
+country:"Mali",
+flag:"🇲🇱",
+symbol:"FCFA"
+},
+
+"+33":{
+code:"EUR",
+country:"France",
+flag:"🇫🇷",
+symbol:"€"
+},
+
+"+1515":{
+code:"USD",
+country:"États-Unis",
+flag:"🇺🇸",
+symbol:"$"
+},
+
+"+1514":{
+code:"CAD",
+country:"Canada",
+flag:"🇨🇦",
+symbol:"$"
+},
+
+"+86":{
+code:"CNY",
+country:"Chine",
+flag:"🇨🇳",
+symbol:"¥"
+},
+
+"+226":{
+code:"XOF",
+country:"Burkina Faso",
+flag:"🇧🇫",
+symbol:"FCFA"
+},
+
+"+227":{
+code:"XOF",
+country:"Niger",
+flag:"🇳🇪",
+symbol:"FCFA"
+}
+
+};
+
+window.addCurrency = async function(){
+
+const prefix =
+document.getElementById("prefix")
+.value.trim();
+
+const code =
+document.getElementById("code")
+.value.trim()
+.toUpperCase();
+
+const country =
+document.getElementById("country")
+.value.trim();
+
+const flag =
+document.getElementById("flag")
+.value.trim();
+
+const symbol =
+document.getElementById("symbol")
+.value.trim();
+
+if(
+!prefix ||
+!code ||
+!country ||
+!flag ||
+!symbol
+){
+
+alert("❌ Remplis tous les champs");
+
+return;
+}
+
+/* 🔥 sauvegarde Firebase */
+
+await set(
+ref(db,"currencies/"+prefix),
+{
+prefix,
+code,
+country,
+flag,
+symbol
+}
+);
+
+alert("✅ Devise ajoutée");
+
+/* reset */
+
+document.getElementById("code").value="";
+document.getElementById("symbol").value="";
+document.getElementById("prefix").value="";
+document.getElementById("country").value="";
+document.getElementById("flag").value="";
+};
+
+/* =========================
+🌍 TAUX LIVE API
+========================= */
+
+async function getRate(code){
+
+if(code === "XOF"){
+return 1;
+}
+
+try{
+
+const res =
+await fetch(
+`https://open.er-api.com/v6/latest/${code}`
+);
+
+const data = await res.json();
+
+if(
+data.result === "success" &&
+data.rates["XOF"]
+){
+return data.rates["XOF"];
+}
+
+return null;
+
+}catch{
+
+return null;
+
+}
+
+}
+
+/* =========================
+🖥️ AFFICHER DEVISES
+========================= */
+async function renderCurrencies(){
+const search =
+(searchCurrency.value || "").trim().toLowerCase();
+
+currencyList.innerHTML = "";
+
+const entries =
+Object.entries(allCurrencies);
+
+if(entries.length === 0){
+currencyList.innerHTML = `
+<div class="currency-item">
+Aucune devise disponible
+</div>
+`;
+return;
+}
+
+for(const [prefix,c] of entries){
+const code =
+(c.code || "").toUpperCase();
+
+const country =
+c.country || "";
+
+const flag =
+c.flag || "";
+
+const symbol =
+c.symbol || code;
+
+const searchableText =
+(prefix + " " + code + " " + country + " " + flag + " " + symbol)
+.toLowerCase();
+
+if(search && !searchableText.includes(search)){
+continue;
+}
+
+const liveRate =
+await getRate(code);
+
+currencyList.innerHTML += `
+<div class="currency-item">
+
+<div class="currency-code">
+${code}
+</div>
+
+<div class="currency-country">
+${country}
+</div>
+
+<div class="currency-rate">
+🌍 ${flag} ${country}
+</div>
+
+<div class="currency-rate">
+📱 ${prefix}
+</div>
+
+<div class="currency-rate">
+💵 Symbole : <b>${symbol}</b>
+</div>
+
+<div class="currency-rate">
+💰 1 ${code} =
+<b>
+${liveRate !== null
+? formatXOF(liveRate)
+: "Indisponible"}
+</b>
+</div>
+
+<div class="actions">
+<button
+class="small-btn delete-btn"
+onclick="deleteCurrency('${prefix}')">
+🗑 Supprimer
+</button>
+</div>
+
+</div>
+`;
+}
+}
+
+/* =========================
+📡 TEMPS RÉEL
+========================= */
+onValue(ref(db,"currencies"),(snap)=>{
+allCurrencies =
+snap.val() || {};
+
+renderCurrencies();
+});
+
+/* =========================
+🔎 RECHERCHE
+========================= */
+searchCurrency.addEventListener("input",()=>{
+renderCurrencies();
+});
+
+/* =========================
+🗑 SUPPRIMER
+========================= */
+
+window.deleteCurrency = async function(code){
+
+if(!confirm("Supprimer cette devise ?"))
+return;
+
+await remove(
+ref(db,"currencies/"+code)
+);
+
+alert("✅ Devise supprimée");
+};
+
+const prefixInput =
+document.getElementById("prefix");
+
+prefixInput.addEventListener("input",()=>{
+
+const prefix =
+prefixInput.value.trim();
+
+const data =
+countriesData[prefix];
+
+if(!data) return;
+
+document.getElementById("code").value =
+data.code;
+
+document.getElementById("country").value =
+data.country;
+
+document.getElementById("flag").value =
+data.flag;
+
+document.getElementById("symbol").value =
+data.symbol;
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ma Money — Connexion</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"></script>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:"Segoe UI",sans-serif;
+min-height:100vh;
+color:#111;
+overflow-x:hidden;
+background:#000;
+}
+
+/* =========================
+🔥 BACKGROUND DYNAMIQUE
+========================= */
+.hero-wall{
+position:fixed;
+inset:0;
+z-index:-3;
+overflow:hidden;
+background:#000;
+}
+
+.hero-wall video,
+.hero-wall img{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(0.45);
+}
+
+.hero-overlay{
+position:fixed;
+inset:0;
+background:
+linear-gradient(
+135deg,
+rgba(0,0,0,0.75),
+rgba(0,0,0,0.35),
+rgba(0,0,0,0.8)
+);
+z-index:-2;
+}
+
+/* =========================
+🔥 HEADER
+========================= */
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:16px 22px;
+background:rgba(0,0,0,0.58);
+backdrop-filter:blur(14px);
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 8px 25px rgba(0,0,0,0.35);
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:10px;
+color:white;
+font-weight:bold;
+font-size:22px;
+}
+
+.logo-icon{
+width:42px;
+height:42px;
+border-radius:14px;
+background:linear-gradient(45deg,#ff9a00,#ff3d00);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+box-shadow:0 8px 20px rgba(255,106,0,0.45);
+}
+
+.live-box{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:14px;
+color:#00ff99;
+font-weight:bold;
+}
+
+.live-dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:#00ff99;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:1;}
+50%{opacity:0.3;}
+100%{opacity:1;}
+}
+
+/* =========================
+🔥 MAIN
+========================= */
+main{
+min-height:100vh;
+padding:115px 20px 40px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.login-layout{
+width:100%;
+max-width:1100px;
+display:grid;
+grid-template-columns:1.1fr 0.9fr;
+gap:35px;
+align-items:center;
+}
+
+/* =========================
+🔥 TEXTE ACCUEIL
+========================= */
+.welcome-panel{
+color:white;
+animation:fadeUp 0.7s ease;
+}
+
+.badge{
+display:inline-block;
+background:rgba(255,255,255,0.13);
+border:1px solid rgba(255,255,255,0.18);
+backdrop-filter:blur(10px);
+padding:10px 15px;
+border-radius:999px;
+font-weight:bold;
+margin-bottom:18px;
+}
+
+.welcome-panel h1{
+font-size:48px;
+line-height:1.1;
+margin-bottom:18px;
+}
+
+.welcome-panel h1 span{
+color:#ff9a00;
+}
+
+.welcome-panel p{
+font-size:17px;
+line-height:1.7;
+color:rgba(255,255,255,0.88);
+max-width:560px;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:14px;
+margin-top:25px;
+}
+
+.feature{
+background:rgba(255,255,255,0.12);
+border:1px solid rgba(255,255,255,0.14);
+backdrop-filter:blur(12px);
+padding:15px;
+border-radius:18px;
+font-weight:600;
+}
+
+/* =========================
+🔥 LOGIN CARD
+========================= */
+.login-card{
+background:rgba(255,255,255,0.96);
+color:#111;
+padding:28px;
+border-radius:24px;
+box-shadow:0 20px 55px rgba(0,0,0,0.4);
+animation:fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(25px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.login-card h2{
+text-align:center;
+font-size:26px;
+margin-bottom:8px;
+color:#ff3d00;
+}
+
+.login-subtitle{
+text-align:center;
+font-size:14px;
+color:#555;
+margin-bottom:22px;
+font-weight:600;
+}
+
+.form-group{
+margin-bottom:16px;
+}
+
+label{
+display:block;
+font-size:14px;
+font-weight:bold;
+color:#333;
+margin-bottom:8px;
+}
+
+input{
+width:100%;
+padding:14px 14px;
+border:1px solid #ddd;
+border-radius:14px;
+font-size:15px;
+outline:none;
+background:#f7f7f7;
+transition:0.25s;
+}
+
+input:focus{
+border-color:#ff6a00;
+background:white;
+box-shadow:0 0 0 4px rgba(255,106,0,0.12);
+}
+
+/* intl tel input */
+.iti{
+width:100%;
+}
+
+.iti input{
+width:100%;
+}
+
+.country-display{
+margin-top:9px;
+font-size:14px;
+font-weight:600;
+color:#444;
+background:#f1f1f1;
+padding:10px 12px;
+border-radius:12px;
+}
+
+.password-wrap{
+position:relative;
+}
+
+.password-wrap input{
+padding-right:48px;
+}
+
+.eye-btn{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+border:none;
+background:transparent;
+cursor:pointer;
+font-size:20px;
+width:auto;
+padding:5px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:15px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.login-btn{
+margin-top:8px;
+background:linear-gradient(45deg,#ff9a00,#ff3d00);
+color:white;
+box-shadow:0 10px 25px rgba(255,90,0,0.35);
+}
+
+.login-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 15px 35px rgba(255,90,0,0.45);
+}
+
+.error{
+color:red;
+margin-top:14px;
+font-weight:bold;
+text-align:center;
+min-height:22px;
+}
+
+.secure-note{
+margin-top:18px;
+font-size:13px;
+color:#555;
+text-align:center;
+line-height:1.6;
+}
+
+/* =========================
+🔥 AUDIO BUTTON
+========================= */
+.audio-btn{
+position:fixed;
+bottom:18px;
+right:18px;
+z-index:1000;
+background:rgba(0,0,0,0.45);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:50%;
+width:45px;
+height:45px;
+color:white;
+cursor:pointer;
+font-size:18px;
+backdrop-filter:blur(10px);
+}
+
+/* =========================
+🔥 FOOTER
+========================= */
+footer{
+position:relative;
+z-index:2;
+text-align:center;
+padding:18px;
+color:white;
+background:rgba(0,0,0,0.6);
+font-size:14px;
+line-height:1.6;
+}
+
+/* =========================
+🔥 RESPONSIVE
+========================= */
+@media(max-width:900px){
+.login-layout{
+grid-template-columns:1fr;
+max-width:520px;
+}
+
+.welcome-panel{
+text-align:center;
+}
+
+.welcome-panel h1{
+font-size:34px;
+}
+
+.welcome-panel p{
+font-size:15px;
+}
+
+.features{
+grid-template-columns:1fr;
+}
+
+main{
+padding-top:105px;
+}
+}
+
+@media(max-width:520px){
+header{
+padding:13px 15px;
+}
+
+.logo-box{
+font-size:17px;
+}
+
+.logo-icon{
+width:36px;
+height:36px;
+font-size:19px;
+}
+
+.live-box{
+font-size:12px;
+}
+
+.login-card{
+padding:22px;
+border-radius:20px;
+}
+
+.welcome-panel h1{
+font-size:30px;
+}
+
+.login-card h2{
+font-size:23px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+🔥 BACKGROUND
+========================= -->
+<div class="hero-wall">
+<video id="bgVideo" playsinline muted></video>
+<img id="bgImage" alt="">
+</div>
+<div class="hero-overlay"></div>
+
+<button id="toggleAudio" class="audio-btn">🔇</button>
+
+<!-- =========================
+🔥 HEADER
+========================= -->
+<header>
+<div class="logo-box">
+<div class="logo-icon">💰</div>
+<div>Ma Money</div>
+</div>
+
+<div class="live-box">
+<div class="live-dot"></div>
+SÉCURISÉ
+</div>
+</header>
+
+<!-- =========================
+🔥 CONTENT
+========================= -->
+<main>
+<div class="login-layout">
+
+<section class="welcome-panel">
+<div class="badge">🇲🇱 Paiement numérique sécurisé</div>
+
+<h1>
+Bienvenue sur <br>
+<span>Ma Money</span>
+</h1>
+
+<p>
+Connecte-toi pour accéder à ton espace personnel, suivre ton solde,
+envoyer de l’argent, consulter ton historique et gérer tes opérations
+en toute sécurité.
+</p>
+
+<div class="features">
+<div class="feature">🔐 Connexion protégée</div>
+<div class="feature">💸 Transfert rapide</div>
+<div class="feature">📜 Historique clair</div>
+<div class="feature">🌍 Multi-devises</div>
+</div>
+</section>
+
+<section class="login-card">
+<h2>Connexion sécurisée</h2>
+<div class="login-subtitle">
+Identifie-toi pour accéder à ton compte sécurisé
+</div>
+
+<form id="loginForm">
+
+<div class="form-group">
+<label>📱 Numéro de téléphone</label>
+<input
+type="tel"
+id="phone"
+placeholder="Ex : +22370000000 ou 70 00 00 00"
+required
+>
+<div id="countryInfo" class="country-display"></div>
+</div>
+
+<div class="form-group">
+<label>🔑 Mot de passe</label>
+<div class="password-wrap">
+<input
+type="password"
+id="password"
+placeholder="Mot de passe"
+required
+>
+<button type="button" class="eye-btn" id="togglePassword">👁️</button>
+</div>
+</div>
+
+<button type="submit" class="login-btn">
+Se connecter
+</button>
+
+</form>
+
+<p id="error" class="error"></p>
+
+<div class="secure-note">
+🔒 Double identification • Données protégées • Transactions sécurisées<br>
+✨ Votre argent en sécurité, votre avenir en confiance.
+</div>
+</section>
+
+</div>
+</main>
+
+<footer>
+<strong>Ma Money 🇲🇱</strong> — Paiement numérique sécurisé
+</footer>
+
+<script type="module">
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+update,
+onValue
+} from
+"https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+/* =========================
+🔥 FIREBASE
+========================= */
+const firebaseConfig = {
+   apiKey: "AIzaSyBsKMDF-nX-4tM_Hh0JPozZRuY9x9sFmh4",
+   authDomain: "securite-53ada.firebaseapp.com",
+   databaseURL:"https://securite-53ada-default-rtdb.firebaseio.com/",
+   projectId: "securite-53ada",
+   storageBucket: "securite-53ada.firebasestorage.app"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+/* =========================
+🔐 SECURITE AVANCEE LOGIN
+========================= */
+
+function getDeviceId(){
+  let id = localStorage.getItem("cobraDeviceId");
+
+  if(!id){
+    id = "DEV-" + Date.now() + "-" + Math.random().toString(36).substring(2,10);
+    localStorage.setItem("cobraDeviceId", id);
+  }
+
+  return id;
+}
+
+function base64ToArrayBuffer(base64){
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+
+  for(let i = 0; i < binary.length; i++){
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return bytes.buffer;
+}
+
+async function verifyBiometric(user){
+  if(!window.PublicKeyCredential){
+    alert("❌ La biométrie n'est pas supportée sur cet appareil");
+    return false;
+  }
+
+  const sec = user.security || {};
+
+  if(!sec.biometricCredentialId){
+    alert("❌ Aucune empreinte n'est enregistrée pour ce compte sur cet appareil");
+    return false;
+  }
+
+  try{
+    const challenge = new Uint8Array(32);
+    window.crypto.getRandomValues(challenge);
+
+    const credentialId = base64ToArrayBuffer(sec.biometricCredentialId);
+
+    await navigator.credentials.get({
+      publicKey:{
+        challenge:challenge,
+        allowCredentials:[
+          {
+            id:credentialId,
+            type:"public-key"
+          }
+        ],
+        userVerification:"required",
+        timeout:60000
+      }
+    });
+
+    return true;
+
+  }catch(e){
+    console.log("Biométrie refusée :", e);
+    return false;
+  }
+}
+
+async function verifyFirebaseAuth(email){
+  const firebasePass = prompt(
+    "🔐 Vérification Firebase Auth requise.\nEntre ton mot de passe Firebase Auth"
+  );
+
+  if(!firebasePass){
+    return false;
+  }
+
+  try{
+    await signInWithEmailAndPassword(auth, email, firebasePass);
+    return true;
+  }catch(e){
+    console.error(e);
+    alert("❌ Firebase Authentication échoué");
+    return false;
+  }
+}
+
+async function requireSecondAuth(user){
+  const sec = user.security || {};
+
+  const currentDevice = getDeviceId();
+  const isTrustedDevice = sec.trustedDeviceId === currentDevice;
+
+  /*
+  Première connexion :
+  aucune sécurité avancée activée
+  */
+  if(!sec.biometricEnabled && !sec.firebaseAuthEnabled){
+    return true;
+  }
+
+  /*
+  Autre appareil :
+  Firebase Auth obligatoire
+  */
+  if(!isTrustedDevice){
+
+    if(!sec.firebaseAuthEnabled || !sec.firebaseEmail){
+      alert("❌ Nouvel appareil détecté. Firebase Authentication doit être activé depuis ton appareil personnel.");
+      return false;
+    }
+
+    return await verifyFirebaseAuth(sec.firebaseEmail);
+  }
+
+  /*
+  Appareil personnel :
+  priorité biométrie
+  */
+  if(sec.biometricEnabled){
+    const bioOk = await verifyBiometric(user);
+
+    if(bioOk){
+      return true;
+    }
+
+    /*
+    Si biométrie échoue, on tente Firebase Auth si disponible
+    */
+    if(sec.firebaseAuthEnabled && sec.firebaseEmail){
+      return await verifyFirebaseAuth(sec.firebaseEmail);
+    }
+
+    alert("❌ Vérification biométrique échouée");
+    return false;
+  }
+
+  /*
+  Appareil personnel sans biométrie :
+  Firebase Auth
+  */
+  if(sec.firebaseAuthEnabled && sec.firebaseEmail){
+    return await verifyFirebaseAuth(sec.firebaseEmail);
+  }
+
+  return true;
+}
+
+async function ensureUserSecurity(phone, user){
+  if(user.security){
+    return user;
+  }
+
+  const defaultSecurity = {
+    biometricEnabled:false,
+    firebaseAuthEnabled:false,
+    trustedDeviceId:"",
+    firebaseEmail:"",
+    biometricCredentialId:"",
+    lastSecondAuthAt:0
+  };
+
+  await set(ref(db, "users/" + phone + "/security"), defaultSecurity);
+
+  user.security = defaultSecurity;
+
+  return user;
+}
+
+/* =========================
+🔥 BACKGROUND DYNAMIQUE
+========================= */
+const video =
+document.getElementById("bgVideo");
+
+const image =
+document.getElementById("bgImage");
+
+const toggleAudioBtn =
+document.getElementById("toggleAudio");
+
+let isMuted = true;
+let currentIsVideo = false;
+let mediaList = [
+{
+type:"image",
+url:"https://images.unsplash.com/photo-1600172454520-134a542d7c97",
+duration:10
+},
+{
+type:"video",
+url:"https://cdn.pixabay.com/video/2018/10/09/18675-297657059_large.mp4",
+duration:10
+}
+];
+
+let index = 0;
+let currentTimeout;
+
+function switchMedia(){
+if(!mediaList.length) return;
+
+clearTimeout(currentTimeout);
+
+const ad = mediaList[index];
+
+if(ad.type === "video"){
+video.src = ad.url;
+video.style.display = "block";
+image.style.display = "none";
+
+video.muted = isMuted;
+currentIsVideo = true;
+
+video.onloadedmetadata = () => {
+video.play().catch(()=>{});
+
+const duration =
+Number(ad.duration || video.duration || 10);
+
+currentTimeout = setTimeout(() => {
+index = (index + 1) % mediaList.length;
+switchMedia();
+}, duration * 1000);
+};
+
+}else{
+image.src = ad.url;
+image.style.display = "block";
+video.style.display = "none";
+currentIsVideo = false;
+
+const duration =
+Number(ad.duration || 10);
+
+currentTimeout = setTimeout(() => {
+index = (index + 1) % mediaList.length;
+switchMedia();
+}, duration * 1000);
+}
+}
+
+function restartSlider(){
+index = 0;
+switchMedia();
+}
+
+toggleAudioBtn.addEventListener("click", () => {
+isMuted = !isMuted;
+
+if(currentIsVideo){
+video.muted = isMuted;
+}
+
+toggleAudioBtn.textContent =
+isMuted ? "🔇" : "🔊";
+});
+
+switchMedia();
+
+/* 🔥 ADS FIREBASE */
+onValue(ref(db,"ads"), snap => {
+const data = snap.val();
+
+if(!data) return;
+
+mediaList = Object.values(data)
+.filter(ad => ad.url && ad.type);
+
+restartSlider();
+});
+
+/* =========================
+📱 INTL TEL INPUT
+========================= */
+const phoneInput =
+document.querySelector("#phone");
+
+const countryInfo =
+document.getElementById("countryInfo");
+
+const iti =
+window.intlTelInput(phoneInput, {
+initialCountry:"ml",
+nationalMode:false,
+autoHideDialCode:false,
+preferredCountries:["ml","ci","sn","bf","ne","gh","fr","ca","us","cn"],
+separateDialCode:false,
+utilsScript:
+"https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+});
+
+function getFlagEmoji(code){
+return code
+.toUpperCase()
+.replace(/./g, char =>
+String.fromCodePoint(127397 + char.charCodeAt())
+);
+}
+
+function updateCountryDisplay(){
+const countryData =
+iti.getSelectedCountryData();
+
+if(countryData && countryData.name){
+countryInfo.innerText =
+"🌍 Pays détecté : " +
+countryData.name +
+" " +
+getFlagEmoji(countryData.iso2);
+}else{
+countryInfo.innerText =
+"🌍 Pays détecté : non reconnu";
+}
+}
+
+phoneInput.addEventListener("input", () => {
+if(phoneInput.value.startsWith("+")){
+iti.setNumber(phoneInput.value);
+}
+
+updateCountryDisplay();
+});
+
+phoneInput.addEventListener(
+"countrychange",
+updateCountryDisplay
+);
+
+updateCountryDisplay();
+
+/* =========================
+👁️ AFFICHER MOT DE PASSE
+========================= */
+const togglePassword =
+document.getElementById("togglePassword");
+
+const passwordInput =
+document.getElementById("password");
+
+togglePassword.addEventListener("click", () => {
+const isPassword =
+passwordInput.type === "password";
+
+passwordInput.type =
+isPassword ? "text" : "password";
+
+togglePassword.textContent =
+isPassword ? "🙈" : "👁️";
+});
+
+/* =========================
+🔐 LOGIN SYSTEM
+========================= */
+document
+.getElementById("loginForm")
+.addEventListener("submit", async (e)=>{
+e.preventDefault();
+
+const error =
+document.getElementById("error");
+
+error.innerText = "";
+
+if(!iti.isValidNumber()){
+error.innerText = "❌ Numéro invalide";
+return;
+}
+
+const phone =
+iti.getNumber();
+
+const password =
+document
+.getElementById("password")
+.value
+.trim();
+
+try{
+
+const adminPhone =
+"+22399999999";
+
+const adminRef =
+ref(db, "users/" + adminPhone);
+
+/* =========================
+👑 ADMIN UNIQUE MODE
+========================= */
+if(phone === adminPhone && password === "admin123"){
+
+const adminSnap =
+await get(adminRef);
+
+if(!adminSnap.exists()){
+await set(adminRef, {
+phone:adminPhone,
+password:"admin123",
+name:"Administrateur",
+solde:1000000,
+role:"admin",
+frozen:false,
+currency:"XOF"
+});
+}
+
+const finalAdminSnap =
+await get(adminRef);
+
+const adminUser =
+finalAdminSnap.val();
+
+localStorage.setItem(
+"loggedUser",
+JSON.stringify(adminUser)
+);
+
+window.location.href =
+"admin.html";
+
+return;
+}
+
+/* =========================
+👤 USER
+========================= */
+const userRef =
+ref(db, "users/" + phone);
+
+const userSnap =
+await get(userRef);
+
+if(userSnap.exists()){
+
+let user =
+userSnap.val();
+
+user = await ensureUserSecurity(phone, user);
+
+if(user.password !== password){
+error.innerText =
+"❌ Mot de passe incorrect";
+return;
+}
+
+if(user.frozen === true){
+error.innerText =
+"❌ Votre compte est bloqué";
+return;
+}
+
+const secondAuthOk = await requireSecondAuth(user);
+
+if(!secondAuthOk){
+  error.innerText = "❌ Deuxième identification échouée";
+  return;
+}
+
+/* ✅ On enregistre officiellement la réussite de la 2e identification */
+const secondAuthTime = Date.now();
+
+await update(ref(db, "users/" + phone + "/security"), {
+  lastSecondAuthAt: secondAuthTime
+});
+
+/* ✅ On met aussi à jour la copie locale */
+user.security = user.security || {};
+user.security.lastSecondAuthAt = secondAuthTime;
+
+localStorage.setItem(
+"loggedUser",
+JSON.stringify(user)
+);
+
+window.location.href =
+user.role === "admin"
+? "admin.html"
+: "dashboard.html";
+
+return;
+}
+
+/* =========================
+👨‍💼 AGENT
+========================= */
+const agentRef =
+ref(db, "agents/" + phone);
+
+const agentSnap =
+await get(agentRef);
+
+if(agentSnap.exists()){
+
+const agent =
+agentSnap.val();
+
+if(agent.password !== password){
+error.innerText =
+"❌ Mot de passe incorrect";
+return;
+}
+
+if(agent.frozen === true){
+error.innerText =
+"❌ Votre compte agent est bloqué";
+return;
+}
+
+localStorage.setItem(
+"loggedAgent",
+JSON.stringify(agent)
+);
+
+window.location.href =
+"agent.html";
+
+return;
+}
+
+/* =========================
+❌ AUCUN COMPTE
+========================= */
+error.innerText =
+"❌ Compte introuvable";
+
+}catch(e){
+console.error(e);
+error.innerText =
+"❌ Erreur Firebase";
+}
+
+});
+</script>
+
+</body>
+</html>
