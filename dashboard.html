@@ -2425,71 +2425,72 @@ input[type="datetime-local"] {
 }
 
 /* =====================================================
-   ETAPE 4 — ACTIVITES RECENTES + NOTIFICATIONS PREMIUM
-   Objectif : historique moderne, lisible et mobile
+   ACTIVITÉS RÉCENTES — CSS PROPRE ET STABLE
+   Objectif :
+   - garder le design premium
+   - éviter les conflits avec les notifications
+   - préparer l'ajout de l'achat de crédit téléphonique
 ===================================================== */
 
-
-/* Grande boîte Activités récentes */
+/* Boîte principale des activités */
 .history-box {
-  width: 100%;
-  margin-top: 20px !important;
-  padding: 22px !important;
-  border-radius: 30px !important;
+  width: 100% !important;
+  margin: 20px auto 25px !important;
+  padding: 18px !important;
+  border-radius: 28px !important;
   background:
-    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)) !important;
-  border: 1px solid rgba(255,255,255,0.16) !important;
+    linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.06)) !important;
+  border: 1px solid rgba(255,255,255,0.17) !important;
   box-shadow:
-    0 22px 55px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.12);
+    0 18px 45px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.13) !important;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   overflow: hidden;
 }
 
-/* Titre Activités récentes */
-.history-box h3,
-.history-title {
-  margin: 0 0 16px !important;
-  font-size: 23px !important;
-  font-weight: 950 !important;
+/* Titre principal : "Activités récentes" */
+.history-box > h3 {
+  margin: 0 0 14px !important;
+  padding: 0 !important;
   color: white !important;
+  font-size: 21px !important;
+  font-weight: 950 !important;
   letter-spacing: 0.2px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Conteneur des lignes d'historique */
-#historyList,
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
+/* Liste des activités */
+#historyList {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 11px !important;
 }
 
 /* Carte d'une activité */
-.history-item,
-.activity-item,
-.transaction-item {
+.history-item {
   position: relative;
-  padding: 14px 14px 14px 15px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 7px !important;
+  padding: 14px 14px 14px 16px !important;
   border-radius: 22px !important;
   background:
-    linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.07)) !important;
-  border: 1px solid rgba(255,255,255,0.16) !important;
+    linear-gradient(145deg, rgba(255,255,255,0.96), rgba(245,245,245,0.92)) !important;
+  color: #222 !important;
+  border: 1px solid rgba(255,255,255,0.75) !important;
   box-shadow:
     0 12px 28px rgba(0,0,0,0.22),
-    inset 0 1px 0 rgba(255,255,255,0.12);
-  color: white !important;
+    inset 0 1px 0 rgba(255,255,255,0.9) !important;
   overflow: hidden;
-  animation: activityFadeIn 0.25s ease;
+  animation: historyItemIn 0.25s ease;
+  transition: 0.25s ease;
 }
 
-/* Petite barre orange à gauche */
-.history-item::before,
-.activity-item::before,
-.transaction-item::before {
+/* Barre à gauche */
+.history-item::before {
   content: "";
   position: absolute;
   left: 0;
@@ -2497,14 +2498,14 @@ input[type="datetime-local"] {
   width: 4px;
   height: 64%;
   border-radius: 0 999px 999px 0;
-  background: linear-gradient(180deg, #ffb000, #ff5a00);
+  background: linear-gradient(180deg, #ff9a00, #ff3d00);
 }
 
-/* Animation douce */
-@keyframes activityFadeIn {
+/* Animation d'entrée */
+@keyframes historyItemIn {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(10px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -2512,78 +2513,144 @@ input[type="datetime-local"] {
   }
 }
 
-/* Effet au survol */
-.history-item:hover,
-.activity-item:hover,
-.transaction-item:hover {
+/* Effet léger au survol */
+.history-item:hover {
   transform: translateY(-2px);
-  background:
-    linear-gradient(145deg, rgba(255,154,0,0.18), rgba(255,255,255,0.08)) !important;
   box-shadow:
-    0 18px 36px rgba(0,0,0,0.30),
-    inset 0 1px 0 rgba(255,255,255,0.16);
+    0 16px 34px rgba(0,0,0,0.26),
+    inset 0 1px 0 rgba(255,255,255,0.95) !important;
 }
 
-/* Textes internes possibles */
-.history-item p,
-.activity-item p,
-.transaction-item p {
-  margin: 4px 0 !important;
-  color: rgba(255,255,255,0.82) !important;
+/* Titre d'une activité : Argent envoyé / reçu / dépôt / retrait */
+.history-item .history-title {
+  margin: 0 !important;
+  color: #222 !important;
+  font-size: 15.5px !important;
+  font-weight: 950 !important;
+  line-height: 1.25 !important;
+}
+
+/* Numéro lié à l'opération */
+.history-phone {
+  color: #444 !important;
   font-size: 13px !important;
-  line-height: 1.45;
+  font-weight: 750 !important;
+  line-height: 1.3 !important;
 }
 
-/* Nom / type d'opération */
-.history-item strong,
-.activity-item strong,
-.transaction-item strong {
-  color: white !important;
+/* Montant de base */
+.history-amount {
+  width: fit-content !important;
+  max-width: 100% !important;
+  display: inline-block !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
   font-size: 14px !important;
   font-weight: 950 !important;
+  line-height: 1.2 !important;
+  word-break: break-word !important;
 }
 
-/* Montants */
-.history-item .amount,
-.activity-item .amount,
-.transaction-item .amount,
-.notif-amount {
-  display: inline-block;
-  margin-top: 5px;
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: rgba(255,154,0,0.18);
-  border: 1px solid rgba(255,154,0,0.28);
-  color: #ffd28a !important;
-  font-weight: 950 !important;
-  font-size: 13px !important;
+/* Montant entrant : vert */
+.history-amount.amount-in {
+  color: #00a85a !important;
+  background: rgba(0, 200, 83, 0.14) !important;
+  border: 1px solid rgba(0, 200, 83, 0.32) !important;
 }
 
-/* Date ou petit texte secondaire */
-.history-item small,
-.activity-item small,
-.transaction-item small,
-.notif-date {
-  display: block;
-  margin-top: 6px;
-  color: rgba(255,255,255,0.55) !important;
-  font-size: 11px !important;
-  font-weight: 700;
+/* Montant sortant : rouge */
+.history-amount.amount-out {
+  color: #e6002f !important;
+  background: rgba(255, 23, 68, 0.13) !important;
+  border: 1px solid rgba(255, 23, 68, 0.30) !important;
 }
 
-/* Message quand il n'y a pas encore d'activité */
-.empty-history,
-#historyList:empty::after {
-  content: "Aucune activité récente pour le moment.";
-  display: block;
-  padding: 18px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.08);
-  border: 1px dashed rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.70);
+/* Date */
+.history-date {
+  color: #666 !important;
+  font-size: 11.5px !important;
+  font-weight: 750 !important;
+  line-height: 1.3 !important;
+}
+
+/* Motif / raison */
+.history-reason {
+  margin-top: 2px !important;
+  padding: 9px 10px !important;
+  border-radius: 14px !important;
+  background: #f2f2f2 !important;
+  color: #222 !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  word-break: break-word !important;
+}
+
+/* Message "Aucune activité" */
+.history-item:has(.history-title:only-child) {
   text-align: center;
-  font-size: 13px;
-  font-weight: 700;
+  align-items: center;
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  .history-box {
+    width: 94% !important;
+    padding: 14px !important;
+    border-radius: 23px !important;
+  }
+
+  .history-box > h3 {
+    font-size: 18px !important;
+    margin-bottom: 12px !important;
+  }
+
+  #historyList {
+    gap: 9px !important;
+  }
+
+  .history-item {
+    padding: 13px 12px 13px 15px !important;
+    border-radius: 19px !important;
+  }
+
+  .history-item .history-title {
+    font-size: 14px !important;
+  }
+
+  .history-phone {
+    font-size: 12px !important;
+  }
+
+  .history-amount {
+    font-size: 13px !important;
+    padding: 6px 9px !important;
+  }
+
+  .history-date {
+    font-size: 11px !important;
+  }
+
+  .history-reason {
+    font-size: 12px !important;
+    padding: 8px 9px !important;
+  }
+}
+
+/* Très petit téléphone */
+@media (max-width: 340px) {
+  .history-box {
+    width: 96% !important;
+    padding: 12px !important;
+  }
+
+  .history-item {
+    padding: 12px 10px 12px 14px !important;
+  }
+
+  .history-amount {
+    font-size: 12.5px !important;
+  }
 }
 
 
@@ -6261,38 +6328,205 @@ html, body {
 }
 
 /* =====================================================
-   ACTIVITÉS RÉCENTES — MONTANTS ENTRANTS / SORTANTS
+   NETTOYAGE FINAL SÉCURISÉ — MA MONEY DASHBOARD
+   Objectif :
+   - stabiliser les styles importants
+   - éviter les conflits CSS
+   - ne pas toucher à la logique JavaScript
 ===================================================== */
 
-/* Montant entrant : vert */
+/* Sécurité globale */
+* {
+  box-sizing: border-box;
+}
+
+/* Empêche les débordements horizontaux */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Images et vidéos toujours propres */
+img,
+video {
+  max-width: 100%;
+}
+
+/* Dashboard principal stable */
+.dashboard-box {
+  width: min(92%, 420px) !important;
+  margin: 18px auto !important;
+  padding: 16px !important;
+  border-radius: 24px !important;
+}
+
+/* Carte du solde stable */
+.main-card,
+.balance-card {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Grille des actions stable */
+.actions-grid {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px !important;
+}
+
+/* Boutons d'action propres */
+.action-box {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Texte dans les boutons */
+.action-box span,
+.action-box small {
+  text-align: center;
+}
+
+/* Modales : comportement propre */
+.modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Modale cachée */
+.modal.hidden {
+  display: none !important;
+}
+
+/* Contenu des modales */
+.modal-content {
+  box-sizing: border-box;
+}
+
+/* Champs propres */
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+/* Boutons : évite les bugs de clic mobile */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Historique : conteneur propre */
+.history-box {
+  box-sizing: border-box;
+}
+
+/* Une activité récente */
+.history-item {
+  word-break: break-word;
+}
+
+/* Titre activité */
+.history-title {
+  line-height: 1.3;
+}
+
+/* Téléphone activité */
+.history-phone {
+  line-height: 1.3;
+}
+
+/* Date activité */
+.history-date {
+  line-height: 1.3;
+}
+
+/* Raison / message */
+.history-reason {
+  line-height: 1.4;
+}
+
+/* =====================================================
+   MONTANTS ACTIVITÉS RÉCENTES
+   Entrant = vert
+   Sortant = rouge
+===================================================== */
+
+/* Montant entrant */
 .history-amount.amount-in {
   color: #00c853 !important;
   background: rgba(0, 200, 83, 0.14) !important;
   border: 1px solid rgba(0, 200, 83, 0.32) !important;
-  padding: 6px 10px;
-  border-radius: 999px;
-  display: inline-block;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  display: inline-block !important;
+  width: fit-content !important;
   font-weight: 950 !important;
 }
 
-/* Montant sortant : rouge */
+/* Montant sortant */
 .history-amount.amount-out {
   color: #ff1744 !important;
   background: rgba(255, 23, 68, 0.14) !important;
   border: 1px solid rgba(255, 23, 68, 0.32) !important;
-  padding: 6px 10px;
-  border-radius: 999px;
-  display: inline-block;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  display: inline-block !important;
+  width: fit-content !important;
   font-weight: 950 !important;
 }
 
-/* Petit effet plus visible sur téléphone */
+/* Mobile */
 @media (max-width: 420px) {
+  .dashboard-box {
+    width: 94% !important;
+    padding: 14px !important;
+  }
+
+  .actions-grid {
+    gap: 10px !important;
+  }
+
   .history-amount.amount-in,
   .history-amount.amount-out {
     font-size: 14px !important;
     padding: 7px 11px !important;
   }
+}
+
+/* =========================
+📱 ACHAT CREDIT PREMIUM
+========================= */
+
+.airtime-summary{
+
+  margin-top: 14px !important;
+
+  border-radius: 18px !important;
+
+  padding: 14px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.12),
+      rgba(255,255,255,0.05)
+    ) !important;
+
+  border:
+    1px solid rgba(255,255,255,0.12);
+
+  color: white !important;
+
+  line-height: 1.6;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
 }
 </style>
 </head>
@@ -6393,6 +6627,8 @@ html, body {
     <small>Envoyer plus tard</small>
   </div>
 
+
+
   <div class="action-box notif-btn action-message" onclick="openModal('notifBox')">
     <div class="action-icon">🔔</div>
     <span>Boîte de message</span>
@@ -6404,6 +6640,14 @@ html, body {
     <div class="action-icon">📱</div>
     <span>Mon QR</span>
     <small>Recevoir par QR</small>
+  </div>
+
+  <div class="action-box action-airtime" onclick="openAirtimeModal()">
+      <div class="action-icon">📱</div>
+
+      <span>Achat crédit</span>
+
+      <small>Orange • Malitel</small>
   </div>
 
 </div>
@@ -6660,6 +6904,101 @@ Programmer le transfert
 
 </div>
 
+<!-- =========================
+📱 MODALE ACHAT CREDIT
+========================= -->
+
+<div id="airtimeBox" class="modal hidden">
+
+  <div class="modal-content">
+
+    <span class="close"
+      onclick="closeAirtimeModal()">
+      ✕
+    </span>
+
+    <div class="form-card">
+
+      <h2 class="form-title">
+        📱 Achat de crédit
+      </h2>
+
+      <div class="glass-box">
+        Rechargez un numéro Orange Mali ou Malitel depuis votre solde.
+      </div>
+
+      <div class="input-group">
+
+        <label>📡 Opérateur</label>
+
+        <select id="airtimeOperator">
+
+          <option value="Orange Mali">
+            Orange Mali
+          </option>
+
+          <option value="Malitel">
+            Malitel
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="input-group">
+
+        <label>📞 Numéro</label>
+
+        <input
+          type="tel"
+          id="airtimePhone"
+          placeholder="Ex: 72006174"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>💰 Montant</label>
+
+        <input
+          type="number"
+          id="airtimeAmount"
+          placeholder="Ex: 5000"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>📝 Motif</label>
+
+        <textarea
+          id="airtimeReason"
+          placeholder="Ex: Recharge personnelle"
+        ></textarea>
+
+      </div>
+
+      <div
+        id="airtimeSummary"
+        class="transfer-summary airtime-summary">
+      </div>
+
+      <button
+        class="send-btn"
+        onclick="purchaseAirtime()">
+
+        Acheter maintenant
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 <audio id="notifSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
 
 <script type="module">
@@ -6689,6 +7028,19 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+  addDoc,
+  collection,
+  serverTimestamp,
+  runTransaction
+}
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyBsKMDF-nX-4tM_Hh0JPozZRuY9x9sFmh4",
     authDomain: "securite-53ada.firebaseapp.com",
@@ -6700,6 +7052,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const db = getDatabase(app);
+const firestore = getFirestore(app);
 const auth = getAuth(app);
 
 // ================= BACKGROUND DYNAMIQUE =================
@@ -10596,12 +10949,16 @@ function listenHistory(){
           phone = tx.agentPhone || tx.from || "";
         }
 
-        const amount =
+                const amount =
           tx.amountOriginal !== undefined
           ? tx.amountOriginal
           : tx.amountConverted || tx.amount || 0;
 
-        /* 🔥 Couleur du montant selon le sens de l'argent */
+        /*
+          Couleur du montant :
+          - argent entrant : vert
+          - argent sortant : rouge
+        */
         let amountClass = "amount-in";
         let amountSign = "+";
 
@@ -10926,6 +11283,233 @@ document.body.appendChild(toast);
 setTimeout(()=>toast.remove(),3000);
 
 }
+
+// =========================
+// 📱 OUVRIR MODALE
+// =========================
+
+window.openAirtimeModal = function() {
+
+  document
+    .getElementById("airtimeBox")
+    .classList
+    .remove("hidden");
+
+};
+
+// =========================
+// 📱 FERMER MODALE
+// =========================
+
+window.closeAirtimeModal = function() {
+
+  document
+    .getElementById("airtimeBox")
+    .classList
+    .add("hidden");
+
+};
+
+// =========================
+// 📱 RESUME AUTOMATIQUE
+// =========================
+
+const airtimeAmount =
+  document.getElementById("airtimeAmount");
+
+const airtimePhone =
+  document.getElementById("airtimePhone");
+
+const airtimeOperator =
+  document.getElementById("airtimeOperator");
+
+const airtimeSummary =
+  document.getElementById("airtimeSummary");
+
+function updateAirtimeSummary() {
+
+  const amount =
+    Number(airtimeAmount.value);
+
+  const phone =
+    airtimePhone.value.trim();
+
+  const operator =
+    airtimeOperator.value;
+
+  if(amount > 0 && phone !== "") {
+
+    airtimeSummary.classList.add("show");
+
+    airtimeSummary.innerHTML = `
+
+      📱 Achat de crédit<br><br>
+
+      📡 Opérateur :
+      <b>${operator}</b><br>
+
+      📞 Numéro :
+      <b>${phone}</b><br>
+
+      💰 Montant :
+      <b>${amount.toLocaleString()} FCFA</b>
+
+    `;
+
+  }
+
+  else {
+
+    airtimeSummary.classList.remove("show");
+
+  }
+
+}
+
+airtimeAmount.addEventListener(
+  "input",
+  updateAirtimeSummary
+);
+
+airtimePhone.addEventListener(
+  "input",
+  updateAirtimeSummary
+);
+
+airtimeOperator.addEventListener(
+  "change",
+  updateAirtimeSummary
+);
+
+// =========================
+// 📱 ACHAT CREDIT
+// =========================
+
+window.purchaseAirtime = async function() {
+
+  const airtimeBtn = document.querySelector('#airtimeBox .send-btn');
+
+  try {
+
+    airtimeBtn.disabled = true;
+    airtimeBtn.innerHTML = "⏳ Traitement...";
+
+    const operator = airtimeOperator.value;
+    const phone = airtimePhone.value.trim();
+    const amount = Number(airtimeAmount.value);
+    const reason = document.getElementById("airtimeReason").value.trim();
+
+    if(!phone || amount <= 0) {
+      alert("Veuillez remplir correctement les champs.");
+      return;
+    }
+
+    const userPhone = currentUser.phone;
+
+    const userRef = ref(db, "users/" + userPhone);
+    const userSnap = await get(userRef);
+
+    if(!userSnap.exists()) {
+      alert("Compte introuvable.");
+      return;
+    }
+
+    const userData = userSnap.val();
+    const currentBalance = Number(userData.solde || 0);
+
+    if(currentBalance < amount) {
+      alert("Solde insuffisant.");
+      return;
+    }
+
+    const rechargeRef = ref(db, "systemAccounts/rechargeCredit");
+    const rechargeSnap = await get(rechargeRef);
+
+    const rechargeData = rechargeSnap.exists()
+      ? rechargeSnap.val()
+      : {
+          balance: 0,
+          name: "Recharge crédit",
+          type: "system",
+          phone: "+22370707273"
+        };
+
+    await update(userRef, {
+      solde: currentBalance - amount
+    });
+
+    await update(rechargeRef, {
+      balance: Number(rechargeData.balance || 0) + amount,
+      name: "Recharge crédit",
+      type: "system",
+      phone: "+22370707273"
+    });
+
+    await push(ref(db, "history/" + userPhone), {
+      type: "airtime_purchase",
+      title: `📱 Achat crédit ${operator}`,
+      from: userPhone,
+      to: phone,
+      operator: operator,
+      amountOriginal: amount,
+      reason: reason,
+      direction: "out",
+      status: "pending_provider",
+      date: new Date().toLocaleString(),
+      createdAt: Date.now()
+    });
+
+    await push(ref(db, "airtimePurchases"), {
+      userPhone: userPhone,
+      operator: operator,
+      recipientPhone: phone,
+      amount: amount,
+      reason: reason,
+      status: "pending_provider",
+      internalAccount: "Recharge crédit",
+      rechargeAccountPhone: "+22370707273",
+      createdAt: Date.now()
+    });
+
+    alert("Achat enregistré avec succès.");
+
+    airtimePhone.value = "";
+    airtimeAmount.value = "";
+    document.getElementById("airtimeReason").value = "";
+    airtimeSummary.innerHTML = "";
+    airtimeSummary.classList.remove("show");
+
+    closeAirtimeModal();
+
+  } catch(error) {
+
+    console.error(error);
+    alert("Erreur pendant l'achat : " + error.message);
+
+  } finally {
+
+    airtimeBtn.disabled = false;
+    airtimeBtn.innerHTML = "Acheter maintenant";
+
+  }
+};
+
+/* =========================
+📱 FERMETURE EXTERIEURE
+========================= */
+
+window.addEventListener("click", function(e){
+
+  const airtimeBox =
+    document.getElementById("airtimeBox");
+
+  if(e.target === airtimeBox){
+
+    closeAirtimeModal();
+
+  }
+
+});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </body>
