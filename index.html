@@ -674,7 +674,7 @@ Créer un compte
 <div class="modal-top">
 <h2>Créer un compte</h2>
 
-<button id="closeRegister" class="close-modal">
+<button type="button" id="closeRegister" class="close-modal">
 ✖
 </button>
 </div>
@@ -697,8 +697,6 @@ Créer un compte
 
 <input id="regPassword" type="password" placeholder="Mot de passe">
 
-<input id="regSolde" type="number" placeholder="Solde initial">
-
 </div>
 
 <h4 class="photo-title">
@@ -709,7 +707,7 @@ Créer un compte
 
 <img id="regPreview" class="reg-preview">
 
-<button id="registerBtn" class="login-btn">
+<button type="button" id="registerBtn" class="login-btn">
 Créer maintenant
 </button>
 
@@ -1131,7 +1129,7 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
     const nationality = document.getElementById("regNationality").value.trim();
     const idCard = document.getElementById("regIdCard").value.trim();
     const password = document.getElementById("regPassword").value.trim();
-    const solde = Number(document.getElementById("regSolde").value || 0);
+    const solde = 0;
 
     if(!regIti.isValidNumber()){
       msg.innerText = "❌ Numéro invalide";
@@ -1209,7 +1207,7 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
       document.getElementById("phone").value = phone;
     }, 1200);
 
-  }catch(error){
+  }catch(error){''
     console.error(error);
     msg.innerText = "❌ Erreur : " + error.message;
   }
