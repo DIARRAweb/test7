@@ -6528,6 +6528,391 @@ button {
   font-weight: 700;
 
 }
+
+.receipt-modal{
+  max-width:430px !important;
+}
+
+.receipt-card{
+  background:linear-gradient(145deg,#ffffff,#f6f6f6);
+  color:#222;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 25px 65px rgba(0,0,0,.35);
+}
+
+.receipt-top{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.receipt-avatar{
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid #ff8a00;
+}
+
+.receipt-title{
+  font-size:22px;
+  font-weight:950;
+  color:#ff5a00;
+  margin-top:10px;
+}
+
+.receipt-line{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px dashed #ddd;
+  font-size:14px;
+  font-weight:750;
+}
+
+.receipt-line span:first-child{
+  color:#666;
+}
+
+.receipt-line span:last-child{
+  text-align:right;
+  color:#111;
+}
+
+.receipt-id{
+  margin-top:14px;
+  background:#111;
+  color:white;
+  padding:12px;
+  border-radius:16px;
+  text-align:center;
+  font-weight:900;
+  font-size:13px;
+}
+
+.receipt-success{
+  margin-top:15px;
+  padding:12px;
+  border-radius:16px;
+  background:#e8fff2;
+  color:#009b63;
+  text-align:center;
+  font-weight:950;
+}
+
+.receipt-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.receipt-actions button{
+  margin-top:0 !important;
+}
+
+#vaultBox{
+  background:transparent !important;
+}
+
+#vaultBox .vault-dashboard{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  color:#10234a;
+}
+
+.vault-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  border-radius:28px;
+  background:linear-gradient(145deg,#ffffff,#dfe9ff);
+  box-shadow:0 18px 40px rgba(20,40,80,.18);
+}
+
+.vault-badge{
+  background:#fff3e4;
+  color:#ff6a00;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:950;
+}
+
+.vault-hero h2{
+  margin:14px 0 4px;
+  font-size:26px;
+  font-weight:950;
+}
+
+.vault-hero p{
+  margin:0;
+  color:#667;
+  font-weight:750;
+}
+
+.vault-lock{
+  width:68px;
+  height:68px;
+  border-radius:24px;
+  background:linear-gradient(145deg,#ff9a00,#ff3d00);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  box-shadow:0 16px 34px rgba(255,106,0,.35);
+}
+
+.vault-balance-card{
+  padding:22px;
+  border-radius:28px;
+  background:linear-gradient(135deg,#ff9a00,#ff3d00);
+  color:white;
+  box-shadow:0 20px 45px rgba(255,106,0,.35);
+}
+
+.vault-balance-card p{
+  margin:0;
+  opacity:.9;
+  font-weight:800;
+}
+
+.vault-balance-card h1{
+  margin:10px 0 0;
+  font-size:32px;
+  font-weight:950;
+}
+
+.vault-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.vault-stat{
+  padding:16px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#ffffff,#edf3ff);
+  box-shadow:0 14px 30px rgba(20,40,80,.14);
+}
+
+.vault-stat span{
+  font-size:26px;
+}
+
+.vault-stat p{
+  margin:8px 0 4px;
+  color:#667;
+  font-size:12px;
+  font-weight:850;
+}
+
+.vault-stat h3{
+  margin:0;
+  font-size:15px;
+  font-weight:950;
+  color:#10234a;
+  word-break:break-word;
+}
+
+.vault-action-card{
+  padding:18px;
+  border-radius:28px;
+  background:linear-gradient(145deg,#ffffff,#fff2e3);
+  box-shadow:0 18px 40px rgba(0,0,0,.16);
+}
+
+.vault-action-card label{
+  color:#222 !important;
+  font-weight:950 !important;
+  font-size:13px;
+}
+
+.vault-action-card input{
+  background:white !important;
+  color:#111 !important;
+  border:2px solid rgba(255,154,0,.25) !important;
+}
+
+.vault-action-card button{
+  border-radius:17px !important;
+  font-weight:950 !important;
+}
+
+.vault-secondary{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8) !important;
+}
+
+.vault-danger{
+  background:linear-gradient(135deg,#ef4444,#991b1b) !important;
+}
+
+#vaultMsg{
+  margin-top:12px;
+  color:#10234a;
+  font-weight:950;
+  text-align:center;
+}
+
+@media(max-width:420px){
+  .vault-hero h2{
+    font-size:22px;
+  }
+
+  .vault-lock{
+    width:56px;
+    height:56px;
+    font-size:26px;
+  }
+
+  .vault-balance-card h1{
+    font-size:26px;
+  }
+
+  .vault-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+.vault-create-btn{
+  width:54px !important;
+  height:54px !important;
+  border-radius:18px !important;
+  font-size:24px !important;
+  margin:0 !important;
+}
+
+.vault-empty{
+  padding:18px;
+  border-radius:22px;
+  background:white;
+  color:#10234a;
+  text-align:center;
+  font-weight:850;
+}
+
+.vault-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:16px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#ffffff,#edf3ff);
+  box-shadow:0 14px 30px rgba(20,40,80,.14);
+  cursor:pointer;
+  color:#10234a;
+}
+
+.vault-item h3{
+  margin:0;
+  font-size:16px;
+  font-weight:950;
+}
+
+.vault-item p{
+  margin:6px 0 2px;
+  font-size:13px;
+  font-weight:850;
+}
+
+.vault-item small{
+  color:#667;
+  font-weight:700;
+}
+
+.vault-item strong{
+  white-space:nowrap;
+  color:#ff6a00;
+}
+
+#vaultActionPanel{
+  animation: vaultPanelOpen .32s ease forwards;
+  transform-origin: top center;
+}
+
+.vault-panel-opening{
+  animation: vaultPanelOpen .32s ease forwards !important;
+}
+
+.vault-panel-closing{
+  animation: vaultPanelClose .28s ease forwards !important;
+}
+
+@keyframes vaultPanelOpen{
+  from{
+    opacity:0;
+    transform:translateY(-14px) scale(.94);
+    max-height:0;
+    filter:blur(6px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    max-height:600px;
+    filter:blur(0);
+  }
+}
+
+@keyframes vaultPanelClose{
+  from{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    max-height:600px;
+    filter:blur(0);
+  }
+  to{
+    opacity:0;
+    transform:translateY(-14px) scale(.94);
+    max-height:0;
+    filter:blur(6px);
+  }
+}
+
+.vault-item{
+  transition:.25s ease !important;
+}
+
+.vault-item:hover{
+  transform:translateY(-4px) scale(1.015);
+}
+
+.vault-item:active{
+  transform:scale(.97);
+}
+
+#vaultActionPanel button{
+  animation:vaultBtnIn .35s ease both;
+}
+
+#vaultActionPanel button:nth-of-type(1){animation-delay:.05s;}
+#vaultActionPanel button:nth-of-type(2){animation-delay:.10s;}
+#vaultActionPanel button:nth-of-type(3){animation-delay:.15s;}
+#vaultActionPanel button:nth-of-type(4){animation-delay:.20s;}
+
+@keyframes vaultBtnIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.vault-service-warning{
+  margin-top:8px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(217,4,41,.12);
+  color:#d90429;
+  font-size:12px;
+  font-weight:950;
+  border:1px solid rgba(217,4,41,.25);
+}
 </style>
 </head>
 
@@ -6546,7 +6931,7 @@ button {
 
   <div class="logo-box">
     <div class="logo-icon">💰</div>
-    <div class="logo-title">Ma Money</div>
+    <div class="logo-title">MALI WARI</div>
   </div>
 
   <div class="header-right">
@@ -6627,8 +7012,6 @@ button {
     <small>Envoyer plus tard</small>
   </div>
 
-
-
   <div class="action-box notif-btn action-message" onclick="openModal('notifBox')">
     <div class="action-icon">🔔</div>
     <span>Boîte de message</span>
@@ -6650,13 +7033,27 @@ button {
       <small>Orange • Malitel</small>
   </div>
 
+    <div class="action-box action-vault" onclick="openModal('vaultBox')">
+      <div class="action-icon">🔐</div>
+
+      <span>Coffre-fort</span>
+
+      <small>Bloquer mon argent</small>
+  </div>
+
 </div>
 
 <!-- 🔥 CONTENU (INVISIBLE AU DÉBUT) -->
 
-
 </section>
 </main>
+
+<div id="receiptBox" class="modal hidden">
+  <div class="modal-content receipt-modal">
+    <span class="close" onclick="closeReceipt()">✖</span>
+    <div id="receiptContent"></div>
+  </div>
+</div>
 
 <div id="modal" class="modal hidden">
   <div class="modal-content">
@@ -6899,6 +7296,51 @@ Programmer le transfert
 
 </div>
 
+</div>
+
+<div id="vaultBox" style="display:none;">
+  <div class="vault-dashboard">
+
+    <div class="vault-hero">
+      <div>
+        <span class="vault-badge">🔐 Mes coffres</span>
+        <h2>Coffre-fort</h2>
+        <p>Crée, bloque ou retire ton argent simplement</p>
+      </div>
+      <button onclick="showCreateVaultForm()" class="vault-create-btn">➕</button>
+    </div>
+
+    <div id="vaultCreateForm" class="vault-action-card hidden">
+      <label>Nom du coffre</label>
+      <input id="newVaultName" placeholder="Ex: Projet, Épargne, Famille">
+      <button onclick="createVault()">Créer le coffre</button>
+    </div>
+
+    <div id="vaultList"></div>
+
+    <div id="vaultActionPanel" class="vault-action-card hidden">
+      <h3 id="activeVaultTitle"></h3>
+
+      <label>Montant</label>
+      <input id="vaultActionAmount" type="number" placeholder="Ex: 5000">
+
+      <button onclick="depositToSelectedVault()">💰 Déposer</button>
+      <button onclick="withdrawFromSelectedVault()" class="vault-secondary">🔓 Retirer</button>
+
+      <div id="lockVaultZone">
+        <label>Date de blocage</label>
+        <input id="vaultLockDate" type="datetime-local">
+        <button onclick="lockSelectedVault()" class="vault-danger">🔒 Bloquer ce coffre</button>
+      </div>
+
+      <button onclick="requestVaultUnlock()" class="vault-danger">
+        🚨 Demander déblocage au service
+      </button>
+
+      <div id="vaultMsg"></div>
+    </div>
+
+  </div>
 </div>
 
 
@@ -9239,6 +9681,63 @@ scheduledAmountInput.addEventListener("input", updateScheduledConversion);
 
 /* ===== ENVOI ARGENT ===== */
 
+window.closeReceipt = function(){
+  document.getElementById("receiptBox").classList.add("hidden");
+};
+
+let pendingTransfer = null;
+
+function showTransferReceipt(data, mode="success"){
+
+  const box = document.getElementById("receiptBox");
+  const content = document.getElementById("receiptContent");
+
+  const isConfirm = mode === "confirm";
+
+  content.innerHTML = `
+    <div class="receipt-card">
+      <div class="receipt-top">
+        <img class="receipt-avatar" src="${data.receiverPhoto || ""}" onerror="this.style.display='none'">
+        <div class="receipt-title">
+          ${isConfirm ? "Confirmer le transfert" : "Transfert réussi"}
+        </div>
+        <div>${data.receiverName || "Destinataire"}</div>
+        <small>${data.receiverPhone}</small>
+      </div>
+
+      <div class="receipt-line"><span>Montant envoyé</span><span>${data.amountOriginal}</span></div>
+      <div class="receipt-line"><span>Montant reçu</span><span>${data.amountConverted}</span></div>
+      <div class="receipt-line"><span>Taux appliqué</span><span>${data.rateUsed}</span></div>
+      <div class="receipt-line"><span>Frais service</span><span>${data.serviceFee}</span></div>
+      <div class="receipt-line"><span>Fonds soutien</span><span>${data.startupFee}</span></div>
+      <div class="receipt-line"><span>Total frais</span><span>${data.totalFees}</span></div>
+      <div class="receipt-line"><span>Nouveau solde après opération</span><span>${data.newBalance}</span></div>
+
+      <div class="receipt-id">
+        ID Transaction : ${data.customID || "Sera généré après confirmation"}
+      </div>
+
+      <div class="receipt-success">
+        ${isConfirm ? "⚠️ Vérifie bien avant de confirmer" : "✅ Opération effectuée avec succès"}
+      </div>
+
+      <div class="receipt-actions">
+        ${
+          isConfirm
+          ? `<button onclick="confirmReceiptAction()">✅ Confirmer</button>`
+          : `<button onclick="navigator.share ? navigator.share({text: document.getElementById('receiptContent').innerText}) : alert('Partage non supporté')">🔗 Partager</button>`
+        }
+
+        <button onclick="closeReceipt()">
+          ${isConfirm ? "Annuler" : "Fermer"}
+        </button>
+      </div>
+    </div>
+  `;
+
+  box.classList.remove("hidden");
+}
+
 window.sendMoney=async function(){
 
 if(sendBtn.disabled) return;
@@ -9452,142 +9951,44 @@ return;
 
 /* ===== TRANSFERT IMMÉDIAT ===== */
 
-const customID = generateTxID(); // 🔥 ID UNIQUE
+const customID = generateTxID();
 
-/* ===== TRANSFERT IMMÉDIAT ===== */
+pendingTransfer = {
+  sender,
+  receiverData,
+  receiverPhone,
+  amount,
+  convertedAmount,
+  serviceFee,
+  startupFee,
+  totalFees,
+  rate,
+  reason,
+  treasury,
+  senderCur,
+  receiverCur,
+  totalDebit,
+  customID
+};
 
-sender.solde -= totalDebit;
-receiverData.solde+=convertedAmount;
-/* =========================
-🏦 ALIMENTATION TRESORERIE
-========================= */
+document
+  .getElementById("modal")
+  .classList
+  .add("hidden");
 
-/* 🔥 SI TRANSFERT INTERNATIONAL */
-if(isInternational){
-
-/* 🔥 convertir frais en FCFA */
-const xofRate = await getLiveRate(
-senderCur.code,
-"XOF"
-);
-
-/* 🔥 frais convertis */
-const serviceFeeXOF =
-serviceFee * xofRate;
-
-const startupFeeXOF =
-startupFee * xofRate;
-
-/* 🔥 ajout trésorerie */
-treasury.international.balance += serviceFeeXOF;
-
-treasury.startup.balance += startupFeeXOF;
-
-}else{
-
-/* =========================
-🌍 NATIONAL
-========================= */
-
-/*
-🇲🇱 Mali :
-on garde normal
-*/
-
-if(isMaliSender){
-
-treasury.national.balance =
-Number(treasury.national.balance || 0)
-+ Number(serviceFee || 0);
-
-treasury.startup.balance =
-Number(treasury.startup.balance || 0)
-+ Number(startupFee || 0);
-
-}
-
-/*
-🌍 National étranger
-(+1514 → +1514)
-*/
-
-else{
-
-const xofRate =
-await getLiveRate(
-senderCur.code,
-"XOF"
-);
-
-const serviceFeeXOF =
-serviceFee * xofRate;
-
-treasury.national.balance =
-Number(treasury.national.balance || 0)
-+ Number(serviceFeeXOF || 0);
-
-}
-
-}
-
-await update(ref(db,"users/"+sender.phone),sender);
-await update(ref(db,"users/"+receiverPhone),receiverData);
-await update(ref(db,"treasury"),treasury);
-
-const tx=await push(ref(db,"history/"+currentUser.phone),{
-customID: customID,
-from:sender.phone,
-to:receiverPhone,
-amountOriginal:amount,
-amountConverted:convertedAmount,
-serviceFee,
-startupFee,
-totalFees,
-rateUsed:rate,
-reason,
-date:new Date().toLocaleString(),
-createdAt: Date.now()
-});
-
-/* Notifications complètes avec réclamation */
-
-await push(ref(db,"notifications/"+receiverPhone),{
-title:"💰Argent reçu",
-phone:sender.phone,
-amount:convertedAmount,
-currency:receiverCur.code,
-symbol:receiverCur.symbol,
-reason,
-date:new Date().toLocaleString(),
-claimable:false,
-seen:false
-});
-
-await push(ref(db,"history/"+receiverPhone),{
-customID: customID,
-from:sender.phone,
-to:receiverPhone,
-amountOriginal:convertedAmount,
-date:new Date().toLocaleString(),
-createdAt: Date.now(),
-type:"received"
-});
-
-await push(ref(db,"notifications/"+sender.phone),{
-title:"📤Argent envoyé",
-phone:receiverPhone,
-amount:amount,
-currency:senderCur.code,
-symbol:senderCur.symbol,
-reason,
-date:new Date().toLocaleString(),
-claimable:true,
-seen:false,
-txId:tx.key
-});
-
-messageBox.innerText=(translations[getUserLang()] || translations.fr).transferSuccess;
-resetForm();
+showTransferReceipt({
+  receiverName: receiverData.name || "Destinataire",
+  receiverPhoto: receiverData.photo || "",
+  receiverPhone,
+  amountOriginal: formatMoney(amount, senderCur),
+  amountConverted: formatMoney(convertedAmount, receiverCur),
+  serviceFee: formatMoney(serviceFee, senderCur),
+  startupFee: formatMoney(startupFee, senderCur),
+  totalFees: formatMoney(totalFees, senderCur),
+  rateUsed: rate,
+  newBalance: formatMoney(sender.solde - totalDebit, senderCur),
+  customID
+}, "confirm");
 loadNotifications();
 
 }catch(e){
@@ -9596,6 +9997,131 @@ messageBox.innerText="❌Erreur : "+e.message;
 
 resetButton();
 };
+
+window.confirmPendingTransfer = async function(){
+  if(!pendingTransfer) return;
+
+  const p = pendingTransfer;
+
+  const senderSnap = await get(ref(db, "users/" + p.sender.phone));
+  const receiverSnap = await get(ref(db, "users/" + p.receiverPhone));
+
+  if(!senderSnap.exists() || !receiverSnap.exists()){
+    alert("❌ Compte introuvable");
+    pendingTransfer = null;
+    return;
+  }
+
+  const freshSender = senderSnap.val();
+  const freshReceiver = receiverSnap.val();
+
+  const disponible =
+    Number(freshSender.solde || 0) -
+    Number(freshSender.frozenBalance || 0);
+
+  if(disponible < Number(p.totalDebit || 0)){
+    alert("❌ Solde insuffisant. Le transfert est annulé.");
+    pendingTransfer = null;
+    closeReceipt();
+    return;
+  }
+
+  const newSenderSolde =
+    Number(freshSender.solde || 0) - Number(p.totalDebit || 0);
+
+  const newReceiverSolde =
+    Number(freshReceiver.solde || 0) + Number(p.convertedAmount || 0);
+
+  if(newSenderSolde < 0){
+    alert("❌ Opération refusée : solde négatif impossible.");
+    pendingTransfer = null;
+    closeReceipt();
+    return;
+  }
+
+  await update(ref(db,"users/"+p.sender.phone), {
+    solde: newSenderSolde
+  });
+
+  await update(ref(db,"users/"+p.receiverPhone), {
+    solde: newReceiverSolde
+  });
+  await update(ref(db,"treasury"), p.treasury);
+
+  const tx = await push(ref(db,"history/"+currentUser.phone),{
+    customID:p.customID,
+    from:p.sender.phone,
+    to:p.receiverPhone,
+    amountOriginal:p.amount,
+    amountConverted:p.convertedAmount,
+    serviceFee:p.serviceFee,
+    startupFee:p.startupFee,
+    totalFees:p.totalFees,
+    rateUsed:p.rate,
+    reason:p.reason,
+    date:new Date().toLocaleString(),
+    createdAt:Date.now()
+  });
+
+  await push(ref(db,"history/"+p.receiverPhone),{
+    customID:p.customID,
+    from:p.sender.phone,
+    to:p.receiverPhone,
+    amountOriginal:p.convertedAmount,
+    date:new Date().toLocaleString(),
+    createdAt:Date.now(),
+    type:"received"
+  });
+
+  await push(ref(db,"notifications/"+p.receiverPhone),{
+    title:"💰Argent reçu",
+    phone:p.sender.phone,
+    amount:p.convertedAmount,
+    currency:p.receiverCur.code,
+    symbol:p.receiverCur.symbol,
+    reason:p.reason,
+    date:new Date().toLocaleString(),
+    claimable:false,
+    seen:false
+  });
+
+  await push(ref(db,"notifications/"+p.sender.phone),{
+    title:"📤Argent envoyé",
+    phone:p.receiverPhone,
+    amount:p.amount,
+    currency:p.senderCur.code,
+    symbol:p.senderCur.symbol,
+    reason:p.reason,
+    date:new Date().toLocaleString(),
+    claimable:true,
+    seen:false,
+    txId:tx.key
+  });
+
+  showTransferReceipt({
+    receiverName:p.receiverData.name || "Destinataire",
+    receiverPhoto:p.receiverData.photo || "",
+    receiverPhone:p.receiverPhone,
+    amountOriginal:formatMoney(p.amount,p.senderCur),
+    amountConverted:formatMoney(p.convertedAmount,p.receiverCur),
+    serviceFee:formatMoney(p.serviceFee,p.senderCur),
+    startupFee:formatMoney(p.startupFee,p.senderCur),
+    totalFees:formatMoney(p.totalFees,p.senderCur),
+    rateUsed:p.rate,
+    newBalance:formatMoney(p.sender.solde,p.senderCur),
+    customID:p.customID
+  }, "success");
+
+  pendingTransfer = null;
+
+  messageBox.innerText=(translations[getUserLang()] || translations.fr).transferSuccess;
+
+  resetForm();
+  loadNotifications();
+  resetButton();
+};
+
+window.pendingScheduledTransfer = null;
 
 window.sendScheduledMoney=async function(){
 
@@ -9617,9 +10143,7 @@ const receiverPhone = receiverUser
   ? receiverUser.phone
   : normalizeReceiverPhoneSmart(receiverInputValue);
 
-let amount=parseFloat(
-document.getElementById("scheduledAmount").value
-);
+let amount=parseFloat(document.getElementById("scheduledAmount").value);
 
 const reason=document.getElementById("scheduledReason").value.trim();
 const scheduleDate=document.getElementById("scheduledDate").value;
@@ -9657,21 +10181,9 @@ let receiverData=receiverSnap.val();
 let treasury = treasurySnap.exists()
 ? treasurySnap.val()
 : {
-national:{
-name:"Commission nationale",
-rate:0.01,
-balance:0
-},
-international:{
-name:"Commission internationale",
-rate:0.015,
-balance:0
-},
-startup:{
-name:"Fonds soutien digital",
-rate:0.005,
-balance:0
-}
+national:{name:"Commission nationale",rate:0.01,balance:0},
+international:{name:"Commission internationale",rate:0.015,balance:0},
+startup:{name:"Fonds soutien digital",rate:0.005,balance:0}
 };
 
 if(sender.frozen){
@@ -9700,68 +10212,41 @@ scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).schedule
 return;
 }
 
-/* 🔥 montant converti */
 let convertedAmount=amount*rate;
 
-/* 🌍 pays */
 const senderCountry=getCountry(sender.phone).name;
 const receiverCountry=getCountry(receiverPhone).name;
-
-/* 🌍 même pays ? */
 const sameCountry=senderCountry===receiverCountry;
-
-/* 🇲🇱 Mali ? */
 const isMaliSender=sender.phone.startsWith("+223");
 
-/* 🌍 international ? */
-const isInternational=!sameCountry;
+let serviceRate=sameCountry
+? treasury.national?.rate || 0
+: treasury.international?.rate || 0;
 
-/* ===== TAUX ===== */
-let serviceRate=0;
+let startupRate=isMaliSender
+? treasury.startup?.rate || 0
+: 0;
 
-if(sameCountry){
-serviceRate=treasury.national?.rate || 0;
-}else{
-serviceRate=treasury.international?.rate || 0;
-}
-
-/* 🏛 Fonds soutien */
-let startupRate=0;
-
-if(isMaliSender){
-startupRate=treasury.startup?.rate || 0;
-}
-
-/* sécuriser montant */
 amount=Number(amount) || 0;
 serviceRate=Number(serviceRate) || 0;
 startupRate=Number(startupRate) || 0;
 
-/* base frais */
 let feeBaseAmount=amount;
 
-/* si national étranger */
 if(sameCountry && !isMaliSender){
 const xofRate=await getLiveRate(senderCur.code,"XOF");
 feeBaseAmount=amount*xofRate;
 }
 
-/* frais service */
 let serviceFee=Number(feeBaseAmount*serviceRate) || 0;
-
-/* fonds soutien */
 let startupFee=Number(amount*startupRate) || 0;
 
-/* reconvertir frais si national étranger */
 if(sameCountry && !isMaliSender){
 const reverseRate=await getLiveRate("XOF",senderCur.code);
 serviceFee=serviceFee*reverseRate;
 }
 
-/* total frais */
 let totalFees=Number(serviceFee+startupFee) || 0;
-
-/* total débit */
 let totalDebit=Number(amount+totalFees) || 0;
 
 const disponible=Number(sender.solde || 0) - Number(sender.frozenBalance || 0);
@@ -9773,47 +10258,111 @@ scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).schedule
 return;
 }
 
-/* 🔥 ID unique */
 const customID=generateTxID();
 
-/* 🔥 Enregistrer transfert programmé */
+window.pendingScheduledTransfer = {
+  customID,
+  sender,
+  receiverData,
+  receiverPhone,
+  amount,
+  convertedAmount,
+  serviceFee,
+  startupFee,
+  totalFees,
+  rate,
+  senderCur,
+  receiverCur,
+  reason,
+  scheduleDate,
+  totalDebit
+};
+
+document.getElementById("modal").classList.add("hidden");
+
+showTransferReceipt({
+  receiverName: receiverData.name || "Destinataire",
+  receiverPhoto: receiverData.photo || "",
+  receiverPhone,
+  amountOriginal: formatMoney(amount, senderCur),
+  amountConverted: formatMoney(convertedAmount, receiverCur),
+  serviceFee: formatMoney(serviceFee, senderCur),
+  startupFee: formatMoney(startupFee, senderCur),
+  totalFees: formatMoney(totalFees, senderCur),
+  rateUsed: rate,
+  newBalance: formatMoney(sender.solde, senderCur),
+  customID
+}, "confirm");
+
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+
+}catch(e){
+scheduledMsg.innerText="❌Erreur : "+e.message;
+scheduledBtn.disabled=false;
+scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+}
+
+};
+
+window.confirmPendingScheduledTransfer = async function(){
+
+if(!pendingScheduledTransfer) return;
+
+const p = pendingScheduledTransfer;
+
 await push(ref(db,"scheduledTransfers"),{
-customID:customID,
-
-from:sender.phone,
-to:receiverPhone,
-
-amountOriginal:amount,
-amountConverted:convertedAmount,
-
-serviceFee,
-startupFee,
-totalFees,
-
-rateUsed:rate,
-
-senderCurrency:senderCur.code,
-receiverCurrency:receiverCur.code,
-
-senderSymbol:senderCur.symbol,
-receiverSymbol:receiverCur.symbol,
-
-reason,
-scheduledFor:scheduleDate,
+customID:p.customID,
+from:p.sender.phone,
+to:p.receiverPhone,
+amountOriginal:p.amount,
+amountConverted:p.convertedAmount,
+serviceFee:p.serviceFee,
+startupFee:p.startupFee,
+totalFees:p.totalFees,
+rateUsed:p.rate,
+senderCurrency:p.senderCur.code,
+receiverCurrency:p.receiverCur.code,
+senderSymbol:p.senderCur.symbol,
+receiverSymbol:p.receiverCur.symbol,
+reason:p.reason,
+scheduledFor:p.scheduleDate,
 createdAt:Date.now(),
 executed:false
 });
 
-scheduledMsg.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+showTransferReceipt({
+  receiverName:p.receiverData.name || "Destinataire",
+  receiverPhoto:p.receiverData.photo || "",
+  receiverPhone:p.receiverPhone,
+  amountOriginal:formatMoney(p.amount,p.senderCur),
+  amountConverted:formatMoney(p.convertedAmount,p.receiverCur),
+  serviceFee:formatMoney(p.serviceFee,p.senderCur),
+  startupFee:formatMoney(p.startupFee,p.senderCur),
+  totalFees:formatMoney(p.totalFees,p.senderCur),
+  rateUsed:p.rate,
+  newBalance:"Sera débité à la date programmée",
+  customID:p.customID
+}, "success");
+
+document.getElementById("scheduledMessage").innerText =
+"✅ Transfert programmé avec succès";
 
 resetScheduledForm();
 
-}catch(e){
-scheduledMsg.innerText="❌Erreur : "+e.message;
-}
+window.pendingScheduledTransfer = null;
 
-scheduledBtn.disabled=false;
-scheduledBtn.innerText=(translations[getUserLang()] || translations.fr).scheduledTransfer;
+};
+
+window.confirmReceiptAction = function(){
+
+  if(window.pendingScheduledTransfer){
+    confirmPendingScheduledTransfer();
+    return;
+  }
+
+  confirmPendingTransfer();
+
 };
 
 /* ===============================
@@ -10276,7 +10825,7 @@ async function loadNotifications(){
           ${n.reason ? `<div class="notif-reason">${n.reason}</div>` : ""}
 
           ${n.claimable && n.txId ? `
-            <button onclick="sendClaim('${id}')" class="claim-btn">
+            <button onclick="sendClaim('${n.txId}')" class="claim-btn">
               ${tr("claim")}
             </button>
           ` : ""}
@@ -10687,6 +11236,10 @@ modalBody.appendChild(content);
 content.style.display = "block";
 modal.classList.remove("hidden");
 
+if(contentId === "vaultBox"){
+  await loadVaultStatus();
+}
+
 /* =========================
    🔔 NOTIFICATIONS
 ========================= */
@@ -10973,7 +11526,7 @@ function listenHistory(){
         }
 
         historyList.innerHTML += `
-          <div class="history-item">
+          <div class="history-item" onclick='showHistoryReceipt(${JSON.stringify(tx)})'>
 
             <div class="history-title">${title}</div>
 
@@ -10994,6 +11547,26 @@ function listenHistory(){
   });
 }
 listenHistory();
+
+window.showHistoryReceipt = function(tx){
+
+  const cur = getCurrency(currentUser.phone);
+
+  showTransferReceipt({
+    receiverName:"Transaction",
+    receiverPhoto:"",
+    receiverPhone: tx.to || tx.from || "",
+    amountOriginal: formatMoney(tx.amountOriginal || tx.amount || 0, cur),
+    amountConverted: formatMoney(tx.amountConverted || tx.amountOriginal || tx.amount || 0, cur),
+    serviceFee: formatMoney(tx.serviceFee || 0, cur),
+    startupFee: formatMoney(tx.startupFee || 0, cur),
+    totalFees: formatMoney(tx.totalFees || 0, cur),
+    rateUsed: tx.rateUsed || "-",
+    newBalance: "Voir solde actuel",
+    customID: tx.customID || "Non disponible"
+  }, "success");
+
+};
 
 window.toggleHistory = function(){
 const box = document.getElementById("historyContent");
@@ -11283,6 +11856,330 @@ document.body.appendChild(toast);
 setTimeout(()=>toast.remove(),3000);
 
 }
+
+
+/* =========================
+🔐 NOUVEAU COFFRE-FORT MULTIPLE
+========================= */
+
+let selectedVaultId = null;
+
+function getUserVaults(user){
+  return user.vaults || {};
+}
+
+window.showCreateVaultForm = function(){
+  document.getElementById("vaultCreateForm").classList.toggle("hidden");
+};
+
+async function loadVaultStatus(){
+  const snap = await get(ref(db, "users/" + currentUser.phone));
+  if(!snap.exists()) return;
+
+  const user = snap.val();
+  const vaults = getUserVaults(user);
+  const cur = getCurrency(currentUser.phone);
+  const list = document.getElementById("vaultList");
+const panel = document.getElementById("vaultActionPanel");
+
+/* 🔥 IMPORTANT :
+   Avant de vider vaultList, on récupère la fiche.
+   Sinon innerHTML="" supprime la fiche du DOM.
+*/
+if(panel && list.contains(panel)){
+  document.querySelector("#vaultBox .vault-dashboard").appendChild(panel);
+  panel.classList.add("hidden");
+  panel.classList.remove("vault-panel-opening", "vault-panel-closing");
+}
+
+selectedVaultId = null;
+list.innerHTML = "";
+
+  if(Object.keys(vaults).length === 0){
+    list.innerHTML = `
+      <div class="vault-empty">
+        Aucun coffre créé.<br>
+        Clique sur ➕ pour créer ton premier coffre.
+      </div>
+    `;
+    return;
+  }
+
+  Object.entries(vaults).forEach(([id, vault]) => {
+    const locked = vault.lockedUntil && Date.now() < vault.lockedUntil;
+
+    list.innerHTML += `
+      <div class="vault-item" data-vault-id="${id}" onclick="selectVault('${id}')">
+        <div>
+          <h3>${vault.name}</h3>
+          <p>${locked ? "🔒 Bloqué" : "🔓 Libre"}</p>
+          ${
+            locked
+            ? `<small>Déblocage : ${new Date(vault.lockedUntil).toLocaleString()}</small>`
+            : `<small>Retrait disponible à tout moment</small>`
+          }
+        </div>
+
+        <strong>${formatMoney(vault.balance || 0, cur)}</strong>
+      </div>
+    `;
+  });
+}
+
+window.createVault = async function(){
+  const name = document.getElementById("newVaultName").value.trim();
+  const msg = document.getElementById("vaultMsg");
+
+  if(!name){
+    alert("❌ Donne un nom au coffre");
+    return;
+  }
+
+  const id = "vault_" + Date.now();
+
+  await update(ref(db, "users/" + currentUser.phone + "/vaults/" + id), {
+    name,
+    balance: 0,
+    lockedUntil: 0,
+    createdAt: Date.now(),
+    unlockRequest: null
+  });
+
+  document.getElementById("newVaultName").value = "";
+  document.getElementById("vaultCreateForm").classList.add("hidden");
+
+  await loadVaultStatus();
+};
+
+window.selectVault = async function(id){
+  const panel = document.getElementById("vaultActionPanel");
+
+  if(selectedVaultId === id && !panel.classList.contains("hidden")){
+    panel.classList.add("vault-panel-closing");
+
+    setTimeout(()=>{
+      panel.classList.add("hidden");
+      panel.classList.remove("vault-panel-closing");
+      selectedVaultId = null;
+    }, 280);
+
+    return;
+  }
+
+  selectedVaultId = id;
+
+  const snap = await get(ref(db, "users/" + currentUser.phone + "/vaults/" + id));
+  if(!snap.exists()) return;
+
+  const vault = snap.val();
+
+  const card = document.querySelector(`[data-vault-id="${id}"]`);
+
+  if(card){
+    card.after(panel);
+  }
+
+  panel.classList.remove("hidden");
+  panel.classList.remove("vault-panel-closing");
+  panel.classList.add("vault-panel-opening");
+
+  setTimeout(()=>{
+    panel.classList.remove("vault-panel-opening");
+  }, 320);
+
+  document.getElementById("activeVaultTitle").innerText = "🔐 " + vault.name;
+  document.getElementById("vaultMsg").innerText = "";
+};
+
+window.depositToSelectedVault = async function(){
+  if(!selectedVaultId) return;
+
+  const amount = Number(document.getElementById("vaultActionAmount").value);
+  const msg = document.getElementById("vaultMsg");
+
+  if(!amount || amount <= 0){
+    msg.innerText = "❌ Montant invalide";
+    return;
+  }
+
+  const userRef = ref(db, "users/" + currentUser.phone);
+  const snap = await get(userRef);
+  if(!snap.exists()) return;
+
+  const user = snap.val();
+  const vault = user.vaults[selectedVaultId];
+
+  const disponible = Number(user.solde || 0) - Number(user.frozenBalance || 0);
+
+  if(disponible < amount){
+    msg.innerText = "❌ Solde insuffisant";
+    return;
+  }
+
+  await update(userRef, {
+    solde: Number(user.solde || 0) - amount
+  });
+
+  await update(ref(db, "users/" + currentUser.phone + "/vaults/" + selectedVaultId), {
+    balance: Number(vault.balance || 0) + amount
+  });
+
+  await push(ref(db, "history/" + currentUser.phone), {
+    type: "vault_deposit",
+    from: currentUser.phone,
+    to: vault.name,
+    amountOriginal: amount,
+    date: new Date().toLocaleString(),
+    createdAt: Date.now()
+  });
+
+  document.getElementById("vaultActionAmount").value = "";
+  msg.innerText = "✅ Argent ajouté au coffre";
+
+  await loadVaultStatus();
+};
+
+window.withdrawFromSelectedVault = async function(){
+  if(!selectedVaultId) return;
+
+  const amount = Number(document.getElementById("vaultActionAmount").value);
+  const msg = document.getElementById("vaultMsg");
+
+  if(!amount || amount <= 0){
+    msg.innerText = "❌ Montant invalide";
+    return;
+  }
+
+  const userRef = ref(db, "users/" + currentUser.phone);
+  const snap = await get(userRef);
+  if(!snap.exists()) return;
+
+  const user = snap.val();
+  const vault = user.vaults[selectedVaultId];
+
+  const locked = vault.lockedUntil && Date.now() < vault.lockedUntil;
+  const approved =
+    vault.unlockRequest &&
+    vault.unlockRequest.status === "approved";
+
+  if(locked && !approved){
+    msg.innerText = "🔒 Coffre bloqué. Demande un déblocage au service.";
+    return;
+  }
+
+  if(Number(vault.balance || 0) < amount){
+    msg.innerText = "❌ Montant supérieur au solde du coffre";
+    return;
+  }
+
+  await update(userRef, {
+    solde: Number(user.solde || 0) + amount
+  });
+
+  await update(ref(db, "users/" + currentUser.phone + "/vaults/" + selectedVaultId), {
+    balance: Number(vault.balance || 0) - amount
+  });
+
+  await push(ref(db, "history/" + currentUser.phone), {
+    type: "vault_withdraw",
+    from: vault.name,
+    to: currentUser.phone,
+    amountOriginal: amount,
+    date: new Date().toLocaleString(),
+    createdAt: Date.now()
+  });
+
+  document.getElementById("vaultActionAmount").value = "";
+  msg.innerText = "✅ Argent retiré du coffre";
+
+  await loadVaultStatus();
+};
+
+window.lockSelectedVault = async function(){
+  if(!selectedVaultId) return;
+
+  const dateValue = document.getElementById("vaultLockDate").value;
+  const msg = document.getElementById("vaultMsg");
+
+  if(!dateValue){
+    msg.innerText = "❌ Choisis une date";
+    return;
+  }
+
+  const lockTime = new Date(dateValue).getTime();
+
+  if(!lockTime || lockTime <= Date.now()){
+    msg.innerText = "❌ La date doit être dans le futur";
+    return;
+  }
+
+  await update(ref(db, "users/" + currentUser.phone + "/vaults/" + selectedVaultId), {
+    lockedUntil: lockTime,
+    unlockRequest: null
+  });
+
+  msg.innerText = "🔒 Coffre bloqué jusqu’à la date choisie";
+
+  await loadVaultStatus();
+};
+
+window.requestVaultUnlock = async function(){
+
+  const msg = document.getElementById("vaultMsg");
+
+  if(!selectedVaultId){
+    msg.innerText = "❌ Choisis d’abord un coffre";
+    return;
+  }
+
+  const vaultRef = ref(db, "users/" + currentUser.phone + "/vaults/" + selectedVaultId);
+  const snap = await get(vaultRef);
+
+  if(!snap.exists()){
+    msg.innerText = "❌ Coffre introuvable";
+    return;
+  }
+
+  const vault = snap.val();
+
+  if(Number(vault.balance || 0) <= 0){
+    msg.innerText = "❌ Ce coffre est vide";
+    return;
+  }
+
+  if(!vault.lockedUntil || Date.now() >= Number(vault.lockedUntil)){
+    msg.innerText = "✅ Ce coffre est déjà déblocable";
+    return;
+  }
+
+  if(vault.unlockRequest?.status === "pending"){
+    msg.innerText = "⚠️ Demande déjà envoyée au service";
+    return;
+  }
+
+  const requestRef = await push(ref(db, "vaultUnlockClaims"), {
+    type: "vault_unlock",
+    userPhone: currentUser.phone,
+    userName: currentUser.name || "",
+    vaultId: selectedVaultId,
+    vaultName: vault.name || "Coffre",
+    amount: Number(vault.balance || 0),
+    lockedUntil: Number(vault.lockedUntil),
+    message: "L’utilisateur a urgemment besoin de son argent et demande le déblocage du coffre avant son échéance.",
+    status: "pending",
+    createdAt: Date.now()
+  });
+
+  await update(vaultRef, {
+    unlockRequest: {
+      id: requestRef.key,
+      status: "pending",
+      createdAt: Date.now()
+    }
+  });
+
+  msg.innerText = "✅ Demande envoyée au service";
+};
 
 // =========================
 // 📱 OUVRIR MODALE
