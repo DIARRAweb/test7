@@ -101,6 +101,21 @@ backdrop-filter:blur(12px);
 .footer button {
 background:linear-gradient(45deg,#555,#222);
 }
+
+.vault-alert-card{
+  border-left:6px solid #d90429;
+  background:linear-gradient(145deg,#fff,#ffecec);
+}
+
+.vault-warning{
+  color:#d90429;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.unlock-btn{
+  background:linear-gradient(45deg,#d90429,#7a0010) !important;
+}
 </style>
 </head>
 
@@ -132,6 +147,44 @@ databaseURL:"https://securite-53ada-default-rtdb.firebaseio.com/"
 
 const db = getDatabase(app);
 const claimList = document.getElementById("claimList");
+
+function listenVaultUnlockClaims(){
+  onValue(ref(db,"vaultUnlockClaims"), async (snap)=>{
+
+    const claims = snap.val() || {};
+
+    for(const [claimKey,c] of Object.entries(claims)){
+
+      if(c.status === "resolved") continue;
+
+      claimList.innerHTML += `
+        <div class="card vault-alert-card">
+          🔐 <b>Demande de déblocage coffre</b><br>
+          👤 Utilisateur : ${c.userName || ""}<br>
+          📱 Téléphone : ${c.userPhone}<br>
+          🏦 Coffre : <b>${c.vaultName}</b><br>
+          💰 Montant : ${Number(c.amount || 0).toLocaleString()}<br>
+          ⏳ Échéance normale : ${new Date(c.lockedUntil).toLocaleString()}<br>
+
+          <div class="vault-warning">
+            ⚠️ Demande urgente : déblocage avant échéance
+          </div>
+
+          <button class="unlock-btn"
+            onclick="unlockVaultByService('${claimKey}','${c.userPhone}','${c.vaultId}')">
+            🔓 Débloquer le coffre
+          </button>
+
+          <button onclick="deleteVaultUnlockClaim('${claimKey}')"
+            style="background:gray;">
+            🗑 Supprimer
+          </button>
+        </div>
+      `;
+    }
+
+  });
+}
 
 function listenClaims(){
 onValue(ref(db,"serviceClaims"), async (snap)=>{
@@ -294,7 +347,144 @@ date:new Date().toLocaleString()
 alert("✅ Transaction annulée et remboursée !");
 };
 
-listenClaims();
+window.unlockVaultByService = async function(claimKey, userPhone, vaultId){
+
+  if(!confirm("⚠️ Débloquer ce coffre avant son échéance ?")) return;
+
+  const vaultRef = ref(db, "users/" + userPhone + "/vaults/" + vaultId);
+  const snap = await get(vaultRef);
+
+  if(!snap.exists()){
+    alert("❌ Coffre introuvable");
+    return;
+  }
+
+  const vault = snap.val();
+
+  await update(vaultRef, {
+    locked: false,
+    lockedUntil: 0,
+    serviceUnlocked: true,
+    serviceUnlockedAt: Date.now(),
+    serviceWarningUntil: Date.now() + (7 * 24 * 60 * 60 * 1000),
+    unlockRequest: {
+      id: claimKey,
+      status: "approved",
+      approvedAt: Date.now()
+    }
+  });
+
+  await update(ref(db,"vaultUnlockClaims/" + claimKey), {
+    status: "resolved",
+    resolvedAt: Date.now()
+  });
+
+  await push(ref(db,"notifications/" + userPhone), {
+    title: "⚠️ Coffre débloqué par le service",
+    phone: "SERVICE COBRA",
+    amount: vault.balance || 0,
+    reason: "Ton coffre a été débloqué avant son échéance par le service.",
+    date: new Date().toLocaleString(),
+    seen: false
+  });
+
+  alert("✅ Coffre débloqué par le service");
+};
+
+window.deleteVaultUnlockClaim = async function(claimKey){
+  if(!confirm("Supprimer cette demande ?")) return;
+  await remove(ref(db,"vaultUnlockClaims/" + claimKey));
+  alert("✅ Demande supprimée");
+};
+
+
+async function renderAllClaims(){
+  claimList.innerHTML = "";
+  let hasClaims = false;
+
+  const serviceSnap = await get(ref(db,"serviceClaims"));
+  const serviceClaims = serviceSnap.val() || {};
+
+  for(const [claimKey,c] of Object.entries(serviceClaims)){
+    if(c.status === "resolved") continue;
+
+    const historySnap = await get(ref(db,"history/"+c.user+"/"+c.txId));
+    const h = historySnap.val();
+
+    if(!h) continue;
+
+    hasClaims = true;
+
+    claimList.innerHTML += `
+      <div class="card">
+        🆔 <b>${h.customID || c.txId}</b><br>
+        📤 ${h.from}<br>
+        📥 ${h.to}<br>
+        💰 ${h.amountOriginal}<br>
+        🕒 ${h.date}<br>
+        🧠 Risque : ${
+          c.risk === "high_risk" ? "🔴 Élevé" :
+          c.risk === "medium_risk" ? "🟡 Moyen" :
+          "🟢 Normal"
+        }<br>
+
+        <button onclick="resolveClaim('${c.txId}','${c.user}','${claimKey}')">
+          ✔ Résoudre & Annuler transaction
+        </button>
+
+        <button onclick="deleteClaim('${claimKey}','${h.to}','${h.amountConverted}')"
+        style="background:gray;">
+          🗑 Supprimer
+        </button>
+      </div>
+    `;
+  }
+
+  const vaultSnap = await get(ref(db,"vaultUnlockClaims"));
+  const vaultClaims = vaultSnap.val() || {};
+
+  for(const [claimKey,c] of Object.entries(vaultClaims)){
+    if(c.status === "resolved") continue;
+
+    hasClaims = true;
+
+    claimList.innerHTML += `
+      <div class="card vault-alert-card">
+        🔐 <b>Demande de déblocage coffre</b><br>
+        👤 Utilisateur : ${c.userName || ""}<br>
+        📱 Téléphone : ${c.userPhone}<br>
+        🏦 Coffre : <b>${c.vaultName}</b><br>
+        💰 Montant : ${Number(c.amount || 0).toLocaleString()}<br>
+        ⏳ Échéance normale : ${new Date(c.lockedUntil).toLocaleString()}<br>
+
+        <div class="vault-warning">
+          ⚠️ Demande urgente : déblocage avant échéance
+        </div>
+
+        <button class="unlock-btn"
+          onclick="unlockVaultByService('${claimKey}','${c.userPhone}','${c.vaultId}')">
+          🔓 Débloquer le coffre
+        </button>
+
+        <button onclick="deleteVaultUnlockClaim('${claimKey}')"
+        style="background:gray;">
+          🗑 Supprimer
+        </button>
+      </div>
+    `;
+  }
+
+  if(!hasClaims){
+    claimList.innerHTML = `
+      <div style="text-align:center;color:white;font-weight:bold;">
+        ✅ Aucune réclamation
+      </div>
+    `;
+  }
+}
+
+onValue(ref(db,"serviceClaims"), renderAllClaims);
+onValue(ref(db,"vaultUnlockClaims"), renderAllClaims);
 
 window.deleteClaim = async function(claimKey, receiverPhone, amount){
 
